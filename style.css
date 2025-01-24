@@ -383,7 +383,6 @@ body {
 
 section {
     padding: 6rem 5%;
-    backdrop-filter: blur(10px);
     margin: 2rem;
     border-radius: 2rem;
     box-shadow: 0 8px 32px rgba(0,0,0,0.1);
