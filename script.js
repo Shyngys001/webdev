@@ -79,7 +79,7 @@ const translations = {
 'footer.subscribe': 'Подписка',
 'form.email': 'Ваш email',
 'form.subscribe': 'Подписаться',
-'footer.rights': '© 2024 WebDevKZ. Все права защищены'
+'footer.rights': '© 2024 WebDevsKZ. Все права защищены'
     },
     kz: {
         'nav.home': 'Басты',
@@ -143,7 +143,7 @@ const translations = {
 'footer.subscribe': 'Жазылу',
 'form.email': 'Электрондық поштаңыз',
 'form.subscribe': 'Жазылу',
-'footer.rights': '© 2024 WebDevKZ. Барлық құқықтар қорғалған'
+'footer.rights': '© 2024 WebDevsKZ. Барлық құқықтар қорғалған'
     },
     en: {
         'nav.home': 'Home',
@@ -207,7 +207,7 @@ const translations = {
 'footer.subscribe': 'Subscribe',
 'form.email': 'Your email',
 'form.subscribe': 'Subscribe',
-'footer.rights': '© 2024 WebDevKZ. All rights reserved'
+'footer.rights': '© 2024 WebDevsKZ. All rights reserved'
     }
 };
 
