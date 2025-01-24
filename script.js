@@ -79,9 +79,12 @@ const translations = {
 'footer.subscribe': 'Подписка',
 'form.email': 'Ваш email',
 'form.subscribe': 'Подписаться',
-'footer.rights': '© 2024 WebDevsKZ. Все права защищены'
+'footer.rights': '© 2024 WebDevsKZ. Все права защищены',
+'form.invalid_phone': 'Номер должен содержать 11-13 цифр',
+
     },
     kz: {
+        'form.invalid_phone': 'Нөмір 11-13 саннан тұруы керек',
         'nav.home': 'Басты',
         'nav.why': 'Неге біз?',
         'nav.prices': 'Бағалар',
@@ -207,7 +210,9 @@ const translations = {
 'footer.subscribe': 'Subscribe',
 'form.email': 'Your email',
 'form.subscribe': 'Subscribe',
-'footer.rights': '© 2024 WebDevsKZ. All rights reserved'
+'footer.rights': '© 2024 WebDevsKZ. All rights reserved',
+'form.invalid_phone': 'Number must contain 11-13 digits',
+
     }
 };
 
@@ -289,19 +294,6 @@ document.querySelectorAll('section').forEach(section => {
     observer.observe(section);
 });
 
-document.getElementById('order-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const lang = localStorage.getItem('selectedLang') || 'ru';
-    const message = {
-        ru: 'Заявка отправлена! Мы свяжемся с вами в течение 24 часов.',
-        kz: 'Өтініш жіберілді! Біз сізге 24 сағат ішінде хабарласамыз.',
-        en: 'Request submitted! We will contact you within 24 hours.'
-    }[lang];
-    
-    alert(message);
-    this.reset();
-});
-
 window.addEventListener('scroll', () => {
     const header = document.querySelector('.header');
     header.style.background = window.scrollY > 100 ? 
@@ -311,4 +303,50 @@ window.addEventListener('scroll', () => {
 window.addEventListener('scroll', () => {
     const header = document.querySelector('.header');
     header.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+document.getElementById('order-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const submitButton = this.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    
+    // Валидация телефона
+    const lang = localStorage.getItem('selectedLang') || 'ru';
+    const phoneInput = document.querySelector('input[data-translate-placeholder="form.phone"]');
+    const phoneValue = phoneInput.value.replace(/[^\d]/g, ''); // Удаляем все нецифровые символы
+    
+    // Проверка длины номера (11-13 цифр)
+    if (phoneValue.length < 11 || phoneValue.length > 13) {
+        alert(translations[lang]['form.invalid_phone']);
+        submitButton.disabled = false;
+        return;
+    }
+
+    // Сбор данных в FormData
+    const formData = new FormData();
+    formData.append('name', document.querySelector('input[data-translate-placeholder="form.name"]').value);
+    formData.append('phone', phoneValue);
+    formData.append('service', document.querySelector('select[data-translate-placeholder="form.service"] option:checked').textContent);
+    formData.append('lang', lang);
+
+    // Отправка данных
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbwjBpRhLo0vKjvSBh3gKiscPG4m5PSCF94_OAiOKGAVgCM2JgttdoebJcGuGcA8uwjclg/exec';
+    
+    fetch(scriptUrl, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors',
+        redirect: 'follow'
+    })
+    .then(() => {
+        showSuccessMessage();
+        this.reset();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showErrorMessage();
+    })
+    .finally(() => {
+        submitButton.disabled = false;
+    });
 });
