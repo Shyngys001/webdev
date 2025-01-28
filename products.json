@@ -1,28 +1,20 @@
 [
     {
-        "id": 1,
-        "name": "Умные часы Pro X3",
-        "price": 24999,
-        "image": "https://boschcenter.kz/image/cache/catalog/products/BBS711ANM/pylesos-bosch-BBS711ANM-02-447x476.jpg",
-        "category": "Гаджеты",
-        "badge": "Хит продаж",
-        "description": "Умные часы с функцией ECG и отслеживанием сна"
+        "id": 2,
+        "name": "Беспроводные наушники Quantum",
+        "price": 17990,
+        "category": "Аудио",
+        "images": ["https://boschcenter.kz/image/cache/catalog/products/BBS711ANM/pylesos-bosch-BBS711ANM-02-447x476.jpg", "https://boschcenter.kz/image/cache/catalog/products/BBS711ANM/pylesos-bosch-BBS711ANM-02-447x476.jpg"],
+        "badge": "Новинка",
+        "description": "Наушники с активным шумоподавлением"
     },
     {
         "id": 2,
-        "name": "Робот-пылесос X10",
-        "price": 34999,
-        "image": "https://boschcenter.kz/image/cache/catalog/products/BBS711ANM/pylesos-bosch-BBS711ANM-02-447x476.jpg",
-        "category": "Умный дом",
-        "badge": "Новинка",
-        "description": "Автоматическая уборка с навигацией LiDAR"
-    },
-    {
-        "id": 3,
-        "name": "Беспроводные наушники Z5",
-        "price": 12999,
-        "image": "https://boschcenter.kz/image/cache/catalog/products/BBS711ANM/pylesos-bosch-BBS711ANM-02-447x476.jpg",
+        "name": "Беспроводные наушники Quantum",
+        "price": 17990,
         "category": "Аудио",
-        "description": "Шумоподавление и 30 часов работы"
+        "images": ["https://boschcenter.kz/image/cache/catalog/products/BBS711ANM/pylesos-bosch-BBS711ANM-02-447x476.jpg", "https://boschcenter.kz/image/cache/catalog/products/BBS711ANM/pylesos-bosch-BBS711ANM-02-447x476.jpg"],
+        "badge": "Новинка",
+        "description": "Наушники с активным шумоподавлением"
     }
 ]

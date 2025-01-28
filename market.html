@@ -63,19 +63,99 @@
             clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
         }
 
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         .product-card {
             background: white;
-            border-radius: 16px;
+            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             cursor: pointer;
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+        .product-image-container {
+            position: relative;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+            position: absolute;
+            opacity: 0;
+        }
+
+        .product-image.active {
+            opacity: 1;
+        }
+
+        .image-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 2;
+        }
+
+        .image-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .image-dot.active {
+            background: white;
+            width: 20px;
+            border-radius: 4px;
+        }
+
+        .product-content {
+            padding: 1.2rem;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .product-category {
+            font-size: 0.85rem;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
         }
 
         .product-badge {
@@ -87,6 +167,7 @@
             padding: 0.25rem 0.75rem;
             border-radius: 999px;
             font-size: 0.8rem;
+            z-index: 2;
         }
 
         .cart-sidebar {
@@ -101,6 +182,7 @@
             padding: 2rem;
             transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             overflow-y: auto;
+            z-index: 1001;
         }
 
         .cart-visible {
@@ -137,48 +219,6 @@
             padding: 0.25rem;
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            padding: 4rem 1rem;
-        }
-
-        .feature-card {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(99, 102, 241, 0.05);
-            border-radius: 16px;
-        }
-
-        .about-section {
-            padding: 4rem 1rem;
-            background: white;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .categories {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .category-btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            background: #f1f5f9;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .category-btn.active {
-            background: var(--primary);
-            color: white;
-        }
-
         .product-page {
             display: none;
             max-width: 1200px;
@@ -186,8 +226,25 @@
             padding: 0 1rem;
         }
 
-        .back-btn {
+        .product-slider {
+            position: relative;
+            height: 400px;
             margin-bottom: 2rem;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .product-slider img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-slider img.active {
+            opacity: 1;
         }
     </style>
 </head>
@@ -212,23 +269,6 @@
         <a href="#products" class="btn btn-primary" style="font-size: 1.1rem;">
             Смотреть новинки <i class="fas fa-arrow-down"></i>
         </a>
-    </section>
-
-    <section class="about-section" id="about">
-        <h2>О компании TechZone</h2>
-        <p>Мы - инновационный магазин техники будущего, предлагающий последние технологические новинки с 2020 года.</p>
-        <div class="features-grid">
-            <div class="feature-card">
-                <i class="fas fa-users fa-3x" style="color: var(--primary);"></i>
-                <h3>5000+ клиентов</h3>
-                <p>Довольных покупателей по всей стране</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-box-open fa-3x" style="color: var(--primary);"></i>
-                <h3>300+ товаров</h3>
-                <p>В нашем каталоге</p>
-            </div>
-        </div>
     </section>
 
     <main class="container" id="products">
@@ -270,13 +310,17 @@ const store = {
     },
 
     async loadProducts() {
-        try {
-            const response = await fetch('products.json');
-            this.products = await response.json();
-        } catch (error) {
-            console.error('Ошибка загрузки товаров:', error);
+    try {
+        const response = await fetch('/products.json'); // Путь к файлу (может потребоваться корректировка)
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-    },
+        this.products = await response.json();
+    } catch (error) {
+        console.error('Ошибка загрузки товаров:', error);
+        // Можно добавить fallback-данные или обработку ошибки
+    }
+},
 
     renderCategories() {
         const categories = [...new Set(this.products.map(p => p.category))];
@@ -300,14 +344,30 @@ const store = {
     renderProducts(products = this.products) {
         const container = document.querySelector('.products-grid');
         container.innerHTML = products.map(product => `
-            <div class="product-card" onclick="showProductPage(${JSON.stringify(product).replace(/"/g, '&quot;')})">
+            <div class="product-card" 
+                 onmouseover="startImageRotation(${product.id})" 
+                 onmouseout="stopImageRotation(${product.id})"
+                 onclick="showProductPage(${JSON.stringify(product).replace(/"/g, '&quot;')})">
                 ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
-                <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 200px; object-fit: cover;">
-                <div style="padding: 1.5rem;">
-                    <h3 style="margin-bottom: 0.5rem;">${product.name}</h3>
+                <div class="product-image-container" id="image-${product.id}">
+                    ${product.images.map((img, index) => `
+                        <img src="${img}" 
+                             class="product-image ${index === 0 ? 'active' : ''}" 
+                             data-index="${index}"
+                             alt="${product.name}">
+                    `).join('')}
+                    <div class="image-dots">
+                        ${product.images.map((_, index) => `
+                            <div class="image-dot ${index === 0 ? 'active' : ''}" 
+                                 data-index="${index}"></div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="product-content">
+                    <h3 class="product-title">${product.name}</h3>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <p style="font-size: 1.25rem; font-weight: 600; color: var(--primary);">₽${product.price}</p>
-                        <span style="color: var(--dark);">${product.category}</span>
+                        <p class="product-price">₽${product.price}</p>
+                        <span class="product-category">${product.category}</span>
                     </div>
                 </div>
             </div>
@@ -336,7 +396,7 @@ const store = {
         const cartItems = document.getElementById('cart-items');
         cartItems.innerHTML = this.cart.map(item => `
             <div style="display: flex; gap: 1rem; align-items: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
-                <img src="${item.image}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                <img src="${item.images[0]}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
                 <div style="flex: 1;">
                     <h4 style="margin-bottom: 0.25rem;">${item.name}</h4>
                     <div class="quantity-control">
@@ -387,6 +447,40 @@ const store = {
     }
 };
 
+const rotationIntervals = {};
+
+function startImageRotation(productId) {
+    const container = document.getElementById(`image-${productId}`);
+    const images = container.querySelectorAll('.product-image');
+    const dots = container.querySelectorAll('.image-dot');
+    let currentIndex = 0;
+    
+    rotationIntervals[productId] = setInterval(() => {
+        images.forEach(img => img.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        currentIndex = (currentIndex + 1) % images.length;
+        
+        images[currentIndex].classList.add('active');
+        dots[currentIndex].classList.add('active');
+    }, 3000);
+}
+
+function stopImageRotation(productId) {
+    clearInterval(rotationIntervals[productId]);
+    delete rotationIntervals[productId];
+    
+    const container = document.getElementById(`image-${productId}`);
+    const images = container.querySelectorAll('.product-image');
+    const dots = container.querySelectorAll('.image-dot');
+    
+    images.forEach(img => img.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+    
+    images[0].classList.add('active');
+    dots[0].classList.add('active');
+}
+
 function toggleCart() {
     document.getElementById('cart').classList.toggle('cart-visible');
 }
@@ -415,8 +509,20 @@ function showProductPage(product) {
     const content = document.getElementById('product-content');
     content.innerHTML = `
         <div class="product-card">
-            <img src="${product.image}" alt="${product.name}" style="width: 100%; max-height: 400px; object-fit: cover;">
-            <div style="padding: 2rem;">
+            <div class="product-slider" id="product-slider">
+                ${product.images.map((img, index) => `
+                    <img src="${img}" 
+                         class="${index === 0 ? 'active' : ''}" 
+                         alt="${product.name}">
+                `).join('')}
+                <div class="image-dots">
+                    ${product.images.map((_, index) => `
+                        <div class="image-dot ${index === 0 ? 'active' : ''}" 
+                             onclick="showSlide(${index})"></div>
+                    `).join('')}
+                </div>
+            </div>
+            <div class="product-content">
                 <h1 style="margin-bottom: 1rem;">${product.name}</h1>
                 <p style="font-size: 1.5rem; color: var(--primary); margin-bottom: 2rem;">₽${product.price}</p>
                 <p style="margin-bottom: 2rem;">${product.description || 'Описание товара'}</p>
@@ -426,6 +532,23 @@ function showProductPage(product) {
             </div>
         </div>
     `;
+
+    // Инициализация слайдера
+    let currentSlide = 0;
+    const slides = content.querySelectorAll('.product-slider img');
+    const dots = content.querySelectorAll('.image-dot');
+
+    function showSlide(index) {
+        slides[currentSlide].classList.remove('active');
+        dots[currentSlide].classList.remove('active');
+        currentSlide = index;
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    }
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => showSlide(index));
+    });
 }
 
 function showProductList() {
