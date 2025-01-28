@@ -55,6 +55,21 @@
             -webkit-text-fill-color: transparent;
         }
 
+        .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        select {
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            font-weight: 500;
+        }
+
         .hero {
             background: var(--gradient);
             color: white;
@@ -246,29 +261,61 @@
         .product-slider img.active {
             opacity: 1;
         }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            select {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+
+            .hero {
+                padding: 4rem 1rem;
+            }
+
+            .product-slider {
+                height: 300px;
+            }
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <nav class="nav-container">
             <div class="logo">TechZone</div>
-            <div class="nav-links">
-                <a href="#products" class="btn">Каталог</a>
-                <a href="#about" class="btn">О нас</a>
-                <button class="btn btn-primary" onclick="toggleCart()">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="cart-count">0</span>
-                </button>
+            <div class="controls">
+                <select id="language" onchange="changeLanguage(this.value)">
+                    <option value="ru">Русский</option>
+                    <option value="kz">Қазақша</option>
+                </select>
+                <select style="display: none;" id="sort" onchange="store.sortProducts(this.value)">
+                    <option value="default">{{translations.sort_default}}</option>
+                    <option value="price_asc">{{translations.sort_price_asc}}</option>
+                    <option value="price_desc">{{translations.sort_price_desc}}</option>
+                </select>
+                <div class="nav-links">
+                    <button class="btn btn-primary" onclick="toggleCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cart-count">0</span>
+                    </button>
+                </div>
             </div>
         </nav>
     </header>
 
     <section class="hero">
-        <h1 style="font-size: 3rem; margin-bottom: 1rem;">Техника будущего уже сегодня</h1>
-        <p style="font-size: 1.2rem; margin-bottom: 2rem;">Онлайн-магазин инновационных гаджетов и умной техники</p>
-        <a href="#products" class="btn btn-primary" style="font-size: 1.1rem;">
-            Смотреть новинки <i class="fas fa-arrow-down"></i>
-        </a>
+        <h1 id="hero-title"></h1>
+        <p id="hero-subtitle"></p>
+        <a href="#products" class="btn btn-primary" id="hero-cta"></a>
     </section>
 
     <main class="container" id="products">
@@ -278,67 +325,143 @@
 
     <div class="product-page" id="product-page">
         <button class="btn back-btn" onclick="showProductList()">
-            <i class="fas fa-arrow-left"></i> Назад к каталогу
+            <i class="fas fa-arrow-left"></i> <span id="back-text"></span>
         </button>
         <div id="product-content"></div>
     </div>
 
     <div class="cart-sidebar" id="cart">
-        <h2 style="margin-bottom: 2rem;">Ваша корзина</h2>
+        <h2 id="cart-title"></h2>
         <div id="cart-items" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;"></div>
         <div style="border-top: 2px solid #e2e8f0; padding-top: 1.5rem;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
-                <h3>Итого:</h3>
-                <h3>₽<span id="cart-total">0</span></h3>
+                <h3 id="total-text"></h3>
+                <h3>₸<span id="cart-total">0</span></h3>
             </div>
             <button class="btn btn-primary" style="width: 100%;" onclick="checkout()">
-                Оформить заказ <i class="fas fa-chevron-right"></i>
+                <span id="checkout-text"></span> <i class="fas fa-chevron-right"></i>
             </button>
         </div>
     </div>
 
 <script>
+const translations = {
+    ru: {
+        all: "Все товары",
+        sort_default: "По умолчанию",
+        sort_price_asc: "По возрастанию цены",
+        sort_price_desc: "По убыванию цены",
+        cart: "Корзина",
+        total: "Итого:",
+        checkout: "Оформить заказ",
+        back: "Назад к каталогу",
+        hero_title: "Техника будущего уже сегодня",
+        hero_subtitle: "Онлайн-магазин инновационных гаджетов и умной техники",
+        hero_cta: "Смотреть новинки",
+        added_to_cart: "Товар добавлен в корзину"
+    },
+    kz: {
+        all: "Барлық тауарлар",
+        sort_default: "Әдепкі бойынша",
+        sort_price_asc: "Бағасы бойынша өсу",
+        sort_price_desc: "Бағасы бойынша кему",
+        cart: "Себет",
+        total: "Барлығы:",
+        checkout: "Тапсырыс беру",
+        back: "Каталогқа оралу",
+        hero_title: "Болашақ техникасы бүгінде",
+        hero_subtitle: "Инновациялық гаджеттердің және ақылды техниканың онлайн дүкені",
+        hero_cta: "Жаңалықтарды қарау",
+        added_to_cart: "Тауар себетке қосылды"
+    }
+};
+
+let currentLanguage = 'ru';
+
+function changeLanguage(lang) {
+    currentLanguage = lang;
+    updateTranslations();
+    store.renderCategories();
+    store.renderProducts();
+}
+
+function updateTranslations() {
+    document.getElementById('hero-title').textContent = translations[currentLanguage].hero_title;
+    document.getElementById('hero-subtitle').textContent = translations[currentLanguage].hero_subtitle;
+    document.getElementById('hero-cta').textContent = translations[currentLanguage].hero_cta;
+    document.getElementById('back-text').textContent = translations[currentLanguage].back;
+    document.getElementById('cart-title').textContent = translations[currentLanguage].cart;
+    document.getElementById('total-text').textContent = translations[currentLanguage].total;
+    document.getElementById('checkout-text').textContent = translations[currentLanguage].checkout;
+    
+    document.querySelectorAll('#sort option').forEach((option, index) => {
+        option.textContent = Object.values(translations[currentLanguage])[index + 1];
+    });
+}
+
 const store = {
     cart: JSON.parse(localStorage.getItem('cart')) || [],
     products: [],
+    currentCategory: null,
+    currentSort: 'default',
 
     async init() {
         await this.loadProducts();
         this.renderCategories();
         this.renderProducts();
         this.updateCart();
+        updateTranslations();
     },
 
     async loadProducts() {
     try {
-        const response = await fetch('/products.json'); // Путь к файлу (может потребоваться корректировка)
+        const response = await fetch('./products.json'); // Путь к вашему файлу
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`Ошибка загрузки продуктов: ${response.status}`);
         }
         this.products = await response.json();
+        console.log("Продукты успешно загружены:", this.products);
     } catch (error) {
-        console.error('Ошибка загрузки товаров:', error);
-        // Можно добавить fallback-данные или обработку ошибки
+        console.error("Ошибка при загрузке продуктов:", error);
     }
 },
 
     renderCategories() {
-        const categories = [...new Set(this.products.map(p => p.category))];
+        const categories = [translations[currentLanguage].all, ...new Set(this.products.map(p => p.category))];
         const container = document.getElementById('categories');
         container.innerHTML = categories.map(cat => `
-            <button class="category-btn" onclick="store.filterProducts('${cat}')">${cat}</button>
+            <button class="category-btn ${this.currentCategory === cat ? 'active' : ''}" 
+                    onclick="store.filterProducts('${cat === translations[currentLanguage].all ? '' : cat}')">
+                ${cat}
+            </button>
         `).join('');
     },
 
     filterProducts(category) {
-        const filtered = category ? 
+        this.currentCategory = category || translations[currentLanguage].all;
+        let filtered = category ? 
             this.products.filter(p => p.category === category) : 
             this.products;
         
-        document.querySelectorAll('.category-btn').forEach(btn => 
-            btn.classList.toggle('active', btn.textContent === category));
-        
+        filtered = this.sortProducts(this.currentSort, filtered);
         this.renderProducts(filtered);
+    },
+
+    sortProducts(method, products = this.products) {
+        this.currentSort = method;
+        let sorted = [...products];
+        
+        switch(method) {
+            case 'price_asc':
+                sorted.sort((a, b) => a.price - b.price);
+                break;
+            case 'price_desc':
+                sorted.sort((a, b) => b.price - a.price);
+                break;
+        }
+        
+        if(!products.length) this.renderProducts(sorted);
+        return sorted;
     },
 
     renderProducts(products = this.products) {
@@ -366,7 +489,7 @@ const store = {
                 <div class="product-content">
                     <h3 class="product-title">${product.name}</h3>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <p class="product-price">₽${product.price}</p>
+                        <p class="product-price">₸${product.price}</p>
                         <span class="product-category">${product.category}</span>
                     </div>
                 </div>
@@ -386,7 +509,7 @@ const store = {
         
         this.saveCart();
         this.updateCart();
-        this.showNotification('Товар добавлен в корзину');
+        this.showNotification(translations[currentLanguage].added_to_cart);
     },
 
     updateCart() {
@@ -397,15 +520,20 @@ const store = {
         cartItems.innerHTML = this.cart.map(item => `
             <div style="display: flex; gap: 1rem; align-items: center; padding: 1rem; background: #f8fafc; border-radius: 8px;">
                 <img src="${item.images[0]}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
-                <div style="flex: 1;">
+                <div style="flex-grow: 1;">
                     <h4 style="margin-bottom: 0.25rem;">${item.name}</h4>
-                    <div class="quantity-control">
-                        <button class="btn" onclick="store.updateQuantity(${item.id}, -1)">-</button>
-                        <span>${item.quantity}</span>
-                        <button class="btn" onclick="store.updateQuantity(${item.id}, 1)">+</button>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <p style="color: var(--primary); font-weight: 500;">₸${item.price}</p>
+                        <div class="quantity-control">
+                            <button class="btn" onclick="store.updateQuantity(${item.id}, -1)">−</button>
+                            <span>${item.quantity}</span>
+                            <button class="btn" onclick="store.updateQuantity(${item.id}, 1)">+</button>
+                        </div>
+                        <button class="btn" onclick="store.removeFromCart(${item.id})" style="color: #ef4444;">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 </div>
-                <p style="font-weight: 600;">₽${item.price * item.quantity}</p>
             </div>
         `).join('');
         
@@ -415,13 +543,15 @@ const store = {
 
     updateQuantity(id, delta) {
         const item = this.cart.find(item => item.id === id);
-        if(!item) return;
-        
-        item.quantity += delta;
-        if(item.quantity < 1) {
-            this.cart = this.cart.filter(i => i.id !== id);
+        if(item) {
+            item.quantity = Math.max(1, item.quantity + delta);
+            this.saveCart();
+            this.updateCart();
         }
-        
+    },
+
+    removeFromCart(id) {
+        this.cart = this.cart.filter(item => item.id !== id);
         this.saveCart();
         this.updateCart();
     },
@@ -434,30 +564,34 @@ const store = {
         const toast = document.createElement('div');
         toast.textContent = message;
         toast.style.position = 'fixed';
-        toast.style.bottom = '1rem';
-        toast.style.right = '1rem';
-        toast.style.background = 'var(--primary)';
+        toast.style.bottom = '20px';
+        toast.style.left = '50%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.background = 'var(--dark)';
         toast.style.color = 'white';
         toast.style.padding = '1rem 2rem';
         toast.style.borderRadius = '8px';
         toast.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
         document.body.appendChild(toast);
         
-        setTimeout(() => toast.remove(), 3000);
+        setTimeout(() => {
+            toast.remove();
+        }, 2000);
     }
 };
 
-const rotationIntervals = {};
+// Product Image Rotation Logic
+const imageIntervals = {};
 
-function startImageRotation(productId) {
-    const container = document.getElementById(`image-${productId}`);
+function startImageRotation(id) {
+    const container = document.getElementById(`image-${id}`);
     const images = container.querySelectorAll('.product-image');
     const dots = container.querySelectorAll('.image-dot');
     let currentIndex = 0;
     
-    rotationIntervals[productId] = setInterval(() => {
-        images.forEach(img => img.classList.remove('active'));
-        dots.forEach(dot => dot.classList.remove('active'));
+    imageIntervals[id] = setInterval(() => {
+        images[currentIndex].classList.remove('active');
+        dots[currentIndex].classList.remove('active');
         
         currentIndex = (currentIndex + 1) % images.length;
         
@@ -466,89 +600,43 @@ function startImageRotation(productId) {
     }, 3000);
 }
 
-function stopImageRotation(productId) {
-    clearInterval(rotationIntervals[productId]);
-    delete rotationIntervals[productId];
-    
-    const container = document.getElementById(`image-${productId}`);
-    const images = container.querySelectorAll('.product-image');
-    const dots = container.querySelectorAll('.image-dot');
-    
-    images.forEach(img => img.classList.remove('active'));
-    dots.forEach(dot => dot.classList.remove('active'));
-    
-    images[0].classList.add('active');
-    dots[0].classList.add('active');
+function stopImageRotation(id) {
+    clearInterval(imageIntervals[id]);
+    delete imageIntervals[id];
 }
 
-function toggleCart() {
-    document.getElementById('cart').classList.toggle('cart-visible');
-}
-
-function checkout() {
-    if(store.cart.length === 0) return;
-    
-    const message = `Новый заказ!%0A%0AТовары:%0A${
-        store.cart.map(item => 
-            `- ${item.name} (${item.quantity} шт.) - ${item.price * item.quantity}₽`
-        ).join('%0A')
-    }%0A%0AИтого: ₽${document.getElementById('cart-total').textContent}`;
-    
-    window.open(`https://wa.me/79991234567?text=${encodeURIComponent(message)}`, '_blank');
-    
-    store.cart = [];
-    store.saveCart();
-    store.updateCart();
-    toggleCart();
-}
-
+// Product Page Logic
 function showProductPage(product) {
     document.getElementById('products').style.display = 'none';
     document.getElementById('product-page').style.display = 'block';
     
     const content = document.getElementById('product-content');
     content.innerHTML = `
-        <div class="product-card">
-            <div class="product-slider" id="product-slider">
-                ${product.images.map((img, index) => `
-                    <img src="${img}" 
-                         class="${index === 0 ? 'active' : ''}" 
-                         alt="${product.name}">
-                `).join('')}
-                <div class="image-dots">
-                    ${product.images.map((_, index) => `
-                        <div class="image-dot ${index === 0 ? 'active' : ''}" 
-                             onclick="showSlide(${index})"></div>
-                    `).join('')}
-                </div>
-            </div>
-            <div class="product-content">
-                <h1 style="margin-bottom: 1rem;">${product.name}</h1>
-                <p style="font-size: 1.5rem; color: var(--primary); margin-bottom: 2rem;">₽${product.price}</p>
-                <p style="margin-bottom: 2rem;">${product.description || 'Описание товара'}</p>
-                <button class="btn btn-primary" onclick="store.addToCart(${product.id})">
-                    Добавить в корзину
-                </button>
-            </div>
+        <div class="product-slider">
+            ${product.images.map(img => `
+                <img src="${img}" alt="${product.name}">
+            `).join('')}
         </div>
+        <h1>${product.name}</h1>
+        <p class="product-price" style="font-size: 1.5rem; margin: 1rem 0;">₸${product.price}</p>
+        <p style="margin-bottom: 2rem;">${product.description || ''}</p>
+        <button class="btn btn-primary" onclick="store.addToCart(${product.id})">
+            <i class="fas fa-cart-plus"></i> ${currentLanguage === 'ru' ? 'В корзину' : 'Себетке қосу'}
+        </button>
     `;
-
-    // Инициализация слайдера
-    let currentSlide = 0;
-    const slides = content.querySelectorAll('.product-slider img');
-    const dots = content.querySelectorAll('.image-dot');
-
-    function showSlide(index) {
-        slides[currentSlide].classList.remove('active');
-        dots[currentSlide].classList.remove('active');
-        currentSlide = index;
-        slides[currentSlide].classList.add('active');
-        dots[currentSlide].classList.add('active');
+    
+    // Initialize product slider
+    const sliderImages = content.querySelectorAll('.product-slider img');
+    if(sliderImages.length > 0) {
+        let currentSlide = 0;
+        sliderImages[currentSlide].classList.add('active');
+        
+        setInterval(() => {
+            sliderImages[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % sliderImages.length;
+            sliderImages[currentSlide].classList.add('active');
+        }, 3000);
     }
-
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => showSlide(index));
-    });
 }
 
 function showProductList() {
@@ -556,8 +644,34 @@ function showProductList() {
     document.getElementById('product-page').style.display = 'none';
 }
 
-// Инициализация
+// Cart Logic
+function toggleCart() {
+    document.getElementById('cart').classList.toggle('cart-visible');
+}
+
+function checkout() {
+    if(store.cart.length === 0) return;
+    
+    if(confirm(currentLanguage === 'ru' 
+        ? 'Оформить заказ?' 
+        : 'Тапсырысты растайсыз ба?')) {
+        store.cart = [];
+        store.saveCart();
+        store.updateCart();
+        toggleCart();
+        store.showNotification(currentLanguage === 'ru' 
+            ? 'Заказ оформлен!' 
+            : 'Тапсырыс расталды!');
+    }
+}
+
+// Initialize Store
 store.init();
+
+// Initialize Hero Content
+document.getElementById('hero-title').textContent = translations.ru.hero_title;
+document.getElementById('hero-subtitle').textContent = translations.ru.hero_subtitle;
+document.getElementById('hero-cta').textContent = translations.ru.hero_cta;
 </script>
 </body>
 </html>
