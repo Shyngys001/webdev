@@ -70,6 +70,7 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             transition: transform 0.3s ease;
             position: relative;
+            cursor: pointer;
         }
 
         .product-card:hover {
@@ -149,6 +150,45 @@
             background: rgba(99, 102, 241, 0.05);
             border-radius: 16px;
         }
+
+        .about-section {
+            padding: 4rem 1rem;
+            background: white;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .categories {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            background: #f1f5f9;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .product-page {
+            display: none;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .back-btn {
+            margin-bottom: 2rem;
+        }
     </style>
 </head>
 <body>
@@ -157,6 +197,7 @@
             <div class="logo">TechZone</div>
             <div class="nav-links">
                 <a href="#products" class="btn">Каталог</a>
+                <a href="#about" class="btn">О нас</a>
                 <button class="btn btn-primary" onclick="toggleCart()">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count">0</span>
@@ -173,30 +214,34 @@
         </a>
     </section>
 
-    <section class="features-grid">
-        <div class="feature-card">
-            <i class="fas fa-shipping-fast fa-3x" style="color: var(--primary); margin-bottom: 1rem;"></i>
-            <h3>Быстрая доставка</h3>
-            <p>Курьерская доставка по городу за 2 часа</p>
-        </div>
-        <div class="feature-card">
-            <i class="fas fa-shield-alt fa-3x" style="color: var(--primary); margin-bottom: 1rem;"></i>
-            <h3>Гарантия 2 года</h3>
-            <p>Официальная гарантия на все товары</p>
-        </div>
-        <div class="feature-card">
-            <i class="fas fa-headset fa-3x" style="color: var(--primary); margin-bottom: 1rem;"></i>
-            <h3>Поддержка 24/7</h3>
-            <p>Круглосуточная техническая поддержка</p>
+    <section class="about-section" id="about">
+        <h2>О компании TechZone</h2>
+        <p>Мы - инновационный магазин техники будущего, предлагающий последние технологические новинки с 2020 года.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-users fa-3x" style="color: var(--primary);"></i>
+                <h3>5000+ клиентов</h3>
+                <p>Довольных покупателей по всей стране</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-box-open fa-3x" style="color: var(--primary);"></i>
+                <h3>300+ товаров</h3>
+                <p>В нашем каталоге</p>
+            </div>
         </div>
     </section>
 
-    <main class="container" id="products" style="max-width: 1400px; margin: 4rem auto; padding: 0 1rem;">
-        <h2 style="font-size: 2rem; margin-bottom: 2rem;">Популярные товары</h2>
-        <div class="products-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
-            <!-- Товары будут здесь -->
-        </div>
+    <main class="container" id="products">
+        <div class="categories" id="categories"></div>
+        <div class="products-grid"></div>
     </main>
+
+    <div class="product-page" id="product-page">
+        <button class="btn back-btn" onclick="showProductList()">
+            <i class="fas fa-arrow-left"></i> Назад к каталогу
+        </button>
+        <div id="product-content"></div>
+    </div>
 
     <div class="cart-sidebar" id="cart">
         <h2 style="margin-bottom: 2rem;">Ваша корзина</h2>
@@ -215,44 +260,54 @@
 <script>
 const store = {
     cart: JSON.parse(localStorage.getItem('cart')) || [],
-    products: [
-        {
-            id: 1,
-            name: "Xiaomi Robot Vacuum X10",
-            price: 34999,
-            image: "https://via.placeholder.com/300x200",
-            category: "Умный дом",
-            badge: "Хит продаж"
-        },
-        {
-            id: 2,
-            name: "Apple Watch Ultra 2",
-            price: 59999,
-            image: "https://via.placeholder.com/300x200",
-            category: "Гаджеты",
-            badge: "Новинка"
-        }
-    ],
+    products: [],
 
-    init() {
+    async init() {
+        await this.loadProducts();
+        this.renderCategories();
         this.renderProducts();
         this.updateCart();
-        this.setupEventListeners();
     },
 
-    renderProducts() {
+    async loadProducts() {
+        try {
+            const response = await fetch('products.json');
+            this.products = await response.json();
+        } catch (error) {
+            console.error('Ошибка загрузки товаров:', error);
+        }
+    },
+
+    renderCategories() {
+        const categories = [...new Set(this.products.map(p => p.category))];
+        const container = document.getElementById('categories');
+        container.innerHTML = categories.map(cat => `
+            <button class="category-btn" onclick="store.filterProducts('${cat}')">${cat}</button>
+        `).join('');
+    },
+
+    filterProducts(category) {
+        const filtered = category ? 
+            this.products.filter(p => p.category === category) : 
+            this.products;
+        
+        document.querySelectorAll('.category-btn').forEach(btn => 
+            btn.classList.toggle('active', btn.textContent === category));
+        
+        this.renderProducts(filtered);
+    },
+
+    renderProducts(products = this.products) {
         const container = document.querySelector('.products-grid');
-        container.innerHTML = this.products.map(product => `
-            <div class="product-card">
+        container.innerHTML = products.map(product => `
+            <div class="product-card" onclick="showProductPage(${JSON.stringify(product).replace(/"/g, '&quot;')})">
                 ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
                 <img src="${product.image}" alt="${product.name}" style="width: 100%; height: 200px; object-fit: cover;">
                 <div style="padding: 1.5rem;">
                     <h3 style="margin-bottom: 0.5rem;">${product.name}</h3>
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <p style="font-size: 1.25rem; font-weight: 600; color: var(--primary);">₽${product.price}</p>
-                        <button class="btn btn-primary" onclick="store.addToCart(${product.id})">
-                            <i class="fas fa-cart-plus"></i>
-                        </button>
+                        <span style="color: var(--dark);">${product.category}</span>
                     </div>
                 </div>
             </div>
@@ -351,6 +406,31 @@ function checkout() {
     store.saveCart();
     store.updateCart();
     toggleCart();
+}
+
+function showProductPage(product) {
+    document.getElementById('products').style.display = 'none';
+    document.getElementById('product-page').style.display = 'block';
+    
+    const content = document.getElementById('product-content');
+    content.innerHTML = `
+        <div class="product-card">
+            <img src="${product.image}" alt="${product.name}" style="width: 100%; max-height: 400px; object-fit: cover;">
+            <div style="padding: 2rem;">
+                <h1 style="margin-bottom: 1rem;">${product.name}</h1>
+                <p style="font-size: 1.5rem; color: var(--primary); margin-bottom: 2rem;">₽${product.price}</p>
+                <p style="margin-bottom: 2rem;">${product.description || 'Описание товара'}</p>
+                <button class="btn btn-primary" onclick="store.addToCart(${product.id})">
+                    Добавить в корзину
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function showProductList() {
+    document.getElementById('products').style.display = 'block';
+    document.getElementById('product-page').style.display = 'none';
 }
 
 // Инициализация
