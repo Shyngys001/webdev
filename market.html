@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechShop - Интернет-магазин электроники</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --background-color: #f8fafc;
+            --text-color: #1e293b;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            transition: right 0.3s;
+            overflow-y: auto;
+        }
+
+        .cart-visible {
+            right: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 400px;
+            margin: 1rem 0;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 2.5rem 0.75rem 1rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+
+        .filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: #e2e8f0;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .order-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .delivery-options {
+            display: grid;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .payment-method {
+            border: 2px solid #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary-color);
+            background: #f0f4ff;
+        }
+
+        @media (max-width: 768px) {
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo">TechShop</a>
+            <div class="search-box">
+                <input type="text" id="search" class="search-input" placeholder="Поиск товаров...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            <button class="btn btn-primary" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                Корзина (<span id="cart-count">0</span>)
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="filters" id="filters"></div>
+        <div class="products-grid" id="products"></div>
+    </main>
+
+    <div class="cart-sidebar" id="cart">
+        <h2>Ваша корзина</h2>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-total">
+            <h3>Итого: ₽<span id="cart-total">0</span></h3>
+            <button class="btn btn-primary" onclick="toggleOrderForm()">Оформить заказ</button>
+        </div>
+    </div>
+
+    <div id="order-form" class="order-form">
+        <h2>Оформление заказа</h2>
+        <form onsubmit="submitOrder(event)">
+            <input type="text" class="form-input" name="name" placeholder="Ваше имя" required>
+            <input type="tel" class="form-input" name="phone" placeholder="Телефон" required pattern="[+0-9]{11,15}">
+            <input type="email" class="form-input" name="email" placeholder="Email" required>
+            
+            <div class="delivery-options">
+                <select class="form-input" name="delivery-type" required>
+                    <option value="">Выберите способ доставки</option>
+                    <option value="courier">Курьерская доставка (+300₽)</option>
+                    <option value="pickup">Самовывоз</option>
+                </select>
+                
+                <input type="text" class="form-input" name="address" placeholder="Адрес доставки" required>
+            </div>
+
+            <div class="payment-methods">
+                <div class="payment-method" onclick="selectPayment(this, 'cash')">
+                    <h4>Наличными</h4>
+                    <p>Оплата при получении</p>
+                </div>
+                <div class="payment-method" onclick="selectPayment(this, 'card')">
+                    <h4>Картой онлайн</h4>
+                    <p>Оплата через платежный шлюз</p>
+                </div>
+            </div>
+            <input type="hidden" name="payment" id="payment-method" required>
+
+            <button type="submit" class="btn btn-primary whatsapp-btn">
+                <i class="fab fa-whatsapp"></i> Отправить заказ в WhatsApp
+            </button>
+        </form>
+    </div>
+
+    <script>
+        class Store {
+            constructor() {
+                this.cart = JSON.parse(localStorage.getItem('cart')) || [];
+                this.products = [
+                    {
+                        id: 1,
+                        name: "Смартфон Xiaomi Redmi Note 12",
+                        image: "phone.jpg",
+                        description: "6.67\" AMOLED, 8/256GB, 5G",
+                        price: 24999,
+                        category: "Смартфоны"
+                    },
+                    {
+                        id: 2,
+                        name: "Ноутбук ASUS VivoBook 15",
+                        image: "laptop.jpg",
+                        description: "15.6\" FHD, Intel Core i5, 8GB RAM",
+                        price: 54999,
+                        category: "Ноутбуки"
+                    },
+                    {
+                        id: 3,
+                        name: "Наушники Sony WH-1000XM5",
+                        image: "headphones.jpg",
+                        description: "Беспроводные с шумоподавлением",
+                        price: 29999,
+                        category: "Аксессуары"
+                    }
+                ];
+                this.activeFilter = null;
+                this.init();
+            }
+
+            async init() {
+                this.renderProducts();
+                this.setupFilters();
+                this.updateCartUI();
+                this.setupSearch();
+            }
+
+            renderProducts(products = this.products) {
+                const productsContainer = document.getElementById('products');
+                productsContainer.innerHTML = products.map(product => `
+                    <article class="product-card">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <div class="product-content">
+                            <h3>${product.name}</h3>
+                            <p class="product-description">${product.description}</p>
+                            <p class="product-price">₽${product.price}</p>
+                            <button class="btn btn-primary" onclick="store.addToCart(${product.id})">
+                                <i class="fas fa-cart-plus"></i> В корзину
+                            </button>
+                        </div>
+                    </article>
+                `).join('');
+            }
+
+            setupFilters() {
+                const categories = [...new Set(this.products.map(p => p.category))];
+                const filtersContainer = document.getElementById('filters');
+                filtersContainer.innerHTML = `
+                    <button class="filter-btn ${!this.activeFilter ? 'active' : ''}" 
+                            onclick="store.filterProducts(null)">
+                        Все товары
+                    </button>
+                    ${categories.map(category => `
+                        <button class="filter-btn ${this.activeFilter === category ? 'active' : ''}" 
+                                onclick="store.filterProducts('${category}')">
+                            ${category}
+                        </button>
+                    `).join('')}
+                `;
+            }
+
+            filterProducts(category) {
+                this.activeFilter = category;
+                const filtered = category 
+                    ? this.products.filter(p => p.category === category)
+                    : this.products;
+                this.renderProducts(filtered);
+                this.setupFilters();
+            }
+
+            addToCart(productId) {
+                const product = this.products.find(p => p.id === productId);
+                const existing = this.cart.find(item => item.id === productId);
+                
+                if (existing) {
+                    existing.quantity++;
+                } else {
+                    this.cart.push({...product, quantity: 1});
+                }
+                
+                this.saveCart();
+                this.updateCartUI();
+                this.showNotification();
+            }
+
+            updateQuantity(productId, delta) {
+                const item = this.cart.find(item => item.id === productId);
+                item.quantity += delta;
+                
+                if (item.quantity <= 0) {
+                    this.cart = this.cart.filter(item => item.id !== productId);
+                }
+                
+                this.saveCart();
+                this.updateCartUI();
+            }
+
+            saveCart() {
+                localStorage.setItem('cart', JSON.stringify(this.cart));
+            }
+
+            updateCartUI() {
+                document.getElementById('cart-count').textContent = 
+                    this.cart.reduce((sum, item) => sum + item.quantity, 0);
+                
+                const cartItems = document.getElementById('cart-items');
+                cartItems.innerHTML = this.cart.map(item => `
+                    <div class="cart-item">
+                        <div>
+                            <h4>${item.name}</h4>
+                            <button class="btn" onclick="store.updateQuantity(${item.id}, -1)">-</button>
+                            ${item.quantity}
+                            <button class="btn" onclick="store.updateQuantity(${item.id}, 1)">+</button>
+                        </div>
+                        <p>₽${item.price * item.quantity}</p>
+                    </div>
+                `).join('');
+
+                document.getElementById('cart-total').textContent = 
+                    this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            }
+
+            showNotification() {
+                const notification = document.createElement('div');
+                notification.textContent = 'Товар добавлен в корзину!';
+                notification.style.position = 'fixed';
+                notification.style.bottom = '20px';
+                notification.style.right = '20px';
+                notification.style.background = '#4CAF50';
+                notification.style.color = 'white';
+                notification.style.padding = '15px';
+                notification.style.borderRadius = '5px';
+                document.body.appendChild(notification);
+                
+                setTimeout(() => notification.remove(), 2000);
+            }
+
+            setupSearch() {
+                document.getElementById('search').addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    const filtered = this.products.filter(p => 
+                        p.name.toLowerCase().includes(searchTerm)
+                    );
+                    this.renderProducts(filtered);
+                });
+            }
+        }
+
+        const store = new Store();
+
+        function toggleCart() {
+            document.getElementById('cart').classList.toggle('cart-visible');
+        }
+
+        function toggleOrderForm() {
+            const form = document.getElementById('order-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function selectPayment(element, method) {
+            document.querySelectorAll('.payment-method').forEach(el => 
+                el.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('payment-method').value = method;
+        }
+
+        function submitOrder(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            const order = {
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                email: formData.get('email'),
+                address: formData.get('address'),
+                delivery: formData.get('delivery-type'),
+                payment: formData.get('payment'),
+                cart: store.cart,
+                total: document.getElementById('cart-total').textContent
+            };
+
+            const message = `Новый заказ!%0A%0A
+                👤 Имя: ${order.name}%0A
+                📞 Телефон: ${order.phone}%0A
+                📧 Email: ${order.email}%0A
+                🏠 Адрес: ${order.address}%0A
+                🚚 Доставка: ${order.delivery}%0A
+                💳 Оплата: ${order.payment}%0A%0A
+                🛒 Товары:%0A${order.cart.map(item => 
+                    `- ${item.name} (${item.quantity} шт.) - ${item.price * item.quantity}₽`
+                ).join('%0A')}%0A%0A
+                💰 Итого: ${order.total}₽`;
+
+            // Замените номер телефона на нужный
+            const whatsappUrl = `https://wa.me/77479894879?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+            
+            // Очистка корзины
+            localStorage.removeItem('cart');
+            store.cart = [];
+            store.updateCartUI();
+            toggleOrderForm();
+        }
+    </script>
+</body>
+</html>
