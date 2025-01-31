@@ -224,6 +224,9 @@
     box-shadow: var(--shadow);
     padding: 1.5rem;
     transition: transform var(--transition);
+
+    
+    /* «Убираем» белый фон за счёт наложения */
   }
   
   .promo-card:hover {
@@ -234,6 +237,8 @@
     width: 100%;
     border-radius: 8px;
     margin-bottom: 1rem;
+    mix-blend-mode: multiply; /* или darken */
+
   }
   
   /* Преимущества */
