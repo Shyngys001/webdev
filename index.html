@@ -1,248 +1,279 @@
 <!DOCTYPE html>
 <html lang="ru" data-lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebDevs KZ - Professional Website Development</title>
-    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebDevs KZ - Professional Website Development</title>
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
+  <!-- Boxicons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <!-- Наш обновлённый CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="gradient-bg"></div>
-    <div class="particles"></div>
+  <!-- Градиент и частицы (фон) -->
+  <div class="gradient-bg"></div>
+  <div class="particles"></div>
 
-    <header class="header">
-        <div class="logo">WebDevs<span>KZ</span></div>
-        <nav class="nav">
-            <a href="#main" data-translate="nav.home">Главная</a>
-            <a href="#why" data-translate="nav.why">Почему мы</a>
-            <a href="#prices" data-translate="nav.prices">Цены</a>
-            <a href="#team" data-translate="nav.team">Команда</a>
-            <a href="#contacts" data-translate="nav.contacts">Контакты</a>
-            <a href="market.html" data-translate="nav.contacts">Market</a>
-        </nav>
-       <div class="lang-switcher">
-    <div class="lang-current">
+  <!-- Шапка сайта -->
+  <header class="header">
+    <div class="logo">WebDevs<span>KZ</span></div>
+    
+    <!-- Навигация -->
+    <nav class="nav">
+      <a href="#main" data-translate="nav.home">Главная</a>
+      <a href="#why" data-translate="nav.why">Почему мы</a>
+      <a href="#prices" data-translate="nav.prices">Цены</a>
+      <a href="#team" data-translate="nav.team">Команда</a>
+      <a href="#contacts" data-translate="nav.contacts">Контакты</a>
+      <a href="market.html" data-translate="nav.contacts">Market</a>
+    </nav>
+
+    <!-- Переключатель языка -->
+    <div class="lang-switcher">
+      <div class="lang-current">
         <span>RU</span>
         <i class='bx bx-chevron-down'></i>
-    </div>
-    <div class="lang-options">
+      </div>
+      <div class="lang-options">
         <div class="lang-option" data-lang="ru">Русский</div>
         <div class="lang-option" data-lang="kz">Қазақша</div>
         <div class="lang-option" data-lang="en">English</div>
+      </div>
     </div>
-</div>
-        
-        <button class="menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
+
+    <!-- Кнопка переключения темы -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode">
+      <i class='bx bx-moon'></i> 
+    </button>
+
+    <!-- Кнопка бургер-меню (для мобильной навигации) -->
+    <button class="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- Герой-блок (Hero) -->
+  <section class="hero" id="main">
+    <div class="hero-content">
+      <h1 class="hero-title" data-translate="hero.title">Разработка сайтов в Казахстане</h1>
+      <p class="hero-subtitle" data-translate="hero.subtitle">Номер 1 компания по разработке сайтов. От 35,000 тг</p>
+      <a href="#form" class="cta-button" data-translate="hero.cta">Заказать сайт</a>
+    </div>
+  </section>
+
+  <!-- Почему мы -->
+  <section id="why">
+    <h2 class="section-title" data-translate="why.title">Почему мы?</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <i class='bx bx-money benefit-icon'></i>
+        <h3 data-translate="why.1.title">Единовременная оплата</h3>
+        <p data-translate="why.1.text">Никаких скрытых платежей</p>
+      </div>
+      <div class="benefit-card">
+        <i class='bx bx-shield-quarter benefit-icon'></i>
+        <h3 data-translate="why.2.title">Гарантия качества</h3>
+        <p data-translate="why.2.text">Доводим проекты до идеала</p>
+      </div>
+      <div class="benefit-card">
+        <i class='bx bx-support benefit-icon'></i>
+        <h3 data-translate="why.3.title">Поддержка 24/7</h3>
+        <p data-translate="why.3.text">Всегда на связи</p>
+      </div>
+      <div class="benefit-card">
+        <i class='bx bx-group benefit-icon'></i>
+        <h3 data-translate="why.4.title">Профессиональная команда</h3>
+        <p data-translate="why.4.text">Опыт более 5 лет</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Цены -->
+  <section id="prices">
+    <h2 class="section-title" data-translate="prices.title">Наши пакеты</h2>
+    <div class="packages-grid">
+      <div class="package-card">
+        <h3 data-translate="prices.1.title">Лендинг</h3>
+        <div class="price-tag" data-translate="prices.1.price">от 35,000 тг</div>
+        <p data-translate="prices.1.desc">Стильный одностраничный сайт</p>
+      </div>
+      <div class="package-card">
+        <h3 data-translate="prices.2.title">Интернет-магазин</h3>
+        <div class="price-tag" data-translate="prices.2.price">от 50,000 тг</div>
+        <p data-translate="prices.2.desc">Полный функционал для продаж</p>
+      </div>
+      <div class="package-card">
+        <h3 data-translate="prices.3.title">Эл. пригласительные</h3>
+        <div class="price-tag" data-translate="prices.3.price">от 35,000 тг</div>
+        <p data-translate="prices.3.desc">Современные интерактивные решения</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Наша команда -->
+  <section id="team">
+    <h2 class="section-title" data-translate="team.title">Наша команда</h2>
+    <div class="team-grid">
+      <div class="team-member">
+        <div class="member-photo">
+          <img src="img/Ереке.jpg" alt="Team member">
+        </div>
+        <h3 data-translate="team.1.name">Ерасыл Аманулы</h3>
+        <p data-translate="team.1.role">Lead Developer</p>
+      </div>
+      <div class="team-member">
+        <div class="member-photo">
+          <img src="img/Арсен.jpeg" alt="Team member">
+        </div>
+        <h3 data-translate="team.2.name">Арсен Саден</h3>
+        <p data-translate="team.2.role">UX/UI Designer</p>
+      </div>
+      <div class="team-member">
+        <div class="member-photo">
+          <img src="img/Асеке.jpg" alt="Team member">
+        </div>
+        <h3 data-translate="team.3.name">Асаналихан Мамыров</h3>
+        <p data-translate="team.3.role">Project Manager</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Процесс работы -->
+  <section id="process">
+    <h2 class="section-title" data-translate="process.title">Как мы работаем</h2>
+    <div class="process-steps">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3 data-translate="process.1.title">Заявка</h3>
+        <p data-translate="process.1.text">Оставьте заявку на сайте</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3 data-translate="process.2.title">Обсуждение</h3>
+        <p data-translate="process.2.text">Персонализированный подход</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3 data-translate="process.3.title">Разработка</h3>
+        <p data-translate="process.3.text">Создание сайта под ключ</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <h3 data-translate="process.4.title">Поддержка</h3>
+        <p data-translate="process.4.text">Сопровождение проекта</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Отзывы (слайдер) -->
+  <section id="reviews">
+    <h2 class="section-title" data-translate="reviews.title">Отзывы клиентов</h2>
+    <div class="swiper reviews-slider">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="review-card">
+            <p data-translate="reviews.1.text">
+              Лучшие разработчики в Казахстане! Сделали сайт быстро и качественно.
+            </p>
+            <div class="review-author">
+              <div class="review-photo"></div>
+              <div>
+                <h4 data-translate="reviews.1.name">Аслан Жумабаев</h4>
+                <p data-translate="reviews.1.company">ТОО "SmartTech"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="review-card">
+            <p data-translate="reviews.2.text">
+              Профессиональный подход и внимание к деталям. Рекомендую!
+            </p>
+            <div class="review-author">
+              <div class="review-photo"></div>
+              <div>
+                <h4 data-translate="reviews.2.name">Алия Каримова</h4>
+                <p data-translate="reviews.2.company">Магазин "FashionStar"</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </section>
+
+  <!-- Форма заявки -->
+  <section id="form">
+    <div class="contact-form">
+      <h2 class="section-title" data-translate="form.title">Оставить заявку</h2>
+      <form id="order-form">
+        <div class="form-group">
+          <input type="text" placeholder="Имя" data-translate-placeholder="form.name" required>
+        </div>
+        <div class="form-group">
+          <input type="tel" placeholder="Телефон" data-translate-placeholder="form.phone" required>
+        </div>
+        <div class="form-group">
+          <select required data-translate-placeholder="form.service">
+            <option value="" disabled selected data-translate="form.select">Выберите услугу</option>
+            <option data-translate="prices.1.title">Лендинг</option>
+            <option data-translate="prices.2.title">Интернет-магазин</option>
+            <option data-translate="prices.3.title">Эл. пригласительные</option>
+          </select>
+        </div>
+        <button type="submit" class="cta-button" style="margin: 0 auto;" data-translate="form.submit">
+          Отправить
         </button>
-    </header>
+      </form>
+    </div>
+  </section>
 
-    <section class="hero" id="main">
-        <div class="hero-content">
-            <h1 class="hero-title" data-translate="hero.title">Разработка сайтов в Казахстане</h1>
-            <p class="hero-subtitle" data-translate="hero.subtitle">Номер 1 компания по разработке сайтов. От 35,000 тг</p>
-            <a href="#form" class="cta-button" data-translate="hero.cta">Заказать сайт</a>
+  <!-- Подвал (Контакты) -->
+  <footer id="contacts">
+    <div class="footer-container">
+      <div class="footer-column">
+        <div class="footer-logo">
+          <span>WebDevs </span>KZ
         </div>
-    </section>
+        <div class="footer-social">
+          <a href="https://wa.me/77055229366" class="social-link">
+            <i class='bx bx-phone'></i>
+          </a>
+          <a href="https://www.instagram.com/webdevkz/" class="social-link">
+            <i class='bx bxl-instagram'></i>
+          </a>
+          <a href="https://wa.me/77055229366" class="social-link">
+            <i class='bx bxl-whatsapp'></i>
+          </a>
+        </div>
+      </div>
+  
+      <div class="footer-column">
+        <div class="contact-info">
+          <p><i class='bx bx-phone'></i>+7 (705) 522 9366</p>
+          <p><i class='bx bxl-instagram'></i>
+            <a style="color: inherit;" href="https://www.instagram.com/webdevkz/">@webdevkz</a>
+          </p>
+          <p><i class='bx bx-map'></i>г. Алматы, ул. Абая 1</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-translate="footer.rights">© 2025 WebDevsKZ. Все права защищены</p>
+    </div>
+  </footer>
 
-    <section id="why">
-        <h2 class="section-title" data-translate="why.title">Почему мы?</h2>
-        <div class="benefits-grid">
-            <div class="benefit-card">
-                <i class='bx bx-money benefit-icon'></i>
-                <h3 data-translate="why.1.title">Единовременная оплата</h3>
-                <p data-translate="why.1.text">Никаких скрытых платежей</p>
-            </div>
-            <div class="benefit-card">
-                <i class='bx bx-shield-quarter benefit-icon'></i>
-                <h3 data-translate="why.2.title">Гарантия качества</h3>
-                <p data-translate="why.2.text">Доводим проекты до идеала</p>
-            </div>
-            <div class="benefit-card">
-                <i class='bx bx-support benefit-icon'></i>
-                <h3 data-translate="why.3.title">Поддержка 24/7</h3>
-                <p data-translate="why.3.text">Всегда на связи</p>
-            </div>
-            <div class="benefit-card">
-                <i class='bx bx-group benefit-icon'></i>
-                <h3 data-translate="why.4.title">Профессиональная команда</h3>
-                <p data-translate="why.4.text">Опыт более 5 лет</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="prices">
-        <h2 class="section-title" data-translate="prices.title">Наши пакеты</h2>
-        <div class="packages-grid">
-            <div class="package-card">
-                <h3 data-translate="prices.1.title">Лендинг</h3>
-                <div class="price-tag" data-translate="prices.1.price">от 35,000 тг</div>
-                <p data-translate="prices.1.desc">Стильный одностраничный сайт</p>
-            </div>
-            <div class="package-card">
-                <h3 data-translate="prices.2.title">Интернет-магазин</h3>
-                <div class="price-tag" data-translate="prices.2.price">от 50,000 тг</div>
-                <p data-translate="prices.2.desc">Полный функционал для продаж</p>
-            </div>
-            <div class="package-card">
-                <h3 data-translate="prices.3.title">Эл. пригласительные</h3>
-                <div class="price-tag" data-translate="prices.3.price">от 35,000 тг</div>
-                <p data-translate="prices.3.desc">Современные интерактивные решения</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="team">
-        <h2 class="section-title" data-translate="team.title">Наша команда</h2>
-        <div class="team-grid">
-            <div class="team-member">
-                <div class="member-photo">
-                    <img src="img/Ереке.jpg" alt="Team member">
-                </div>
-                <h3 data-translate="team.1.name">Ерасыл Аманулы</h3>
-                <p data-translate="team.1.role">Lead Developer</p>
-            </div>
-            <div class="team-member">
-                <div class="member-photo">
-                    <img src="img/Арсен.jpeg" alt="Team member">
-                </div>
-                <h3 data-translate="team.2.name">Арсен Саден</h3>
-                <p data-translate="team.2.role">UX/UI Designer</p>
-            </div>
-            <div class="team-member">
-                <div class="member-photo">
-                    <img src="img/Асеке.jpg" alt="Team member">
-                </div>
-                <h3 data-translate="team.3.name">Асаналихан Мамыров</h3>
-                <p data-translate="team.3.role">Project Manager</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="process">
-        <h2 class="section-title" data-translate="process.title">Как мы работаем</h2>
-        <div class="process-steps">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <h3 data-translate="process.1.title">Заявка</h3>
-                <p data-translate="process.1.text">Оставьте заявку на сайте</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <h3 data-translate="process.2.title">Обсуждение</h3>
-                <p data-translate="process.2.text">Персонализированный подход</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <h3 data-translate="process.3.title">Разработка</h3>
-                <p data-translate="process.3.text">Создание сайта под ключ</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">4</div>
-                <h3 data-translate="process.4.title">Поддержка</h3>
-                <p data-translate="process.4.text">Сопровождение проекта</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="reviews">
-        <h2 class="section-title" data-translate="reviews.title">Отзывы клиентов</h2>
-        <div class="swiper reviews-slider">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="review-card">
-                        <p data-translate="reviews.1.text">Лучшие разработчики в Казахстане! Сделали сайт быстро и качественно.</p>
-                        <div class="review-author">
-                            <div class="review-photo"></div>
-                            <div>
-                                <h4 data-translate="reviews.1.name">Аслан Жумабаев</h4>
-                                <p data-translate="reviews.1.company">ТОО "SmartTech"</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="review-card">
-                        <p data-translate="reviews.2.text">Профессиональный подход и внимание к деталям. Рекомендую!</p>
-                        <div class="review-author">
-                            <div class="review-photo"></div>
-                            <div>
-                                <h4 data-translate="reviews.2.name">Алия Каримова</h4>
-                                <p data-translate="reviews.2.company">Магазин "FashionStar"</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-pagination"></div>
-        </div>
-    </section>
-
-    <section id="form">
-        <div class="contact-form">
-            <h2 class="section-title" data-translate="form.title">Оставить заявку</h2>
-            <form id="order-form">
-                <div class="form-group">
-                    <input type="text" placeholder="Имя" data-translate-placeholder="form.name" required>
-                </div>
-                <div class="form-group">
-                    <input type="tel" placeholder="Телефон" data-translate-placeholder="form.phone" required>
-                </div>
-                <div class="form-group">
-                    <select required data-translate-placeholder="form.service">
-                        <option value="" disabled selected data-translate="form.select">Выберите услугу</option>
-                        <option data-translate="prices.1.title">Лендинг</option>
-                        <option data-translate="prices.2.title">Интернет-магазин</option>
-                        <option data-translate="prices.3.title">Эл. пригласительные</option>
-                    </select>
-                </div>
-                <button type="submit" class="cta-button" style="margin: 0 auto;" data-translate="form.submit">Отправить</button>
-            </form>
-        </div>
-    </section>
-
-    <footer id="contacts">
-        <div class="footer-container">
-            <div class="footer-column">
-                <div class="footer-logo">
-                    <span>WebDevs </span>KZ
-                </div>
-                <div class="footer-social">
-                    <a href="https://wa.me/77055229366" class="social-link">
-                        <i class='bx bx-phone'></i>
-                    </a>
-                    <a href="https://www.instagram.com/webdevkz/" class="social-link">
-                        <i class='bx bxl-instagram'></i>
-                    </a>
-                    <a href="https://wa.me/77055229366" class="social-link">
-                        <i class='bx bxl-whatsapp'></i>
-                    </a>
-                </div>
-            </div>
-    
-            <div class="footer-column">
-                <div class="contact-info">
-                    <p><i class='bx bx-phone'></i>+7 (705) 522 9366</p>
-                    <p><i class='bx bxl-instagram'></i><a style="color: aliceblue;" href="https://www.instagram.com/webdevkz/">@webdevkz</a></p>
-                    <p><i class='bx bx-map'></i>г. Алматы, ул. Абая 1</p>
-                </div>
-            </div>
-    
-            
-        </div>
-    
-        <div class="footer-bottom">
-            <p data-translate="footer.rights">© 2025 WebDevsKZ. Все права защищены</p>
-        </div>
-    </footer>
-
-    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
-    <script src="script.js"></script>
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+  <!-- Наш скрипт -->
+  <script src="script.js"></script>
 </body>
 </html>
