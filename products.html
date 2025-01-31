@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechMarket - Товары</title>
+  <!-- Подключаем стили -->
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Иконки Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+</head>
+<body>
+  <!-- Шапка сайта -->
+  <header class="header">
+    <nav class="nav-container">
+      <div class="logo">TechMarket</div>
+
+      <button
+        class="burger-menu"
+        id="burger-menu"
+        aria-label="Открыть меню"
+        aria-expanded="false"
+      >
+        <span class="burger-bar"></span>
+        <span class="burger-bar"></span>
+        <span class="burger-bar"></span>
+      </button>
+
+      <!-- Навигация -->
+      <div class="nav-links" id="nav-links">
+        <a href="index.html#hero2">Главная</a>
+        <a href="index.html#about2">О нас</a>
+        <a href="products.html" class="active-link">Товары</a>
+        <a href="index.html#contacts2">Контакты</a>
+      </div>
+
+      <!-- Кнопка переключения темы -->
+      <button class="btn theme-toggle" id="theme-toggle" aria-label="Переключить тему">
+        <i class="fas fa-moon"></i>
+      </button>
+
+      <!-- Кнопка корзины -->
+      <button class="btn btn-primary cart-btn" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-count">0</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Секция фильтров -->
+  <section class="section filter-section">
+    <h2>Наши товары</h2>
+    <div class="filters">
+      <select id="categorySelect">
+        <option value="">Все категории</option>
+        <!-- Категории будут динамически загружены из JSON -->
+      </select>
+    </div>
+  </section>
+
+  <!-- Секция товаров -->
+  <section class="products-grid" id="products-list"></section>
+
+  <!-- Боковая панель корзины -->
+  <aside class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h2>Корзина</h2>
+      <button class="close-cart" onclick="toggleCart()">&times;</button>
+    </div>
+    <div id="cart-items"></div>
+    <div class="cart-total">
+      <h3>Итого: <span id="cart-total">0 ₸</span></h3>
+    </div>
+    <button class="btn btn-primary checkout-btn" onclick="openCheckoutForm()">Оформить заказ</button>
+  </aside>
+
+  <!-- Модальное окно оформления заказа -->
+  <div class="modal-overlay" id="checkout-modal">
+    <div class="modal">
+      <h2>Оформление заказа</h2>
+      <form id="checkout-form">
+        <div class="form-group">
+          <label for="customerName">Ваше имя</label>
+          <input type="text" id="customerName" required />
+        </div>
+        <div class="form-group">
+          <label for="customerPhone">Номер телефона</label>
+          <input type="tel" id="customerPhone" required />
+        </div>
+        <div class="form-group">
+          <label for="paymentMethod">Способ оплаты</label>
+          <select id="paymentMethod" required>
+            <option value="Наличные">Наличные</option>
+            <option value="Карта">Карта</option>
+            <option value="Kaspi Gold">Kaspi Gold</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить в WhatsApp</button>
+        <button type="button" class="btn btn-secondary" onclick="closeCheckoutForm()">Отмена</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Подвал -->
+  <footer class="footer">
+    <p>&copy; 2025 TechMarket. Все права защищены.</p>
+  </footer>
+
+  <!-- Скрипт корзины, динамической загрузки и темы -->
+  <script>
+    // ======= Глобальные переменные =======
+    const productsContainer = document.getElementById('products-list');
+    const categorySelect = document.getElementById('categorySelect');
+    const cartCount = document.getElementById('cart-count');
+    const cartSidebar = document.getElementById('cart-sidebar');
+    const checkoutModal = document.getElementById('checkout-modal');
+    const checkoutForm = document.getElementById('checkout-form');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotalEl = document.getElementById('cart-total');
+
+    // Товары и корзина
+    let allProducts = [];
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Загружаем товары
+    async function loadProducts() {
+      try {
+        const response = await fetch('products.json');
+        const data = await response.json();
+        allProducts = data.products;
+
+        // Уникальные категории
+        const categories = [...new Set(allProducts.map(item => item.category))];
+        categories.forEach(cat => {
+          const option = document.createElement('option');
+          option.value = cat;
+          option.textContent = cat;
+          categorySelect.appendChild(option);
+        });
+
+        displayProducts(allProducts);
+        categorySelect.addEventListener('change', handleCategoryChange);
+        updateCartUI();
+
+      } catch (err) {
+        console.error('Ошибка при загрузке товаров:', err);
+      }
+    }
+
+    // Отображаем товары
+    function displayProducts(products) {
+      productsContainer.innerHTML = products.map(product => `
+        <div class="product-card slide-up">
+          <img
+            src="${product.images[0]}"
+            alt="${product.name}"
+            class="product-image"
+          />
+          <div class="product-content">
+            <h3>${product.name}</h3>
+            <p class="product-category">${product.category}</p>
+            <div class="product-rating">
+              ${renderRating(product.rating)} (${product.reviews})
+            </div>
+            <div class="product-price">${formatPrice(product.price)}</div>
+            <button class="btn btn-primary" onclick="addToCart(${product.id})">
+              <i class="fas fa-cart-plus"></i> В корзину
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Фильтрация по категориям
+    function handleCategoryChange() {
+      const selected = categorySelect.value;
+      if (selected) {
+        const filtered = allProducts.filter(p => p.category === selected);
+        displayProducts(filtered);
+      } else {
+        displayProducts(allProducts);
+      }
+    }
+
+    // Формат цены
+    function formatPrice(price) {
+      return new Intl.NumberFormat('ru-KZ', {
+        style: 'currency',
+        currency: 'KZT',
+        maximumFractionDigits: 0
+      }).format(price);
+    }
+
+    // Рейтинг
+    function renderRating(rating) {
+      return Array(5).fill().map((_, i) => `
+        <i class="fas fa-star ${i < rating ? 'active' : ''}"></i>
+      `).join('');
+    }
+
+    // Добавление в корзину
+    function addToCart(id) {
+      const product = allProducts.find(p => p.id === id);
+      if (!product) return;
+      const existing = cart.find(item => item.id === id);
+      if (existing) {
+        existing.quantity++;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+      saveCart();
+      updateCartUI();
+    }
+
+    // Обновление корзины
+    function updateCartUI() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      const count = cart.reduce((acc, cur) => acc + cur.quantity, 0);
+      cartCount.textContent = count;
+
+      cartItemsContainer.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <img src="${item.images[0]}" alt="${item.name}" class="cart-item-img">
+          <div class="cart-item-details">
+            <h4>${item.name}</h4>
+            <p>Цена: ${formatPrice(item.price)}</p>
+            <div class="quantity-control">
+              <button onclick="changeQuantity(${item.id}, -1)">-</button>
+              <span>${item.quantity}</span>
+              <button onclick="changeQuantity(${item.id}, 1)">+</button>
+            </div>
+            <button class="remove-btn" onclick="removeFromCart(${item.id})">Убрать</button>
+          </div>
+        </div>
+      `).join('');
+
+      const total = cart.reduce((acc, cur) => acc + cur.price * cur.quantity, 0);
+      cartTotalEl.textContent = formatPrice(total);
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(item => item.id !== id);
+      saveCart();
+      updateCartUI();
+    }
+
+    function changeQuantity(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+      item.quantity += delta;
+      if (item.quantity < 1) {
+        cart = cart.filter(i => i.id !== id);
+      }
+      saveCart();
+      updateCartUI();
+    }
+
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    // Открыть/закрыть корзину
+    function toggleCart() {
+      cartSidebar.classList.toggle('open');
+    }
+
+    // Модальное окно оформления
+    function openCheckoutForm() {
+      if (cart.length === 0) {
+        alert('Корзина пуста!');
+        return;
+      }
+      document.body.classList.add('no-scroll');
+      checkoutModal.style.display = 'flex';
+    }
+
+    function closeCheckoutForm() {
+      document.body.classList.remove('no-scroll');
+      checkoutModal.style.display = 'none';
+    }
+
+    // Отправка в WhatsApp
+    checkoutForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('customerName').value;
+      const phone = document.getElementById('customerPhone').value;
+      const payment = document.getElementById('paymentMethod').value;
+
+      const itemsText = cart.map(item => 
+        `- ${item.name}, кол-во: ${item.quantity}, цена: ${formatPrice(item.price)}`
+      ).join('\n');
+
+      const total = cart.reduce((acc, cur) => acc + cur.price * cur.quantity, 0);
+
+      let message = `Здравствуйте! Хочу оформить заказ:
+Имя: ${name}
+Телефон: ${phone}
+Оплата: ${payment}
+
+Товары:
+${itemsText}
+Итого: ${formatPrice(total)}`;
+
+      const encoded = encodeURIComponent(message);
+      const whatsappURL = `https://wa.me/77479894879?text=${encoded}`;
+      window.open(whatsappURL, '_blank');
+      closeCheckoutForm();
+    });
+
+    // Тёмная тема
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    themeToggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-theme');
+      if (document.body.classList.contains('dark-theme')) {
+        themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+      } else {
+        themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+      }
+    });
+
+    // Бургер-меню
+    const burgerBtn = document.getElementById('burger-menu');
+    const navLinks = document.getElementById('nav-links');
+    burgerBtn.addEventListener('click', () => {
+      const expanded = burgerBtn.getAttribute('aria-expanded') === 'true';
+      burgerBtn.setAttribute('aria-expanded', !expanded);
+      navLinks.classList.toggle('nav-open');
+    });
+
+    // Запуск
+    loadProducts();
+  </script>
+</body>
+</html>

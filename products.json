@@ -1,20 +1,58 @@
-[
-    {
+{
+    "products": [
+      {
+        "id": 1,
+        "name": "Умные часы Pro X",
+        "price": 59990,
+        "rating": 4,
+        "reviews": 45,
+        "images": ["https://image.made-in-china.com/202f0j00FErByQndyAoH/Watch-10-Series-10-Smartwatch-42mm-46mm-Hw-X-PRO-Smart-Watch-Howear.webp"],
+        "category": "Часы"
+      },
+      {
         "id": 2,
-        "name": "Беспроводные наушники Quantum",
-        "price": 17990,
-        "category": "Аудио",
-        "images": ["https://boschcenter.kz/image/cache/catalog/products/BBS711ANM/pylesos-bosch-BBS711ANM-02-447x476.jpg", "https://boschcenter.kz/image/cache/catalog/products/BBS711ANM/pylesos-bosch-BBS711ANM-02-447x476.jpg"],
-        "badge": "Акция",
-        "description": "Наушники с активным шумоподавлением"
-    },
-    {
-        "id": 2,
-        "name": "Беспроводные наушники Quantum",
-        "price": 17990,
-        "category": "Аудио",
-        "images": ["https://boschcenter.kz/image/cache/catalog/products/BBS711ANM/pylesos-bosch-BBS711ANM-02-447x476.jpg", "https://boschcenter.kz/image/cache/catalog/products/BBS711ANM/pylesos-bosch-BBS711ANM-02-447x476.jpg"],
-        "badge": "Новинка",
-        "description": "Наушники с активным шумоподавлением"
-    }
-]
+        "name": "Беспроводные наушники AirSound",
+        "price": 34990,
+        "rating": 5,
+        "reviews": 32,
+        "images": ["https://avatars.mds.yandex.net/get-mpic/4860193/img_id3178436828577380716.jpeg/9hq"],
+        "category": "Наушники"
+      },
+      {
+        "id": 3,
+        "name": "Смартфон Future X",
+        "price": 129990,
+        "rating": 4,
+        "reviews": 78,
+        "images": ["https://api.technodom.kz/f3/api/v1/images/800/800/61372_2.jpg"],
+        "category": "Смартфоны"
+      },
+      {
+        "id": 4,
+        "name": "Игровые наушники SuperBass",
+        "price": 24990,
+        "rating": 5,
+        "reviews": 110,
+        "images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwrA5rxcZ1yfXR19-WwqbprOd5IlGnE7-0DA&s"],
+        "category": "Наушники"
+      },
+      {
+        "id": 5,
+        "name": "Умные часы FitLife",
+        "price": 29990,
+        "rating": 4,
+        "reviews": 64,
+        "images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_bmoo6a5e6TLPNRF98N90l3wABKpTm45i-Q&s"],
+        "category": "Часы"
+      },
+      {
+        "id": 6,
+        "name": "Смартфон Nova 10",
+        "price": 99990,
+        "rating": 3,
+        "reviews": 28,
+        "images": ["https://avic.com.ua/assets/cache/products/261720/smartfon-huawei-nova-10-8-128gb-starry-silver-2-prod_md.jpg"],
+        "category": "Смартфоны"
+      }
+    ]
+  }
