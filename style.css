@@ -60,6 +60,7 @@ body {
 
 .header {
     position: fixed;
+    top: 0;
     width: 100%;
     padding: 1rem 5%;
     background: rgba(255, 255, 255, 0.85);
