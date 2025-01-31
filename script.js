@@ -79,7 +79,7 @@ const translations = {
 'footer.subscribe': 'Подписка',
 'form.email': 'Ваш email',
 'form.subscribe': 'Подписаться',
-'footer.rights': '© 2024 WebDevsKZ. Все права защищены',
+'footer.rights': '© 2025 WebDevsKZ. Все права защищены',
 'form.invalid_phone': 'Номер должен содержать 11-13 цифр',
 
     },
