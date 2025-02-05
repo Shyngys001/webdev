@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Epic Terrifying Spiders</title>
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      overflow: hidden;
+      background: #000; 
+    }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+<canvas id="myCanvas"></canvas>
+
+<script>
+/** @type {HTMLCanvasElement} */
+const canvas = document.getElementById("myCanvas");
+const ctx = canvas.getContext("2d");
+
+let w = canvas.width = window.innerWidth;
+let h = canvas.height = window.innerHeight;
+
+// Координаты курсора (обновляются при движении мыши)
+let pointerX = null;
+let pointerY = null;
+
+// -- Массив «пауков» --
+const spiders = [];
+
+// -- Частицы-«искры» --
+let particles = [];
+
+// -- «Туман»/«дымка» --
+let fogs = [];
+
+// Настраиваем количество пауков, тумана и т.д.
+const SPIDER_COUNT = 3;     // Количество пауков
+const FOG_CHANCE   = 0.03;  // Вероятность появления туманного круга на кадр
+const LIGHTNING_CHANCE = 0.02; // Вероятность «молнии» на кадр
+const PARTICLES_PER_TICK = 4;  // Сколько искр создаётся при движении
+
+// Инициализация пауков
+for (let i = 0; i < SPIDER_COUNT; i++) {
+  spiders.push(spawnSpider());
+}
+
+// Слежение за курсором
+window.addEventListener("pointermove", (e) => {
+  pointerX = e.clientX;
+  pointerY = e.clientY;
+  spiders.forEach(spider => spider.follow(pointerX, pointerY));
+});
+
+// При уходе мыши за пределы окна — «убираем» курсор
+window.addEventListener("pointerout", () => {
+  pointerX = null;
+  pointerY = null;
+});
+
+// Анимационный цикл
+let prevTime = 0;
+function anim(time) {
+  // Переводим в секунды (для расчётов dt)
+  const dt = (time - prevTime) / 1000;
+  prevTime = time;
+
+  // Если размер окна изменился – подгоняем canvas
+  if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+
+  // 1) Рисуем фон (красно-чёрный градиент)
+  drawBackground();
+
+  // 2) Добавляем «туман» с вероятностью
+  if (Math.random() < FOG_CHANCE) {
+    spawnFog();
+  }
+  updateAndDrawFogs(dt);
+
+  // 3) Рисуем/обновляем пауков
+  spiders.forEach(spider => {
+    spider.tick(dt);
+    drawSpider(spider);
+  });
+
+  // 4) Частицы-«искры»
+  updateAndDrawParticles(dt);
+
+  // 5) «Молния» с некоторой вероятностью, если курсор есть
+  if (pointerX !== null && Math.random() < LIGHTNING_CHANCE) {
+    const spider = spiders[Math.floor(Math.random() * spiders.length)];
+    drawLightning(pointerX, pointerY, spider.x, spider.y);
+  }
+
+  requestAnimationFrame(anim);
+}
+requestAnimationFrame(anim);
+
+/* -------------------- Вспомогательные функции -------------------- */
+
+// Создаём «паука»
+function spawnSpider() {
+  return {
+    x: Math.random() * w,
+    y: Math.random() * h,
+    speed: 0.07,
+    follow(tx, ty) {
+      // Двигаемся к указателю (если он есть)
+      if (tx == null || ty == null) return;
+      const dx = tx - this.x;
+      const dy = ty - this.y;
+      this.x += dx * this.speed;
+      this.y += dy * this.speed;
+
+      // Спавним искры (кроваво-красные)
+      spawnParticles(this.x, this.y);
+    },
+    tick(dt) {
+      // Доп. логика, если нужна
+    }
+  };
+}
+
+// Рисуем «паука»: тело + голова + лапки
+function drawSpider(spider) {
+  ctx.save();
+  ctx.translate(spider.x, spider.y);
+
+  // Тело
+  ctx.fillStyle = "#880000"; // тёмно-красный
+  ctx.beginPath();
+  ctx.arc(0, 0, 8, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Голова
+  ctx.fillStyle = "#aa0000"; // чуть светлее
+  ctx.beginPath();
+  ctx.arc(0, -6, 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Лапки (упрощённая версия)
+  ctx.strokeStyle = "#550000";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  // 4 лапки слева
+  ctx.moveTo(-8, 0);   ctx.lineTo(-12, -5);
+  ctx.moveTo(-8, -2);  ctx.lineTo(-12, -7);
+  ctx.moveTo(-8, 2);   ctx.lineTo(-12, 7);
+  ctx.moveTo(-8, 4);   ctx.lineTo(-12, 9);
+  // 4 лапки справа
+  ctx.moveTo(8, 0);    ctx.lineTo(12, -5);
+  ctx.moveTo(8, -2);   ctx.lineTo(12, -7);
+  ctx.moveTo(8, 2);    ctx.lineTo(12, 7);
+  ctx.moveTo(8, 4);    ctx.lineTo(12, 9);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+// Фон: красно-чёрный радиальный градиент
+function drawBackground() {
+  const grad = ctx.createRadialGradient(
+    w / 2, h / 2, 0,
+    w / 2, h / 2, Math.max(w, h)
+  );
+  grad.addColorStop(0, "#303");  // тёмно-красный в центре
+  grad.addColorStop(1, "#000");  // чёрный по краям
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+}
+
+// «Молния» — случайная ломанная от (x1,y1) к (x2,y2)
+function drawLightning(x1, y1, x2, y2) {
+  const segmentCount = 6; // число звеньев молнии
+  // Сохраняем исходные коорд.
+  let prevX = x1;
+  let prevY = y1;
+
+  ctx.strokeStyle = "#ff0"; // жёлто-белый
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(prevX, prevY);
+
+  // Генерируем зигзаги
+  for (let i = 1; i < segmentCount; i++) {
+    // Пропорция (от 0 до 1)
+    const t = i / segmentCount;
+    // Примерные координаты на прямой между x1,y1 и x2,y2
+    const baseX = x1 + (x2 - x1) * t;
+    const baseY = y1 + (y2 - y1) * t;
+    // Добавляем шум (рандомное отклонение)
+    const randX = baseX + (Math.random() - 0.5) * 40;
+    const randY = baseY + (Math.random() - 0.5) * 40;
+
+    ctx.lineTo(randX, randY);
+
+    prevX = randX;
+    prevY = randY;
+  }
+  // Завершаем в точке (x2,y2)
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+
+  // Можно добавить «вспышку» - полупрозрачный белый круг в районе (x2, y2):
+  ctx.fillStyle = "rgba(255,255,255,0.3)";
+  ctx.beginPath();
+  ctx.arc(x2, y2, 25, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+// Создаём несколько «капелек крови» (particles) вокруг (x, y)
+function spawnParticles(x, y) {
+  for (let i = 0; i < PARTICLES_PER_TICK; i++) {
+    const hue = 360 * (Math.random() * 0.02); 
+    // hue ~ 0..7 (красные оттенки)
+    particles.push({
+      x,
+      y,
+      vx: (Math.random() - 0.5) * 100, // случайная скорость
+      vy: (Math.random() - 0.5) * 100,
+      life: 0.5 + Math.random() * 0.5, // время жизни (сек)
+      alpha: 1,
+      size: Math.random() * 3 + 2,
+      hue: hue
+    });
+  }
+}
+
+// Обновляем и рисуем искры
+function updateAndDrawParticles(dt) {
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    p.life -= dt;
+    if (p.life <= 0) {
+      particles.splice(i, 1);
+      continue;
+    }
+    // Двигаем
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+    // Партиклы постепенно затухают (альфа ~ оставшаяся жизнь)
+    p.alpha = p.life;
+
+    // Рисуем
+    ctx.fillStyle = `hsla(${p.hue}, 100%, 50%, ${p.alpha})`;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+// Создаём один «туманный круг»
+function spawnFog() {
+  const radius = 50 + Math.random() * 200;
+  fogs.push({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: radius,
+    alpha: 0.1 + Math.random() * 0.2, 
+    life: 2 + Math.random() * 2 // 2..4 секунды
+  });
+}
+
+// Обновляем/рисуем дымку
+function updateAndDrawFogs(dt) {
+  for (let i = fogs.length - 1; i >= 0; i--) {
+    const f = fogs[i];
+    f.life -= dt;
+    if (f.life <= 0) {
+      fogs.splice(i, 1);
+      continue;
+    }
+    // Небольшое расширение и затухание
+    f.r += 20 * dt;
+    f.alpha = f.life * 0.2; // подбираем коэффициент, чтобы затухало
+
+    ctx.fillStyle = `rgba(5,0,0,${f.alpha})`;
+    ctx.beginPath();
+    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+</script>
+</body>
+</html>
