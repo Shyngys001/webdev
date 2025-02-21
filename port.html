@@ -1,71 +1,105 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Портфолио | Асылнұр Басатев</title>
-
-  <!-- Подключаем шрифт Roboto (Bold и Regular) -->
+  <meta name="description" content="Официальное портфолио преподавателя физики Асылнұр Басатев, SDU University">
+  
+  <!-- Google Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
     rel="stylesheet"
   />
 
-  <!-- Встроенные стили (CSS) -->
   <style>
-    /************************************
-     *        БАЗОВЫЕ СТИЛИ
-     ************************************/
+    /****************************************
+     *   ПЕРЕМЕННЫЕ ТЕМЫ (CSS CUSTOM PROPERTIES)
+     ****************************************/
+    :root {
+      --color-bg: #ffffff;                  /* Основной фон */
+      --color-text: #333333;               /* Основной текст */
+      --color-primary: #6F00FF;            /* Основной яркий цвет (фиолетовый) */
+      --color-primary-hover: #5500cc;      /* Темнее фиолетового при hover */
+      --color-secondary: #ff5f7e;          /* Акцентный (розово-красный) */
+      --color-secondary-hover: #e1003e;    /* Более тёмный для hover */
+      --color-light: #f5f5f5;             /* Светло-серый фон */
+      --color-white: #ffffff;
+      --color-hero-overlay: rgba(0, 0, 0, 0.3);
+    }
+
+    /****************************************
+     *   БАЗОВЫЕ СТИЛИ
+     ****************************************/
     * {
-      margin: 0; 
-      padding: 0; 
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
     body {
       font-family: 'Roboto', sans-serif;
-      background-color: #FFFFFF;
+      background-color: var(--color-bg);
+      color: var(--color-text);
       scroll-behavior: smooth; /* Плавная прокрутка */
-    }
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    li {
-      margin: 5px 0;
-    }
-    p, li {
-      font-weight: 400; /* Обычный текст */
       line-height: 1.6;
-    }
-    h1, h2, h3, h4 {
-      font-family: 'Roboto', sans-serif; 
-      font-weight: 700; /* Заголовки: Roboto Bold */
     }
     img {
       max-width: 100%;
       display: block;
     }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    h1, h2, h3, h4 {
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+    p {
+      margin-bottom: 1rem;
+    }
 
-    /************************************
-     *        ПЕРЕХОДЫ И АНИМАЦИИ
-     ************************************/
-    /* Анимация fade-in (плавное появление) */
+    /****************************************
+     *   КЛИП-ПУТИ (WAVE) ДЛЯ ПЕРЕХОДА СЕКЦИЙ
+     ****************************************/
+    .wave {
+      position: relative;
+      z-index: 1;
+    }
+    .wave::after {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 120px;
+      background: var(--color-bg);
+      clip-path: polygon(100% 0, 100% 100%, 0 75%, 0 0);
+      z-index: 2;
+    }
+
+    /****************************************
+     *   АНИМАЦИИ (fadeIn, slideUp, hover, pulse)
+     ****************************************/
     @keyframes fadeIn {
-      0% {
+      from {
         opacity: 0;
         transform: translateY(30px);
       }
-      100% {
+      to {
         opacity: 1;
         transform: translateY(0);
       }
     }
     .fade-in {
-      opacity: 0; 
-      animation: fadeIn 1.2s forwards;
+      opacity: 0;
     }
 
-    /* Анимация для заголовка Hero (слегка снизу вверх) */
     @keyframes slideUp {
       0% {
         opacity: 0;
@@ -77,70 +111,140 @@
       }
     }
 
-    /************************************
-     *        ГЛАВНОЕ МЕНЮ (если нужно)
-     ************************************/
-    /* Можно добавить навигацию, но по заданию не обязательно. 
-       Пока оставим одностраничный вариант без отдельного меню. */
+    /* Лёгкая пульсация (для кнопок/иконок при hover) */
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
 
-    /************************************
-     *        HERO SECTION
-     ************************************/
-    .hero {
-      /* Фон: реальная фотография университета (Unsplash) */
-      background: 
-        linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-        url('https://images.unsplash.com/photo-1581092332185-7fb90d6d9a0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') 
-          center center / cover no-repeat;
+    /****************************************
+     *   ЛИПКАЯ НАВИГАЦИЯ
+     ****************************************/
+    header.site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--color-white);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 999;
+    }
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.5rem 1rem;
+    }
+    .nav-bar .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+    }
+    .nav-links li {
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--color-text);
+      padding: 0.5rem;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover {
+      color: var(--color-primary);
+    }
+
+    /****************************************
+     *   HERO SECTION
+     ****************************************/
+    section#hero {
+      background:
+        linear-gradient(var(--color-hero-overlay), var(--color-hero-overlay)),
+        url('https://images.unsplash.com/photo-1581092332185-7fb90d6d9a0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80')
+        center center / cover no-repeat;
       height: 100vh;
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      color: #FFFFFF;
-      overflow: hidden; 
+      color: var(--color-white);
+      padding: 0 1rem;
+      position: relative;
+      overflow: hidden;
     }
     .hero-content {
       max-width: 600px;
-      padding: 0 20px;
-      animation: slideUp 1.4s ease-in-out; /* Плавное появление заголовка сверху */
+      animation: slideUp 1.2s ease-in-out forwards;
     }
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
+    .hero-content h1 {
+      font-size: 2.8rem;
+      margin-bottom: 0.5rem;
     }
-    .hero .slogan {
+    .hero-content .slogan {
       font-style: italic;
-      margin: 15px 0 25px;
+      margin: 1rem 0 1.5rem;
     }
-    .hero button {
-      background-color: #1E90FF;
+    .hero-content button {
+      background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+      color: #FFF;
       border: none;
       padding: 12px 25px;
       font-size: 1rem;
-      color: #FFFFFF;
       cursor: pointer;
-      transition: background-color 0.3s, transform 0.3s;
+      transition: 0.3s;
+      border-radius: 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
-    .hero button:hover {
-      background-color: #006ad1;
-      transform: translateY(-2px);
+    .hero-content button:hover {
+      animation: pulse 0.6s;
     }
 
-    /************************************
-     *        ABOUT SECTION
-     ************************************/
-    .about {
-      /* Параллакс + градиент + фото */
-      background: 
-        linear-gradient(to right, #1E90FF 0%, #FFFFFF 100%), 
-        url('https://images.unsplash.com/photo-1521790366326-6c66faee8493?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') 
-          center center / cover no-repeat;
-      background-attachment: fixed; /* Параллакс (зависит от поддержки браузера) */
-      color: #000000;
-      padding: 80px 20px;
+    /****************************************
+     *   ОБЩИЕ СЕКЦИИ
+     ****************************************/
+    .section {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
       position: relative;
+    }
+    .section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2rem;
+      position: relative;
+    }
+    .section h2::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+      margin: 0.5rem auto 0;
+      border-radius: 3px;
+    }
+
+    /****************************************
+     *   ABOUT SECTION
+     ****************************************/
+    .about {
+      background:
+        linear-gradient(to right, var(--color-primary) 0%, var(--color-white) 100%),
+        url('https://images.unsplash.com/photo-1521790366326-6c66faee8493?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80')
+        center center / cover no-repeat;
+      background-attachment: fixed;
+      color: var(--color-text);
     }
     .about-content {
       max-width: 800px;
@@ -149,110 +253,145 @@
       padding: 40px;
       border-radius: 8px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-    .about-content h2 {
-      margin-bottom: 20px;
+      position: relative;
     }
 
-    /************************************
-     *        ОБЩИЕ СЕКЦИИ 
-     ************************************/
-    .section {
-      padding: 60px 20px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    .section h2 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    /* Чтобы секции "цвет в цвет" не сливались, можно добавить отступы */
-    .section:nth-child(even) {
-      /* Чередование цветов, если нужно */
-    }
-
-    /************************************
-     *        EDUCATION SECTION
-     ************************************/
+    /****************************************
+     *   EDUCATION
+     ****************************************/
     .education {
-      background-color: #FFFFFF; 
+      background-color: var(--color-white);
     }
     .education ul {
       max-width: 700px;
       margin: 0 auto;
     }
-    .education ul li {
+    .education li {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
+      transition: transform 0.3s;
     }
-    /* Пример иконок с Flaticon */
     .education li img {
       width: 24px;
       height: 24px;
       margin-right: 10px;
     }
-
-    /************************************
-     *        EXPERIENCE SECTION
-     ************************************/
-    .experience {
-      background-color: #F5F5F5; 
+    .education li:hover {
+      transform: translateX(5px);
     }
-    .experience h3 {
-      margin-top: 20px;
+
+    /****************************************
+     *   EXPERIENCE (Таймлайн)
+     ****************************************/
+    .experience {
+      background-color: var(--color-light);
+    }
+    .timeline {
+      position: relative;
+      padding: 0;
+      margin: 0 auto;
+      max-width: 700px;
+    }
+    .timeline-item {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
+      padding-left: 30px;
+      border-left: 3px solid var(--color-primary);
+      position: relative;
+      transition: transform 0.3s;
+    }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -10px;
+      background-color: var(--color-primary);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      top: 0;
+      transform: translate(-50%, 0);
+    }
+    .timeline-item h3 {
       font-size: 1.2rem;
       color: #333;
+      margin-bottom: 0.5rem;
     }
-    .experience ul {
-      max-width: 700px;
-      margin: 15px auto;
+    .timeline-item span {
+      font-size: 0.9rem;
+      color: #777;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+    .timeline-item ul {
+      margin-left: 0;
+      margin-top: 0.5rem;
+    }
+    .timeline-item ul li {
+      margin-left: 0;
+      padding-left: 0;
+    }
+    .timeline-item:hover {
+      transform: translateX(5px);
     }
 
-    /************************************
-     *        SKILLS SECTION
-     ************************************/
+    /****************************************
+     *   SKILLS SECTION
+     ****************************************/
     .skills {
-      background-color: #FFFFFF;
+      background-color: var(--color-white);
     }
     .skills ul {
       max-width: 700px;
       margin: 0 auto;
     }
-    .skills ul li {
+    .skills li {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
+      transition: transform 0.3s;
     }
     .skills li img {
       width: 24px;
       height: 24px;
       margin-right: 10px;
+      transition: transform 0.3s;
+    }
+    .skills li:hover img {
+      transform: rotate(15deg);
+    }
+    .skills li:hover {
+      transform: translateX(5px);
     }
 
-    /************************************
-     *       ACHIEVEMENTS SECTION
-     ************************************/
+    /****************************************
+     *   ACHIEVEMENTS
+     ****************************************/
     .achievements {
-      background-color: #F5F5F5; 
+      background-color: var(--color-light);
     }
     .achievements ul {
       max-width: 700px;
       margin: 0 auto;
     }
+    .achievements ul li {
+      margin-bottom: 10px;
+    }
 
-    /************************************
-     *       TESTIMONIALS SECTION
-     ************************************/
+    /****************************************
+     *   TESTIMONIALS
+     ****************************************/
     .testimonials {
-      background-color: #FFFFFF;
+      background-color: var(--color-white);
     }
     .testimonial-block {
-      border-left: 4px solid #1E90FF;
+      border-left: 4px solid var(--color-primary);
       margin: 20px auto;
       padding-left: 16px;
       max-width: 700px;
       font-style: italic;
+      position: relative;
     }
     .testimonial-author {
       font-weight: 700;
@@ -260,64 +399,133 @@
       font-style: normal;
     }
 
-    /************************************
-     *       CONTACT SECTION
-     ************************************/
+    /****************************************
+     *   CONTACT (с формой)
+     ****************************************/
     .contact {
-      background-color: #1E90FF;
-      color: #FFFFFF;
-      padding: 40px 20px;
+      background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+      color: #FFF;
       text-align: center;
+      position: relative;
     }
-    .contact p {
-      margin: 8px 0;
+    .contact-content {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .contact-content p, .contact-content a {
+      color: #FFF;
     }
     .contact a {
-      color: #FFFFFF;
       text-decoration: underline;
+      color: #FFF;
+    }
+    .contact-form {
+      margin-top: 2rem;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .contact-form label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 700;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    .contact-form button {
+      background-color: #FFF;
+      color: var(--color-primary);
+      border: none;
+      padding: 0.8rem 1.2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .contact-form button:hover {
+      background-color: var(--color-light);
     }
 
-    /************************************
-     *        МЕДИА-ЗАПРОСЫ (МОБ. АДАПТАЦИЯ)
-     ************************************/
+    /****************************************
+     *   КНОПКА "ВВЕРХ"
+     ****************************************/
+    .back-to-top {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+      color: var(--color-white);
+      border: none;
+      padding: 10px 16px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: none; /* По умолчанию скрыта */
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      z-index: 999;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .back-to-top:hover {
+      animation: pulse 0.6s;
+    }
+
+    /****************************************
+     *   АДАПТИВНОСТЬ
+     ****************************************/
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
+      .nav-links {
+        display: none; /* здесь можно добавить бургер-меню, если нужно */
       }
-      .hero-content {
-        max-width: 90%;
+      .hero-content h1 {
+        font-size: 2.2rem;
       }
       .about {
-        background-attachment: scroll; /* Отключаем параллакс на слабых/моб браузерах */
-      }
-      .experience h3 {
-        font-size: 1.1rem;
+        background-attachment: scroll;
       }
     }
     @media (max-width: 480px) {
-      .hero {
-        background-position: center;
-      }
-      .hero h1 {
+      .hero-content h1 {
         font-size: 1.8rem;
       }
-      .hero button {
+      .hero-content button {
         font-size: 0.9rem;
-        padding: 10px 20px;
+        padding: 8px 16px;
       }
-      .about-content {
-        padding: 20px;
-      }
-      .experience h3 {
-        font-size: 1rem;
+      .timeline-item {
+        padding-left: 20px;
       }
     }
   </style>
 </head>
 <body>
 
+  <!-- Липкая шапка сайта с навигацией -->
+  <header class="site-header">
+    <nav class="nav-bar">
+      <div class="logo">A.Basatev</div>
+      <ul class="nav-links">
+        <li><a href="#hero">Главная</a></li>
+        <li><a href="#about">О себе</a></li>
+        <li><a href="#education">Образование</a></li>
+        <li><a href="#experience">Опыт</a></li>
+        <li><a href="#skills">Навыки</a></li>
+        <li><a href="#achievements">Достижения</a></li>
+        <li><a href="#testimonials">Отзывы</a></li>
+        <li><a href="#contact">Контакты</a></li>
+      </ul>
+    </nav>
+  </header>
+
   <!-- HERO SECTION -->
-  <header class="hero">
+  <section id="hero">
     <div class="hero-content">
       <h1>Добро пожаловать в мое портфолио!</h1>
       <h2>Асылнұр Басатев</h2>
@@ -325,118 +533,122 @@
       <p class="slogan">Физика — это не просто наука, это способ понимать мир вокруг нас.</p>
       <button onclick="scrollToSection('about')">Узнать больше</button>
     </div>
-  </header>
+  </section>
 
-  <!-- ABOUT SECTION -->
-  <section id="about" class="about section fade-in">
+  <!-- ABOUT SECTION + WAVE EFFECT -->
+  <section id="about" class="about section fade-in wave">
     <div class="about-content">
       <h2>О себе</h2>
       <p>
-        Меня зовут Асылнұр Басатев, и я с детства была увлечена тем, как устроен наш мир. 
-        Когда я впервые начала изучать физику, то поняла, что это не просто набор формул — 
-        это язык, описывающий законы Вселенной. С тех пор я решила посвятить себя преподаванию, 
-        чтобы делиться этой страстью со студентами и помогать им открывать для себя 
+        Меня зовут Асылнұр Басатев, и я с детства была увлечена тем, как устроен наш мир.
+        Когда я впервые начала изучать физику, то поняла, что это не просто набор формул —
+        это язык, описывающий законы Вселенной. С тех пор я решила посвятить себя преподаванию,
+        чтобы делиться этой страстью со студентами и помогать им открывать для себя
         удивительный мир науки.
       </p>
       <p>
-        В своей работе я стремлюсь вдохновлять и мотивировать, показывая, что физика 
-        — это доступный инструмент для понимания и исследования всего, что нас окружает.
+        В своей работе я стремлюсь вдохновлять и мотивировать, показывая, что физика —
+        это доступный инструмент для исследования всего, что нас окружает.
       </p>
     </div>
   </section>
 
   <!-- EDUCATION SECTION -->
-  <section class="education section fade-in">
+  <section id="education" class="education section fade-in">
     <h2>Образование и квалификация</h2>
     <ul>
       <li>
         <img 
-          src="https://cdn-icons-png.flaticon.com/512/942/942833.png" 
-          alt="Diploma Icon" 
+          src="https://cdn-icons-png.flaticon.com/512/942/942833.png"
+          alt="Иконка диплома"
         />
         Кандидат физико-математических наук, SDU University, 2014
       </li>
       <li>
         <img 
-          src="https://cdn-icons-png.flaticon.com/512/942/942833.png" 
-          alt="Diploma Icon" 
+          src="https://cdn-icons-png.flaticon.com/512/942/942833.png"
+          alt="Иконка диплома"
         />
         Магистр физики, Назарбаев Университет, 2011
       </li>
       <li>
         <img 
-          src="https://cdn-icons-png.flaticon.com/512/942/942833.png" 
-          alt="Diploma Icon" 
+          src="https://cdn-icons-png.flaticon.com/512/942/942833.png"
+          alt="Иконка диплома"
         />
         Бакалавр физики, Казахский национальный университет им. аль-Фараби, 2009
       </li>
       <li>
         <img 
-          src="https://cdn-icons-png.flaticon.com/512/942/942799.png" 
-          alt="Certificate Icon" 
+          src="https://cdn-icons-png.flaticon.com/512/942/942799.png"
+          alt="Иконка сертификата"
         />
         Сертификаты (курсы и программы, связанные с преподаванием физики)
       </li>
     </ul>
   </section>
 
-  <!-- EXPERIENCE SECTION -->
-  <section class="experience section fade-in">
+  <!-- EXPERIENCE SECTION (ТАЙМЛАЙН) -->
+  <section id="experience" class="experience section fade-in">
     <h2>Опыт работы</h2>
-    <div>
-      <h3>Преподаватель физики, SDU University (2015 – настоящее время)</h3>
-      <ul>
-        <li>Чтение основных курсов по общей физике.</li>
-        <li>Разработка новых лабораторных работ.</li>
-        <li>Создание онлайн-курсов и видеолекций.</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Ассистент преподавателя, Назарбаев Университет (2011 – 2014)</h3>
-      <ul>
-        <li>Помощь в проведении лекций и семинаров.</li>
-        <li>Участие в исследовательских проектах.</li>
-        <li>Организация научных конференций и семинаров.</li>
-      </ul>
+    <div class="timeline">
+      <div class="timeline-item">
+        <h3>Преподаватель физики, SDU University</h3>
+        <span>(2015 – настоящее время)</span>
+        <ul>
+          <li>Чтение основных курсов по общей физике.</li>
+          <li>Разработка новых лабораторных работ.</li>
+          <li>Создание онлайн-курсов и видеолекций.</li>
+        </ul>
+      </div>
+      <div class="timeline-item">
+        <h3>Ассистент преподавателя, Назарбаев Университет</h3>
+        <span>(2011 – 2014)</span>
+        <ul>
+          <li>Помощь в проведении лекций и семинаров.</li>
+          <li>Участие в исследовательских проектах.</li>
+          <li>Организация научных конференций и семинаров.</li>
+        </ul>
+      </div>
     </div>
   </section>
 
   <!-- SKILLS SECTION -->
-  <section class="skills section fade-in">
+  <section id="skills" class="skills section fade-in">
     <h2>Навыки и компетенции</h2>
     <ul>
       <li>
         <img 
-          src="https://cdn-icons-png.flaticon.com/512/2702/2702065.png" 
-          alt="Lab Icon"
+          src="https://cdn-icons-png.flaticon.com/512/2702/2702065.png"
+          alt="Иконка лаборатории"
         />
         Преподавание физики разных уровней
       </li>
       <li>
         <img 
-          src="https://cdn-icons-png.flaticon.com/512/2929/2929728.png" 
-          alt="Research Icon"
+          src="https://cdn-icons-png.flaticon.com/512/2929/2929728.png"
+          alt="Иконка исследований"
         />
         Научные исследования (физика конденсированного состояния)
       </li>
       <li>
         <img 
-          src="https://cdn-icons-png.flaticon.com/512/1055/1055684.png" 
-          alt="Tech Icon"
+          src="https://cdn-icons-png.flaticon.com/512/1055/1055684.png"
+          alt="Иконка технологий"
         />
         Использование современных технологий (виртуальные лаборатории, онлайн-курсы)
       </li>
       <li>
         <img 
-          src="https://cdn-icons-png.flaticon.com/512/1405/1405608.png" 
-          alt="Software Icon"
+          src="https://cdn-icons-png.flaticon.com/512/1405/1405608.png"
+          alt="Иконка ПО"
         />
         Владение ПО: MATLAB, Python, LaTeX
       </li>
       <li>
         <img 
-          src="https://cdn-icons-png.flaticon.com/512/2942/2942415.png" 
-          alt="Conference Icon"
+          src="https://cdn-icons-png.flaticon.com/512/2942/2942415.png"
+          alt="Иконка конференции"
         />
         Организация и проведение научных семинаров/конференций
       </li>
@@ -444,7 +656,7 @@
   </section>
 
   <!-- ACHIEVEMENTS SECTION -->
-  <section class="achievements section fade-in">
+  <section id="achievements" class="achievements section fade-in">
     <h2>Достижения и награды</h2>
     <ul>
       <li>Грант Министерства образования и науки РК (2019)</li>
@@ -455,7 +667,7 @@
   </section>
 
   <!-- TESTIMONIALS SECTION -->
-  <section class="testimonials section fade-in">
+  <section id="testimonials" class="testimonials section fade-in">
     <h2>Отзывы</h2>
     <div class="testimonial-block">
       «Асылнұр — это преподаватель, который вдохновляет…»
@@ -467,31 +679,60 @@
     </div>
   </section>
 
-  <!-- CONTACT SECTION -->
-  <footer class="contact fade-in">
-    <h2>Контакты</h2>
-    <p>Email: <a href="mailto:asylnur.basatev@sdu.edu.kz">asylnur.basatev@sdu.edu.kz</a></p>
-    <p>Телефон: +7 (777) 123-45-67</p>
-    <p>LinkedIn: <a href="https://linkedin.com/in/asylnur-basatev" target="_blank">linkedin.com/in/asylnur-basatev</a></p>
-    <p>ResearchGate: <a href="https://researchgate.net/profile/Asylnur_Basatev" target="_blank">researchgate.net/profile/Asylnur_Basatev</a></p>
+  <!-- CONTACT SECTION + ФОРМА -->
+  <footer id="contact" class="contact fade-in">
+    <div class="contact-content">
+      <h2>Контакты</h2>
+      <p>Email: 
+        <a href="mailto:asylnur.basatev@sdu.edu.kz">
+          asylnur.basatev@sdu.edu.kz
+        </a>
+      </p>
+      <p>Телефон: +7 (777) 123-45-67</p>
+      <p>LinkedIn: 
+        <a href="https://linkedin.com/in/asylnur-basatev" target="_blank">
+          linkedin.com/in/asylnur-basatev
+        </a>
+      </p>
+      <p>ResearchGate: 
+        <a href="https://researchgate.net/profile/Asylnur_Basatev" target="_blank">
+          researchgate.net/profile/Asylnur_Basatev
+        </a>
+      </p>
+
+      <!-- Пример формы: имя, email, сообщение -->
+      <form class="contact-form" onsubmit="return false;">
+        <label for="name">Имя:</label>
+        <input type="text" id="name" placeholder="Ваше имя" required/>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Ваш email" required/>
+
+        <label for="message">Сообщение:</label>
+        <textarea id="message" rows="4" placeholder="Ваше сообщение..." required></textarea>
+
+        <button type="submit">Отправить</button>
+      </form>
+    </div>
   </footer>
+
+  <!-- КНОПКА "ВВЕРХ" -->
+  <button class="back-to-top" onclick="scrollToTop()">Вверх</button>
 
   <!-- Встроенный JS -->
   <script>
     /*****************************************
-     *     Плавный скролл к разделу
+     *   ПЛАВНЫЙ ПЕРЕХОД К РАЗДЕЛУ
      *****************************************/
     function scrollToSection(sectionId) {
       document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
     }
 
     /*****************************************
-     *   "Ленивая" анимация fade-in при прокрутке
+     *   "ЛЕНИВАЯ" АНИМАЦИЯ fade-in (при прокрутке)
      *****************************************/
     const fadeElements = document.querySelectorAll('.fade-in');
-    const options = {
-      threshold: 0.2 // 20% элемента в зоне видимости
-    };
+    const observerOptions = { threshold: 0.2 };
     const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -499,8 +740,23 @@
           obs.unobserve(entry.target);
         }
       });
-    }, options);
+    }, observerOptions);
     fadeElements.forEach(el => observer.observe(el));
+
+    /*****************************************
+     *   КНОПКА "ВВЕРХ" (появляется при прокрутке)
+     *****************************************/
+    const backToTopBtn = document.querySelector('.back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.style.display = 'block';
+      } else {
+        backToTopBtn.style.display = 'none';
+      }
+    });
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   </script>
 </body>
 </html>
