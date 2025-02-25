@@ -1,51 +1,59 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Портфолио | Асылнұр Басатев</title>
+  <title data-i18n="title">Портфолио | Асылнұр Басатев</title>
   <meta name="description" content="Официальное портфолио преподавателя физики Асылнұр Басатев, SDU University">
-  
+
   <!-- Google Fonts -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
     rel="stylesheet"
   />
 
   <style>
-    /****************************************
-     *   ПЕРЕМЕННЫЕ ТЕМЫ (CSS CUSTOM PROPERTIES)
-     ****************************************/
+    /***************************************************
+     *  ПЕРЕМЕННЫЕ ТЕМЫ (CSS Custom Properties)
+     ***************************************************/
     :root {
-      --color-bg: #ffffff;                  /* Основной фон */
-      --color-text: #333333;               /* Основной текст */
-      --color-primary: #6F00FF;            /* Основной яркий цвет (фиолетовый) */
-      --color-primary-hover: #5500cc;      /* Темнее фиолетового при hover */
-      --color-secondary: #ff5f7e;          /* Акцентный (розово-красный) */
-      --color-secondary-hover: #e1003e;    /* Более тёмный для hover */
-      --color-light: #f5f5f5;             /* Светло-серый фон */
-      --color-white: #ffffff;
-      --color-hero-overlay: rgba(0, 0, 0, 0.3);
+      --color-bg: #F7F7FB;
+      --color-text: #333;
+      --color-primary: #6F00FF;   /* Фиолетовый */
+      --color-primary-hover: #5500CC;
+      --color-secondary: #FF5F7E; /* Розово-красный */
+      --color-white: #FFF;
+      --color-light: rgba(255, 255, 255, 0.5);
+      --color-dark-overlay: rgba(0, 0, 0, 0.4);
+
+      --transition-fast: 0.3s ease;
+      --transition-slow: 0.8s ease;
+
+      --font-main: 'Poppins', sans-serif;
+    }
+    /* Тёмная тема через .dark-mode на body */
+    body.dark-mode {
+      --color-bg: #1a1a1a;
+      --color-text: #f0f0f0;
+      --color-white: #2a2a2a;
+      --color-dark-overlay: rgba(0, 0, 0, 0.7);
     }
 
-    /****************************************
-     *   БАЗОВЫЕ СТИЛИ
-     ****************************************/
+    /***************************************************
+     *  СБРОС ОСНОВНЫХ СТИЛЕЙ
+     ***************************************************/
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
     body {
-      font-family: 'Roboto', sans-serif;
-      background-color: var(--color-bg);
+      font-family: var(--font-main);
+      background: var(--color-bg);
       color: var(--color-text);
-      scroll-behavior: smooth; /* Плавная прокрутка */
       line-height: 1.6;
-    }
-    img {
-      max-width: 100%;
-      display: block;
+      scroll-behavior: smooth;
+      transition: background-color 0.5s, color 0.5s;
     }
     a {
       text-decoration: none;
@@ -53,345 +61,517 @@
     }
     ul {
       list-style: none;
-      padding-left: 0;
     }
-    h1, h2, h3, h4 {
-      margin-bottom: 0.5rem;
+    h1, h2, h3, h4, h5 {
+      margin-bottom: 0.7rem;
       font-weight: 700;
     }
     p {
       margin-bottom: 1rem;
     }
-
-    /****************************************
-     *   КЛИП-ПУТИ (WAVE) ДЛЯ ПЕРЕХОДА СЕКЦИЙ
-     ****************************************/
-    .wave {
-      position: relative;
-      z-index: 1;
-    }
-    .wave::after {
-      content: "";
+    img {
       display: block;
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 120px;
-      background: var(--color-bg);
-      clip-path: polygon(100% 0, 100% 100%, 0 75%, 0 0);
-      z-index: 2;
+      max-width: 100%;
     }
 
-    /****************************************
-     *   АНИМАЦИИ (fadeIn, slideUp, hover, pulse)
-     ****************************************/
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .fade-in {
-      opacity: 0;
-    }
-
-    @keyframes slideUp {
-      0% {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Лёгкая пульсация (для кнопок/иконок при hover) */
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.1);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    /****************************************
-     *   ЛИПКАЯ НАВИГАЦИЯ
-     ****************************************/
+    /***************************************************
+     *  ШАПКА (НАВИГАЦИЯ)
+     ***************************************************/
     header.site-header {
       position: fixed;
+      width: 100%;
       top: 0;
       left: 0;
-      width: 100%;
-      background-color: var(--color-white);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       z-index: 999;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.7);
+      transition: background 0.5s;
     }
+    body.dark-mode header.site-header {
+      background: rgba(50, 50, 50, 0.7);
+    }
+
     .nav-bar {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0.5rem 1rem;
+      padding: 1rem 1.5rem;
     }
     .nav-bar .logo {
-      font-size: 1.3rem;
       font-weight: 700;
+      font-size: 1.4rem;
       color: var(--color-primary);
+      transition: color 0.3s;
     }
-    .nav-links {
+
+    /***************************************************
+     *  БЛОКИ МЕНЮ/ПЕРЕКЛЮЧЕНИЙ (ПРАВАЯ ЧАСТЬ ХЕДЕРА)
+     ***************************************************/
+    .nav-right {
       display: flex;
+      align-items: center;
       gap: 1rem;
     }
-    .nav-links li {
-      list-style: none;
+
+    /***************************************************
+     *  БУРГЕР-МЕНЮ (мобильное)
+     ***************************************************/
+    .burger {
+      display: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 5px;
     }
-    .nav-links a {
+    .burger div {
+      width: 25px;
+      height: 3px;
+      background-color: var(--color-text);
+      transition: 0.3s;
+    }
+    /* Анимация при открытии (X-икс) */
+    .burger.toggle .line1 {
+      transform: rotate(-45deg) translate(-6px, 6px);
+    }
+    .burger.toggle .line2 {
+      opacity: 0;
+    }
+    .burger.toggle .line3 {
+      transform: rotate(45deg) translate(-5px, -5px);
+    }
+
+    /***************************************************
+     *  ОСНОВНОЕ МЕНЮ (desktop / mobile)
+     ***************************************************/
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      transition: transform 0.3s;
+    }
+    .nav-links li a {
+      position: relative;
+      padding: 0.5rem;
+      transition: color var(--transition-fast);
+    }
+    .nav-links li a::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background-color: var(--color-primary);
+      transition: 0.3s;
+      transform: translateX(-50%);
+    }
+    .nav-links li a:hover::after {
+      width: 100%;
+    }
+
+    /* Адаптация под мобильный вид */
+    @media (max-width: 768px) {
+      .burger {
+        display: flex;
+      }
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        right: 0;
+        width: 250px;
+        height: calc(100% - 70px);
+        background: var(--color-white);
+        box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 2rem;
+        gap: 1rem;
+        transform: translateX(100%); /* по умолчанию скрыто */
+      }
+      body.dark-mode .nav-links {
+        background: #2a2a2a;
+      }
+      .nav-links.nav-active {
+        transform: translateX(0);
+      }
+    }
+
+    /***************************************************
+     *  ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА (Dropdown)
+     ***************************************************/
+    .language-dropdown {
+      position: relative;
+    }
+    .language-btn {
+      background: none;
+      border: none;
       color: var(--color-text);
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      position: relative;
       padding: 0.5rem;
       transition: color 0.3s;
     }
-    .nav-links a:hover {
+    .language-btn:hover {
       color: var(--color-primary);
     }
+    .language-btn::after {
+      content: "▼";
+      font-size: 0.7rem;
+      transition: transform 0.3s;
+    }
+    /* Если хотим показать перевёрнутую стрелку при открытом списке */
+    .language-btn.active::after {
+      transform: rotate(180deg);
+    }
 
-    /****************************************
-     *   HERO SECTION
-     ****************************************/
+    .language-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--color-white);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      border-radius: 4px;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 9999;
+    }
+    body.dark-mode .language-menu {
+      background: #2a2a2a;
+    }
+    .language-menu.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .language-menu button {
+      display: block;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 0.5rem 1rem;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-weight: 500;
+      color: var(--color-text);
+    }
+    .language-menu button:hover {
+      background: var(--color-light);
+    }
+
+    /***************************************************
+     *  ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ (иконка солнце/луна)
+     ***************************************************/
+    .theme-switcher {
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .theme-icon {
+      width: 24px;
+      height: 24px;
+      transition: transform 0.3s;
+    }
+    .theme-switcher:hover .theme-icon {
+      transform: scale(1.1);
+    }
+
+    /***************************************************
+     *  HERO (АНИМИРОВАННЫЙ ГРАДИЕНТ)
+     ***************************************************/
     section#hero {
-      background:
-        linear-gradient(var(--color-hero-overlay), var(--color-hero-overlay)),
-        url('https://images.unsplash.com/photo-1581092332185-7fb90d6d9a0f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80')
-        center center / cover no-repeat;
-      height: 100vh;
+      position: relative;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
       color: var(--color-white);
-      padding: 0 1rem;
-      position: relative;
       overflow: hidden;
     }
     .hero-content {
       max-width: 600px;
-      animation: slideUp 1.2s ease-in-out forwards;
+      animation: fadeUp 1.2s ease forwards;
+      opacity: 0;
+      position: relative;
+      z-index: 1;
     }
     .hero-content h1 {
-      font-size: 2.8rem;
-      margin-bottom: 0.5rem;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
-    .hero-content .slogan {
-      font-style: italic;
+    .hero-content h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      color: #FFDADA;
+    }
+    .hero-content p.slogan {
       margin: 1rem 0 1.5rem;
+      font-size: 1.2rem;
+      color: #fff;
+      font-style: italic;
     }
-    .hero-content button {
+    .hero-btn {
       background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
-      color: #FFF;
       border: none;
-      padding: 12px 25px;
+      padding: 15px 30px;
       font-size: 1rem;
-      cursor: pointer;
-      transition: 0.3s;
+      color: var(--color-white);
       border-radius: 30px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
     }
-    .hero-content button:hover {
-      animation: pulse 0.6s;
+    .hero-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    section#hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(270deg, var(--color-primary), var(--color-secondary), var(--color-primary));
+      background-size: 600% 600%;
+      animation: gradientShift 15s ease infinite;
+      z-index: 0;
+    }
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
     }
 
-    /****************************************
-     *   ОБЩИЕ СЕКЦИИ
-     ****************************************/
+    /***************************************************
+     *  ОБЩИЕ СЕКЦИИ, АНИМАЦИЯ ПРИ ПРОКРУТКЕ
+     ***************************************************/
     .section {
       padding: 60px 20px;
       max-width: 1000px;
       margin: 0 auto;
       position: relative;
+      transition: background-color 0.5s, color 0.5s;
     }
     .section h2 {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
       font-size: 2rem;
+      text-transform: uppercase;
       position: relative;
     }
     .section h2::after {
       content: "";
       display: block;
-      width: 80px;
+      width: 100px;
       height: 3px;
       background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
       margin: 0.5rem auto 0;
       border-radius: 3px;
     }
-
-    /****************************************
-     *   ABOUT SECTION
-     ****************************************/
-    .about {
-      background:
-        linear-gradient(to right, var(--color-primary) 0%, var(--color-white) 100%),
-        url('https://images.unsplash.com/photo-1521790366326-6c66faee8493?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80')
-        center center / cover no-repeat;
-      background-attachment: fixed;
-      color: var(--color-text);
+    .fade-block {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity var(--transition-slow), transform var(--transition-slow);
     }
-    .about-content {
-      max-width: 800px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 40px;
+    .fade-block.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /***************************************************
+     *  ABOUT
+     ***************************************************/
+    .about-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+      justify-content: space-around;
+    }
+    .about-text {
+      flex: 1 1 400px;
+      min-width: 300px;
+      background: var(--color-white);
+      padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    body.dark-mode .about-text {
+      background: #2a2a2a;
+    }
+    .about-photo {
+      flex: 1 1 300px;
+      min-width: 250px;
       position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .about-photo img {
+      display: block;
+      width: 100%;
+      border-radius: 8px;
+      transition: transform 1s ease;
+    }
+    .about-photo img:hover {
+      transform: scale(1.1) rotate(2deg);
     }
 
-    /****************************************
-     *   EDUCATION
-     ****************************************/
-    .education {
-      background-color: var(--color-white);
-    }
-    .education ul {
+    /***************************************************
+     *  EDUCATION
+     ***************************************************/
+    .education-list {
       max-width: 700px;
       margin: 0 auto;
     }
-    .education li {
+    .education-list li {
       display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      transition: transform 0.3s;
+      gap: 10px;
+      margin-bottom: 15px;
+      transform: translateX(-20px);
+      opacity: 0;
+      transition: all var(--transition-slow);
     }
-    .education li img {
+    .education-list li.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    .education-list li img {
       width: 24px;
       height: 24px;
-      margin-right: 10px;
-    }
-    .education li:hover {
-      transform: translateX(5px);
+      margin-top: 4px;
     }
 
-    /****************************************
-     *   EXPERIENCE (Таймлайн)
-     ****************************************/
-    .experience {
-      background-color: var(--color-light);
-    }
+    /***************************************************
+     *  EXPERIENCE (ТАЙМЛАЙН)
+     ***************************************************/
     .timeline {
       position: relative;
-      padding: 0;
-      margin: 0 auto;
       max-width: 700px;
+      margin: 0 auto;
     }
     .timeline-item {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 30px;
-      padding-left: 30px;
       border-left: 3px solid var(--color-primary);
+      padding-left: 20px;
       position: relative;
-      transition: transform 0.3s;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: all var(--transition-slow);
+    }
+    .timeline-item.show {
+      transform: translateX(0);
+      opacity: 1;
     }
     .timeline-item::before {
       content: "";
       position: absolute;
-      left: -10px;
-      background-color: var(--color-primary);
+      left: -12px;
       width: 20px;
       height: 20px;
+      background: var(--color-primary);
       border-radius: 50%;
       top: 0;
       transform: translate(-50%, 0);
     }
     .timeline-item h3 {
       font-size: 1.2rem;
-      color: #333;
       margin-bottom: 0.5rem;
     }
     .timeline-item span {
       font-size: 0.9rem;
       color: #777;
-      margin-bottom: 0.5rem;
       display: inline-block;
-    }
-    .timeline-item ul {
-      margin-left: 0;
-      margin-top: 0.5rem;
-    }
-    .timeline-item ul li {
-      margin-left: 0;
-      padding-left: 0;
-    }
-    .timeline-item:hover {
-      transform: translateX(5px);
+      margin-bottom: 0.5rem;
     }
 
-    /****************************************
-     *   SKILLS SECTION
-     ****************************************/
-    .skills {
-      background-color: var(--color-white);
-    }
-    .skills ul {
+    /***************************************************
+     *  SKILLS
+     ***************************************************/
+    .skills-list {
       max-width: 700px;
       margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
     }
-    .skills li {
+    .skill-item {
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
-      transition: transform 0.3s;
+      background: var(--color-white);
+      padding: 10px;
+      border-radius: 6px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transform: scale(0.95);
+      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
-    .skills li img {
-      width: 24px;
-      height: 24px;
+    body.dark-mode .skill-item {
+      background: #2a2a2a;
+    }
+    .skill-item:hover {
+      transform: scale(1.03) rotate(1deg);
+    }
+    .skill-item img {
+      width: 30px;
+      height: 30px;
       margin-right: 10px;
-      transition: transform 0.3s;
-    }
-    .skills li:hover img {
-      transform: rotate(15deg);
-    }
-    .skills li:hover {
-      transform: translateX(5px);
     }
 
-    /****************************************
-     *   ACHIEVEMENTS
-     ****************************************/
-    .achievements {
-      background-color: var(--color-light);
-    }
-    .achievements ul {
+    /***************************************************
+     *  ACHIEVEMENTS
+     ***************************************************/
+    .achievements-list {
       max-width: 700px;
       margin: 0 auto;
     }
-    .achievements ul li {
-      margin-bottom: 10px;
+    .achievements-list li {
+      margin-bottom: 1rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all var(--transition-slow);
+    }
+    .achievements-list li.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    /****************************************
-     *   TESTIMONIALS
-     ****************************************/
-    .testimonials {
-      background-color: var(--color-white);
-    }
+    /***************************************************
+     *  TESTIMONIALS
+     ***************************************************/
     .testimonial-block {
       border-left: 4px solid var(--color-primary);
       margin: 20px auto;
       padding-left: 16px;
       max-width: 700px;
       font-style: italic;
-      position: relative;
+      background: var(--color-white);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    body.dark-mode .testimonial-block {
+      background: #2a2a2a;
     }
     .testimonial-author {
       font-weight: 700;
@@ -399,38 +579,36 @@
       font-style: normal;
     }
 
-    /****************************************
-     *   CONTACT (с формой)
-     ****************************************/
-    .contact {
+    /***************************************************
+     *  CONTACT & FOOTER
+     ***************************************************/
+    footer.contact {
       background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
       color: #FFF;
-      text-align: center;
+      padding-bottom: 40px;
       position: relative;
     }
     .contact-content {
       max-width: 700px;
       margin: 0 auto;
       padding: 40px 20px;
+      text-align: center;
     }
-    .contact-content p, .contact-content a {
+    .contact-content a {
       color: #FFF;
-    }
-    .contact a {
       text-decoration: underline;
-      color: #FFF;
     }
     .contact-form {
       margin-top: 2rem;
       text-align: left;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.15);
       padding: 20px;
       border-radius: 8px;
     }
     .contact-form label {
       display: block;
       margin-bottom: 0.3rem;
-      font-weight: 700;
+      font-weight: 600;
     }
     .contact-form input,
     .contact-form textarea {
@@ -448,15 +626,17 @@
       padding: 0.8rem 1.2rem;
       font-size: 1rem;
       cursor: pointer;
-      transition: all 0.3s;
+      border-radius: 4px;
+      transition: all var(--transition-fast);
     }
     .contact-form button:hover {
       background-color: var(--color-light);
+      color: #222;
     }
 
-    /****************************************
-     *   КНОПКА "ВВЕРХ"
-     ****************************************/
+    /***************************************************
+     *  КНОПКА "ВВЕРХ"
+     ***************************************************/
     .back-to-top {
       position: fixed;
       right: 20px;
@@ -464,231 +644,225 @@
       background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
       color: var(--color-white);
       border: none;
-      padding: 10px 16px;
+      padding: 12px 20px;
       font-size: 1rem;
       cursor: pointer;
-      display: none; /* По умолчанию скрыта */
-      border-radius: 4px;
-      transition: background-color 0.3s;
+      display: none; /* изначально скрыта */
+      border-radius: 30px;
+      transition: background-color var(--transition-fast), transform var(--transition-fast);
       z-index: 999;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     .back-to-top:hover {
-      animation: pulse 0.6s;
+      transform: scale(1.05);
     }
 
-    /****************************************
-     *   АДАПТИВНОСТЬ
-     ****************************************/
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none; /* здесь можно добавить бургер-меню, если нужно */
+    /***************************************************
+     *  АНИМАЦИЯ fadeUp
+     ***************************************************/
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
       }
-      .hero-content h1 {
-        font-size: 2.2rem;
-      }
-      .about {
-        background-attachment: scroll;
-      }
-    }
-    @media (max-width: 480px) {
-      .hero-content h1 {
-        font-size: 1.8rem;
-      }
-      .hero-content button {
-        font-size: 0.9rem;
-        padding: 8px 16px;
-      }
-      .timeline-item {
-        padding-left: 20px;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
   </style>
 </head>
-<body>
-
-  <!-- Липкая шапка сайта с навигацией -->
+<body class="dark-mode">
+  <!-- ШАПКА -->
   <header class="site-header">
     <nav class="nav-bar">
-      <div class="logo">A.Basatev</div>
-      <ul class="nav-links">
-        <li><a href="#hero">Главная</a></li>
-        <li><a href="#about">О себе</a></li>
-        <li><a href="#education">Образование</a></li>
-        <li><a href="#experience">Опыт</a></li>
-        <li><a href="#skills">Навыки</a></li>
-        <li><a href="#achievements">Достижения</a></li>
-        <li><a href="#testimonials">Отзывы</a></li>
-        <li><a href="#contact">Контакты</a></li>
-      </ul>
+      <!-- ЛОГО -->
+      <div class="logo" data-i18n="logoText">A.Basatev</div>
+
+      <!-- БЛОК ПРАВОЙ ЧАСТИ (иконки + бургер) -->
+      <div class="nav-right">
+        <!-- Основное меню (desktop) -->
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#hero" data-i18n="navHome">Главная</a></li>
+          <li><a href="#about" data-i18n="navAbout">О себе</a></li>
+          <li><a href="#education" data-i18n="navEdu">Образование</a></li>
+          <li><a href="#experience" data-i18n="navExp">Опыт</a></li>
+          <li><a href="#skills" data-i18n="navSkills">Навыки</a></li>
+          <li><a href="#achievements" data-i18n="navAch">Достижения</a></li>
+          <li><a href="#testimonials" data-i18n="navTesti">Отзывы</a></li>
+          <li><a href="#contact" data-i18n="navContact">Контакты</a></li>
+        </ul>
+
+        <!-- Dropdown для языков -->
+        <div class="language-dropdown" id="langDropdown">
+          <button class="language-btn" id="langBtn">
+            <span data-i18n="langBtn">Язык</span>
+          </button>
+          <div class="language-menu" id="languageMenu">
+            <button data-lang="ru">RU</button>
+            <button data-lang="kz">KZ</button>
+            <button data-lang="en">EN</button>
+          </div>
+        </div>
+
+        <!-- Кнопка переключения тёмной темы (иконка) -->
+        <button class="theme-switcher" id="darkModeToggle" aria-label="Toggle Dark Mode">
+          <!-- Иконка по умолчанию (луна) -->
+          <img src="https://cdn-icons-png.flaticon.com/512/581/581601.png" alt="Theme Icon" class="theme-icon" id="themeIcon"/>
+        </button>
+
+        <!-- Бургер (мобильное) -->
+        <div class="burger" id="burger-menu">
+          <div class="line1"></div>
+          <div class="line2"></div>
+          <div class="line3"></div>
+        </div>
+      </div>
     </nav>
   </header>
 
-  <!-- HERO SECTION -->
+  <!-- HERO -->
   <section id="hero">
     <div class="hero-content">
-      <h1>Добро пожаловать в мое портфолио!</h1>
-      <h2>Асылнұр Басатев</h2>
-      <p>Преподаватель физики, SDU University</p>
-      <p class="slogan">Физика — это не просто наука, это способ понимать мир вокруг нас.</p>
-      <button onclick="scrollToSection('about')">Узнать больше</button>
+      <h1 data-i18n="heroTitle">Добро пожаловать!</h1>
+      <h2 data-i18n="heroSubtitle">Я — Асылнұр Басатев</h2>
+      <p class="slogan" data-i18n="heroSlogan1">Преподаватель физики, SDU University</p>
+      <p class="slogan" data-i18n="heroSlogan2">«Физика — это не просто формулы, а ключ к пониманию Вселенной»</p>
+      <button class="hero-btn" onclick="scrollToSection('about')" data-i18n="heroBtn">Узнать больше</button>
     </div>
   </section>
 
-  <!-- ABOUT SECTION + WAVE EFFECT -->
-  <section id="about" class="about section fade-in wave">
-    <div class="about-content">
-      <h2>О себе</h2>
-      <p>
-        Меня зовут Асылнұр Басатев, и я с детства была увлечена тем, как устроен наш мир.
-        Когда я впервые начала изучать физику, то поняла, что это не просто набор формул —
-        это язык, описывающий законы Вселенной. С тех пор я решила посвятить себя преподаванию,
-        чтобы делиться этой страстью со студентами и помогать им открывать для себя
-        удивительный мир науки.
-      </p>
-      <p>
-        В своей работе я стремлюсь вдохновлять и мотивировать, показывая, что физика —
-        это доступный инструмент для исследования всего, что нас окружает.
-      </p>
+  <!-- ABOUT -->
+  <section id="about" class="section fade-block">
+    <h2 data-i18n="aboutTitle">О себе</h2>
+    <div class="about-section">
+      <div class="about-photo">
+        <img 
+          src="https://images.pexels.com/photos/8028054/pexels-photo-8028054.jpeg?cs=srgb&dl=pexels-estoymhrb-8028054.jpg&fm=jpg"
+          alt="Асылнұр Басатев"
+        />
+      </div>
+      <div class="about-text">
+        <p data-i18n="aboutText1">
+          Меня зовут Асылнұр Басатев, и я с детства увлекался тем, как устроен наш мир...
+        </p>
+        <p data-i18n="aboutText2">
+          В своей работе я стремлюсь вдохновлять и мотивировать...
+        </p>
+      </div>
     </div>
   </section>
 
-  <!-- EDUCATION SECTION -->
-  <section id="education" class="education section fade-in">
-    <h2>Образование и квалификация</h2>
-    <ul>
+  <!-- EDUCATION -->
+  <section id="education" class="section">
+    <h2 data-i18n="educationTitle">Образование и квалификация</h2>
+    <ul class="education-list">
       <li>
-        <img 
-          src="https://cdn-icons-png.flaticon.com/512/942/942833.png"
-          alt="Иконка диплома"
-        />
-        Кандидат физико-математических наук, SDU University, 2014
+        <img src="https://cdn-icons-png.flaticon.com/512/942/942833.png" alt="Диплом"/>
+        <span data-i18n="eduPhd">Кандидат физико-математических наук, SDU University, 2014</span>
       </li>
       <li>
-        <img 
-          src="https://cdn-icons-png.flaticon.com/512/942/942833.png"
-          alt="Иконка диплома"
-        />
-        Магистр физики, Назарбаев Университет, 2011
+        <img src="https://cdn-icons-png.flaticon.com/512/942/942833.png" alt="Диплом"/>
+        <span data-i18n="eduMsc">Магистр физики, Назарбаев Университет, 2011</span>
       </li>
       <li>
-        <img 
-          src="https://cdn-icons-png.flaticon.com/512/942/942833.png"
-          alt="Иконка диплома"
-        />
-        Бакалавр физики, Казахский национальный университет им. аль-Фараби, 2009
+        <img src="https://cdn-icons-png.flaticon.com/512/942/942833.png" alt="Диплом"/>
+        <span data-i18n="eduBsc">Бакалавр физики, КазНУ им. аль-Фараби, 2009</span>
       </li>
       <li>
-        <img 
-          src="https://cdn-icons-png.flaticon.com/512/942/942799.png"
-          alt="Иконка сертификата"
-        />
-        Сертификаты (курсы и программы, связанные с преподаванием физики)
+        <img src="https://cdn-icons-png.flaticon.com/512/942/942799.png" alt="Сертификат"/>
+        <span data-i18n="eduCert">Сертификаты и курсы, связанные с преподаванием физики</span>
       </li>
     </ul>
   </section>
 
-  <!-- EXPERIENCE SECTION (ТАЙМЛАЙН) -->
-  <section id="experience" class="experience section fade-in">
-    <h2>Опыт работы</h2>
+  <!-- EXPERIENCE -->
+  <section id="experience" class="section">
+    <h2 data-i18n="experienceTitle">Опыт работы</h2>
     <div class="timeline">
       <div class="timeline-item">
-        <h3>Преподаватель физики, SDU University</h3>
-        <span>(2015 – настоящее время)</span>
+        <h3 data-i18n="exp1Title">Преподаватель физики, SDU University</h3>
+        <span data-i18n="exp1Years">(2015 – настоящее время)</span>
         <ul>
-          <li>Чтение основных курсов по общей физике.</li>
-          <li>Разработка новых лабораторных работ.</li>
-          <li>Создание онлайн-курсов и видеолекций.</li>
+          <li data-i18n="exp1Item1">Чтение основных курсов по общей физике</li>
+          <li data-i18n="exp1Item2">Разработка новых лабораторных работ</li>
+          <li data-i18n="exp1Item3">Создание онлайн-курсов и видеолекций</li>
         </ul>
       </div>
       <div class="timeline-item">
-        <h3>Ассистент преподавателя, Назарбаев Университет</h3>
-        <span>(2011 – 2014)</span>
+        <h3 data-i18n="exp2Title">Ассистент преподавателя, Назарбаев Университет</h3>
+        <span data-i18n="exp2Years">(2011 – 2014)</span>
         <ul>
-          <li>Помощь в проведении лекций и семинаров.</li>
-          <li>Участие в исследовательских проектах.</li>
-          <li>Организация научных конференций и семинаров.</li>
+          <li data-i18n="exp2Item1">Помощь в проведении лекций и семинаров</li>
+          <li data-i18n="exp2Item2">Участие в исследовательских проектах</li>
+          <li data-i18n="exp2Item3">Организация научных конференций и семинаров</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- SKILLS SECTION -->
-  <section id="skills" class="skills section fade-in">
-    <h2>Навыки и компетенции</h2>
-    <ul>
-      <li>
-        <img 
-          src="https://cdn-icons-png.flaticon.com/512/2702/2702065.png"
-          alt="Иконка лаборатории"
-        />
-        Преподавание физики разных уровней
-      </li>
-      <li>
-        <img 
-          src="https://cdn-icons-png.flaticon.com/512/2929/2929728.png"
-          alt="Иконка исследований"
-        />
-        Научные исследования (физика конденсированного состояния)
-      </li>
-      <li>
-        <img 
-          src="https://cdn-icons-png.flaticon.com/512/1055/1055684.png"
-          alt="Иконка технологий"
-        />
-        Использование современных технологий (виртуальные лаборатории, онлайн-курсы)
-      </li>
-      <li>
-        <img 
-          src="https://cdn-icons-png.flaticon.com/512/1405/1405608.png"
-          alt="Иконка ПО"
-        />
-        Владение ПО: MATLAB, Python, LaTeX
-      </li>
-      <li>
-        <img 
-          src="https://cdn-icons-png.flaticon.com/512/2942/2942415.png"
-          alt="Иконка конференции"
-        />
-        Организация и проведение научных семинаров/конференций
-      </li>
-    </ul>
-  </section>
-
-  <!-- ACHIEVEMENTS SECTION -->
-  <section id="achievements" class="achievements section fade-in">
-    <h2>Достижения и награды</h2>
-    <ul>
-      <li>Грант Министерства образования и науки РК (2019)</li>
-      <li>Лучший преподаватель года SDU University (2020)</li>
-      <li>Публикации: более 10 статей в международных журналах</li>
-      <li>Участие в международных конференциях</li>
-    </ul>
-  </section>
-
-  <!-- TESTIMONIALS SECTION -->
-  <section id="testimonials" class="testimonials section fade-in">
-    <h2>Отзывы</h2>
-    <div class="testimonial-block">
-      «Асылнұр — это преподаватель, который вдохновляет…»
-      <div class="testimonial-author">— Айнур Каримов, студент</div>
-    </div>
-    <div class="testimonial-block">
-      «Работать с Асылнұр — это удовольствие…»
-      <div class="testimonial-author">— Доктор Алишер Жангалиев</div>
+  <!-- SKILLS -->
+  <section id="skills" class="section fade-block">
+    <h2 data-i18n="skillsTitle">Навыки и компетенции</h2>
+    <div class="skills-list">
+      <div class="skill-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/2702/2702065.png" alt="Лаборатория"/>
+        <p data-i18n="skill1">Преподавание физики разных уровней</p>
+      </div>
+      <div class="skill-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/2929/2929728.png" alt="Исследования"/>
+        <p data-i18n="skill2">Научные исследования (конденсированное состояние)</p>
+      </div>
+      <div class="skill-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/1055/1055684.png" alt="Технологии"/>
+        <p data-i18n="skill3">Современные технологии (виртуальные лаборатории, онлайн-курсы)</p>
+      </div>
+      <div class="skill-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/1405/1405608.png" alt="ПО"/>
+        <p data-i18n="skill4">Владение ПО: MATLAB, Python, LaTeX</p>
+      </div>
+      <div class="skill-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/2942/2942415.png" alt="Конференции"/>
+        <p data-i18n="skill5">Организация и проведение научных конференций</p>
+      </div>
     </div>
   </section>
 
-  <!-- CONTACT SECTION + ФОРМА -->
-  <footer id="contact" class="contact fade-in">
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements" class="section">
+    <h2 data-i18n="achTitle">Достижения и награды</h2>
+    <ul class="achievements-list">
+      <li data-i18n="ach1">Грант Министерства образования и науки РК (2019)</li>
+      <li data-i18n="ach2">Лучший преподаватель года SDU University (2020)</li>
+      <li data-i18n="ach3">Публикации: более 10 статей в международных журналах</li>
+      <li data-i18n="ach4">Участие в международных конференциях</li>
+    </ul>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" class="section fade-block">
+    <h2 data-i18n="testTitle">Отзывы</h2>
+    <div class="testimonial-block">
+      <span data-i18n="test1">«Асылнұр — преподаватель, который вдохновляет и даёт глубокое понимание предмета…»</span>
+      <div class="testimonial-author" data-i18n="test1author">— Айнур Каримов, студент</div>
+    </div>
+    <div class="testimonial-block">
+      <span data-i18n="test2">«Работать с Асылнұр — огромное удовольствие. Его подход к физике действительно уникален!»</span>
+      <div class="testimonial-author" data-i18n="test2author">— Доктор Алишер Жангалиев</div>
+    </div>
+  </section>
+
+  <!-- CONTACT / FOOTER -->
+  <footer id="contact" class="contact">
     <div class="contact-content">
-      <h2>Контакты</h2>
-      <p>Email: 
-        <a href="mailto:asylnur.basatev@sdu.edu.kz">
+      <h2 data-i18n="contactTitle">Контакты</h2>
+      <p>
+        <span data-i18n="contactEmailLabel">Email:</span>
+        <a href="mailto:asylnur.basatev@sdu.edu.kz" data-i18n="contactEmail">
           asylnur.basatev@sdu.edu.kz
         </a>
       </p>
-      <p>Телефон: +7 (777) 123-45-67</p>
+      <p data-i18n="contactPhone">Телефон: +7 (777) 123-45-67</p>
       <p>LinkedIn: 
         <a href="https://linkedin.com/in/asylnur-basatev" target="_blank">
           linkedin.com/in/asylnur-basatev
@@ -700,18 +874,17 @@
         </a>
       </p>
 
-      <!-- Пример формы: имя, email, сообщение -->
       <form class="contact-form" onsubmit="return false;">
-        <label for="name">Имя:</label>
-        <input type="text" id="name" placeholder="Ваше имя" required/>
+        <label for="name" data-i18n="formName">Имя:</label>
+        <input type="text" id="name" placeholder="Ваше имя" required />
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" placeholder="Ваш email" required/>
+        <label for="email" data-i18n="formEmail">Email:</label>
+        <input type="email" id="email" placeholder="Ваш email" required />
 
-        <label for="message">Сообщение:</label>
+        <label for="message" data-i18n="formMsg">Сообщение:</label>
         <textarea id="message" rows="4" placeholder="Ваше сообщение..." required></textarea>
 
-        <button type="submit">Отправить</button>
+        <button type="submit" data-i18n="formBtn">Отправить</button>
       </form>
     </div>
   </footer>
@@ -719,33 +892,279 @@
   <!-- КНОПКА "ВВЕРХ" -->
   <button class="back-to-top" onclick="scrollToTop()">Вверх</button>
 
-  <!-- Встроенный JS -->
+  <!-- СКРИПТЫ (IntersectionObserver, кнопка вверх, бургер, язык, тёмная тема) -->
   <script>
-    /*****************************************
-     *   ПЛАВНЫЙ ПЕРЕХОД К РАЗДЕЛУ
-     *****************************************/
+    /****************************************************
+     *  ШАГ 1: ОБЪЕКТ С ПЕРЕВОДАМИ ДЛЯ RU / KZ / EN
+     ****************************************************/
+    const translations = {
+      ru: {
+        title: "Портфолио | Асылнұр Басатев",
+        logoText: "A.Basatev",
+        navHome: "Главная",
+        navAbout: "О себе",
+        navEdu: "Образование",
+        navExp: "Опыт",
+        navSkills: "Навыки",
+        navAch: "Достижения",
+        navTesti: "Отзывы",
+        navContact: "Контакты",
+        langBtn: "Язык",
+
+        heroTitle: "Добро пожаловать!",
+        heroSubtitle: "Я — Асылнұр Басатев",
+        heroSlogan1: "Преподаватель физики, SDU University",
+        heroSlogan2: "«Физика — это не просто формулы, а ключ к пониманию Вселенной»",
+        heroBtn: "Узнать больше",
+
+        aboutTitle: "О себе",
+        aboutText1: "Меня зовут Асылнұр Басатев, и я с детства увлекался...",
+        aboutText2: "В своей работе я стремлюсь вдохновлять и мотивировать...",
+
+        educationTitle: "Образование и квалификация",
+        eduPhd: "Кандидат физико-математических наук, SDU University, 2014",
+        eduMsc: "Магистр физики, Назарбаев Университет, 2011",
+        eduBsc: "Бакалавр физики, КазНУ им. аль-Фараби, 2009",
+        eduCert: "Сертификаты и курсы, связанные с преподаванием физики",
+
+        experienceTitle: "Опыт работы",
+        exp1Title: "Преподаватель физики, SDU University",
+        exp1Years: "(2015 – настоящее время)",
+        exp1Item1: "Чтение основных курсов по общей физике",
+        exp1Item2: "Разработка новых лабораторных работ",
+        exp1Item3: "Создание онлайн-курсов и видеолекций",
+        exp2Title: "Ассистент преподавателя, Назарбаев Университет",
+        exp2Years: "(2011 – 2014)",
+        exp2Item1: "Помощь в проведении лекций и семинаров",
+        exp2Item2: "Участие в исследовательских проектах",
+        exp2Item3: "Организация научных конференций и семинаров",
+
+        skillsTitle: "Навыки и компетенции",
+        skill1: "Преподавание физики разных уровней",
+        skill2: "Научные исследования (конденсированное состояние)",
+        skill3: "Современные технологии (виртуальные лаборатории, онлайн-курсы)",
+        skill4: "Владение ПО: MATLAB, Python, LaTeX",
+        skill5: "Организация и проведение научных конференций",
+
+        achTitle: "Достижения и награды",
+        ach1: "Грант Министерства образования и науки РК (2019)",
+        ach2: "Лучший преподаватель года SDU University (2020)",
+        ach3: "Публикации: более 10 статей в международных журналах",
+        ach4: "Участие в международных конференциях",
+
+        testTitle: "Отзывы",
+        test1: "«Асылнұр — преподаватель, который вдохновляет и даёт глубокое понимание предмета…»",
+        test1author: "— Айнур Каримов, студент",
+        test2: "«Работать с Асылнұр — огромное удовольствие. Его подход к физике действительно уникален!»",
+        test2author: "— Доктор Алишер Жангалиев",
+
+        contactTitle: "Контакты",
+        contactEmailLabel: "Email:",
+        contactEmail: "asylnur.basatev@sdu.edu.kz",
+        contactPhone: "Телефон: +7 (777) 123-45-67",
+
+        formName: "Имя:",
+        formEmail: "Email:",
+        formMsg: "Сообщение:",
+        formBtn: "Отправить"
+      },
+      kz: {
+        title: "Портфолио | Асылнұр Басатев",
+        logoText: "A.Basatev",
+        navHome: "Басты",
+        navAbout: "Өзі туралы",
+        navEdu: "Білімі",
+        navExp: "Тәжірибе",
+        navSkills: "ДАҒДЫЛАР",
+        navAch: "Жетістіктер",
+        navTesti: "Пікірлер",
+        navContact: "Байланыс",
+        langBtn: "Тіл",
+
+        heroTitle: "Қош келдіңіз!",
+        heroSubtitle: "Мен — Асылнұр Басатев",
+        heroSlogan1: "SDU Университетінің физика оқытушысы",
+        heroSlogan2: "«Физика — бұл тек формулалар емес, Әлемді түсінудің кілті»",
+        heroBtn: "Толығырақ",
+
+        aboutTitle: "Өзі туралы",
+        aboutText1: "Менің атым Асылнұр Басатев, бала кезімнен әлемнің қалай құрылғанына қызықтым...",
+        aboutText2: "Жұмысымда шабыттандыруға және ынталандыруға тырысамын...",
+
+        educationTitle: "Білімі және біліктілігі",
+        eduPhd: "Физика-математика ғылымдарының кандидаты, SDU University, 2014",
+        eduMsc: "Физика магистрі, Назарбаев Университет, 2011",
+        eduBsc: "Физика бакалавры, әл-Фараби атындағы ҚазҰУ, 2009",
+        eduCert: "Физиканы оқытуға қатысты сертификаттар мен курстар",
+
+        experienceTitle: "Жұмыс тәжірибесі",
+        exp1Title: "Физика оқытушысы, SDU University",
+        exp1Years: "(2015 – қазірге дейін)",
+        exp1Item1: "Жалпы физика бойынша негізгі курстарды оқу",
+        exp1Item2: "Жаңа зертханалық жұмыстарды әзірлеу",
+        exp1Item3: "Онлайн-курстар мен бейнедәрістер жасау",
+        exp2Title: "Оқытушының ассистенті, Назарбаев Университет",
+        exp2Years: "(2011 – 2014)",
+        exp2Item1: "Дәрістер мен семинарларға көмек",
+        exp2Item2: "Зерттеу жобаларына қатысу",
+        exp2Item3: "Ғылыми конференциялар мен семинарларды ұйымдастыру",
+
+        skillsTitle: "Дағдылар мен құзыреттер",
+        skill1: "Әртүрлі деңгейдегі физиканы оқыту",
+        skill2: "Ғылыми зерттеулер (конденсацияланған күй)",
+        skill3: "Заманауи технологиялар (виртуалды зертханалар, онлайн-курстар)",
+        skill4: "Бағдарламалық құралдар: MATLAB, Python, LaTeX",
+        skill5: "Ғылыми конференциялар ұйымдастыру және өткізу",
+
+        achTitle: "Жетістіктер мен марапаттар",
+        ach1: "ҚР Білім және ғылым министрлігінің гранты (2019)",
+        ach2: "SDU University-дің үздік оқытушысы (2020)",
+        ach3: "Халықаралық журналдарда 10-нан астам мақала жариялау",
+        ach4: "Халықаралық конференцияларға қатысу",
+
+        testTitle: "Пікірлер",
+        test1: "«Асылнұр — шабыттандыратын және пәнді терең түсіндіретін оқытушы…»",
+        test1author: "— Айнұр Каримов, студент",
+        test2: "«Асылнұрмен жұмыс істеу — үлкен ғанибет. Оның физикаға деген көзқарасы ерекше!»",
+        test2author: "— Доктор Алишер Жанғалиев",
+
+        contactTitle: "Байланыс",
+        contactEmailLabel: "Email:",
+        contactEmail: "asylnur.basatev@sdu.edu.kz",
+        contactPhone: "Телефон: +7 (777) 123-45-67",
+
+        formName: "Атыңыз:",
+        formEmail: "Email:",
+        formMsg: "Хабарлама:",
+        formBtn: "Жіберу"
+      },
+      en: {
+        title: "Portfolio | Asylnur Basatev",
+        logoText: "A.Basatev",
+        navHome: "Home",
+        navAbout: "About",
+        navEdu: "Education",
+        navExp: "Experience",
+        navSkills: "Skills",
+        navAch: "Achievements",
+        navTesti: "Testimonials",
+        navContact: "Contact",
+        langBtn: "Language",
+
+        heroTitle: "Welcome!",
+        heroSubtitle: "I am Asylnur Basatev",
+        heroSlogan1: "Physics Lecturer, SDU University",
+        heroSlogan2: "“Physics is not just formulas, it's the key to understanding the Universe”",
+        heroBtn: "Learn More",
+
+        aboutTitle: "About Me",
+        aboutText1: "My name is Asylnur Basatev, and I've been fascinated by how our world works...",
+        aboutText2: "In my work, I strive to inspire and motivate...",
+
+        educationTitle: "Education & Qualifications",
+        eduPhd: "PhD in Physics & Math, SDU University, 2014",
+        eduMsc: "Master of Physics, Nazarbayev University, 2011",
+        eduBsc: "Bachelor of Physics, KazNU Al-Farabi, 2009",
+        eduCert: "Certificates and courses related to teaching physics",
+
+        experienceTitle: "Work Experience",
+        exp1Title: "Physics Lecturer, SDU University",
+        exp1Years: "(2015 – Present)",
+        exp1Item1: "Teaching core courses in general physics",
+        exp1Item2: "Developing new lab assignments",
+        exp1Item3: "Creating online courses and video lectures",
+        exp2Title: "Teaching Assistant, Nazarbayev University",
+        exp2Years: "(2011 – 2014)",
+        exp2Item1: "Assisting in lectures and seminars",
+        exp2Item2: "Participating in research projects",
+        exp2Item3: "Organizing scientific conferences and seminars",
+
+        skillsTitle: "Skills & Competencies",
+        skill1: "Teaching physics at various levels",
+        skill2: "Scientific research (condensed matter)",
+        skill3: "Modern technologies (virtual labs, online courses)",
+        skill4: "Software: MATLAB, Python, LaTeX",
+        skill5: "Organizing and holding scientific conferences",
+
+        achTitle: "Achievements & Awards",
+        ach1: "Grant from Ministry of Education and Science (2019)",
+        ach2: "Best Lecturer of the Year, SDU University (2020)",
+        ach3: "Over 10 publications in international journals",
+        ach4: "Participation in international conferences",
+
+        testTitle: "Testimonials",
+        test1: "“Asylnur is a teacher who inspires and provides deep understanding…”",
+        test1author: "— Ainur Karimov, student",
+        test2: "“Working with Asylnur is a pleasure. His approach to physics is truly unique!”",
+        test2author: "— Dr. Alisher Zhangaliev",
+
+        contactTitle: "Contact",
+        contactEmailLabel: "Email:",
+        contactEmail: "asylnur.basatev@sdu.edu.kz",
+        contactPhone: "Phone: +7 (777) 123-45-67",
+
+        formName: "Name:",
+        formEmail: "Email:",
+        formMsg: "Message:",
+        formBtn: "Send"
+      }
+    };
+
+    /****************************************************
+     *  ШАГ 2: ФУНКЦИЯ ДЛЯ УСТАНОВКИ ЯЗЫКА
+     ****************************************************/
+    function setLanguage(lang) {
+      // 1) Получаем все элементы с data-i18n
+      const elements = document.querySelectorAll("[data-i18n]");
+      // 2) Проходим по ним и меняем содержимое
+      elements.forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
+      });
+      // 3) Дополнительно меняем title в document (если нужно)
+      document.title = translations[lang].title;
+    }
+
+    /****************************************************
+     *  ФУНКЦИОНАЛ КНОПОК / СКРИПТЫ
+     ****************************************************/
+    // Плавный скролл к секции
     function scrollToSection(sectionId) {
       document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
     }
 
-    /*****************************************
-     *   "ЛЕНИВАЯ" АНИМАЦИЯ fade-in (при прокрутке)
-     *****************************************/
-    const fadeElements = document.querySelectorAll('.fade-in');
+    // Анимация появления при прокрутке
     const observerOptions = { threshold: 0.2 };
-    const observer = new IntersectionObserver((entries, obs) => {
+    const fadeBlocks = document.querySelectorAll('.fade-block');
+    const fadeObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.style.animation = 'fadeIn 1.2s forwards';
-          obs.unobserve(entry.target);
+          entry.target.classList.add('show');
+          fadeObserver.unobserve(entry.target);
         }
       });
     }, observerOptions);
-    fadeElements.forEach(el => observer.observe(el));
+    fadeBlocks.forEach(el => fadeObserver.observe(el));
 
-    /*****************************************
-     *   КНОПКА "ВВЕРХ" (появляется при прокрутке)
-     *****************************************/
+    // Списки: Education, Timeline, Achievements
+    const eduItems = document.querySelectorAll('.education-list li');
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const achievementsItems = document.querySelectorAll('.achievements-list li');
+    const listObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          listObserver.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    eduItems.forEach(item => listObserver.observe(item));
+    timelineItems.forEach(item => listObserver.observe(item));
+    achievementsItems.forEach(item => listObserver.observe(item));
+
+    // Кнопка "Вверх"
     const backToTopBtn = document.querySelector('.back-to-top');
     window.addEventListener('scroll', () => {
       if (window.pageYOffset > 300) {
@@ -757,6 +1176,66 @@
     function scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    // Бургер-меню
+    const burger = document.getElementById("burger-menu");
+    const navLinks = document.getElementById("nav-links");
+    burger.addEventListener("click", () => {
+      navLinks.classList.toggle("nav-active");
+      burger.classList.toggle("toggle");
+    });
+
+    /***************************************************
+     *  DROPDOWN ДЛЯ ЯЗЫКА + setLanguage()
+     ***************************************************/
+    const langBtn = document.getElementById("langBtn");
+    const languageMenu = document.getElementById("languageMenu");
+    let dropdownOpen = false;
+
+    langBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdownOpen = !dropdownOpen;
+      langBtn.classList.toggle("active", dropdownOpen);
+      languageMenu.classList.toggle("active", dropdownOpen);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!languageMenu.contains(e.target) && !langBtn.contains(e.target) && dropdownOpen) {
+        dropdownOpen = false;
+        langBtn.classList.remove("active");
+        languageMenu.classList.remove("active");
+      }
+    });
+
+    // При клике на RU / KZ / EN
+    const langButtons = languageMenu.querySelectorAll("button[data-lang]");
+    langButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const chosenLang = btn.dataset.lang;
+        setLanguage(chosenLang);
+      });
+    });
+
+    // По умолчанию ставим ru
+    setLanguage("ru");
+
+    /***************************************************
+     *  ТЁМНАЯ ТЕМА (иконка солнце/луна)
+     ***************************************************/
+    const darkModeToggle = document.getElementById("darkModeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+
+    const moonIcon = "https://cdn-icons-png.flaticon.com/512/581/581601.png";
+    const sunIcon = "https://cdn-icons-png.flaticon.com/512/169/169367.png";
+
+    darkModeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+      if (document.body.classList.contains("dark-mode")) {
+        themeIcon.src = sunIcon;
+      } else {
+        themeIcon.src = moonIcon;
+      }
+    });
   </script>
 </body>
 </html>
