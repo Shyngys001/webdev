@@ -31,7 +31,6 @@
 
       --font-main: 'Poppins', sans-serif;
     }
-
     /* Тёмная тема через .dark-mode на body */
     body.dark-mode {
       --color-bg: #1a1a1a;
@@ -108,7 +107,7 @@
     }
 
     /***************************************************
-     *  ПРАВЫЙ БЛОК (МЕНЮ + ПЕРЕКЛЮЧЕНИЯ)
+     *  БЛОКИ МЕНЮ/ПЕРЕКЛЮЧЕНИЙ (ПРАВАЯ ЧАСТЬ ХЕДЕРА)
      ***************************************************/
     .nav-right {
       display: flex;
@@ -117,7 +116,7 @@
     }
 
     /***************************************************
-     *  БУРГЕР-МЕНЮ (Мобильное)
+     *  БУРГЕР-МЕНЮ (мобильное)
      ***************************************************/
     .burger {
       display: none;
@@ -143,7 +142,7 @@
     }
 
     /***************************************************
-     *  ОСНОВНОЕ МЕНЮ (Desktop / Mobile)
+     *  ОСНОВНОЕ МЕНЮ (desktop / mobile)
      ***************************************************/
     .nav-links {
       display: flex;
@@ -168,6 +167,33 @@
     }
     .nav-links li a:hover::after {
       width: 100%;
+    }
+
+    /* Адаптация под мобильный вид */
+    @media (max-width: 768px) {
+      .burger {
+        display: flex;
+      }
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        right: 0;
+        width: 250px;
+        height: calc(100% - 70px);
+        background: var(--color-white);
+        box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 2rem;
+        gap: 1rem;
+        transform: translateX(100%); /* по умолчанию скрыто */
+      }
+      body.dark-mode .nav-links {
+        background: #2a2a2a;
+      }
+      .nav-links.nav-active {
+        transform: translateX(0);
+      }
     }
 
     /***************************************************
@@ -197,9 +223,11 @@
       font-size: 0.7rem;
       transition: transform 0.3s;
     }
+    /* Если хотим показать перевёрнутую стрелку при открытом списке */
     .language-btn.active::after {
       transform: rotate(180deg);
     }
+
     .language-menu {
       position: absolute;
       top: 100%;
@@ -239,7 +267,7 @@
     }
 
     /***************************************************
-     *  ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ (иконка)
+     *  ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ (иконка солнце/луна)
      ***************************************************/
     .theme-switcher {
       background: none;
@@ -630,67 +658,6 @@
     }
 
     /***************************************************
-     *  MEDIA QUERIES (АДАПТИВНЫЕ СТИЛИ)
-     ***************************************************/
-    /* Мобильные: до 768px */
-    @media (max-width: 768px) {
-      /* Уменьшим размеры шрифтов в hero */
-      .hero-content h1 {
-        font-size: 2rem;
-      }
-      .hero-content h2 {
-        font-size: 1.4rem;
-      }
-      .hero-content p.slogan {
-        font-size: 1rem;
-      }
-
-      .section {
-        padding: 40px 15px; /* немного уменьшим отступы */
-      }
-      .section h2 {
-        font-size: 1.6rem; /* чуть поменьше заголовки */
-      }
-
-      /* Блок "О себе" в один столбец */
-      .about-section {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .about-photo,
-      .about-text {
-        max-width: 100%;
-      }
-    }
-
-    /* Ещё более маленькие экраны: до 480px */
-    @media (max-width: 480px) {
-      .hero-content h1 {
-        font-size: 1.8rem;
-      }
-      .hero-content h2 {
-        font-size: 1.2rem;
-      }
-      .hero-content p.slogan {
-        font-size: 0.95rem;
-      }
-      .hero-btn {
-        padding: 12px 24px;
-        font-size: 0.9rem;
-      }
-
-      .section {
-        padding: 30px 10px;
-      }
-      .section h2 {
-        font-size: 1.4rem;
-      }
-      p {
-        font-size: 0.95rem;
-      }
-    }
-
-    /***************************************************
      *  АНИМАЦИЯ fadeUp
      ***************************************************/
     @keyframes fadeUp {
@@ -705,7 +672,6 @@
     }
   </style>
 </head>
-<!-- По умолчанию темная тема -->
 <body class="dark-mode">
   <!-- ШАПКА -->
   <header class="site-header">
@@ -926,28 +892,250 @@
   <!-- КНОПКА "ВВЕРХ" -->
   <button class="back-to-top" onclick="scrollToTop()">Вверх</button>
 
-  <!-- СКРИПТЫ: IntersectionObserver, кнопка вверх, бургер, язык, тёмная тема -->
+  <!-- СКРИПТЫ (IntersectionObserver, кнопка вверх, бургер, язык, тёмная тема) -->
   <script>
+    /****************************************************
+     *  ШАГ 1: ОБЪЕКТ С ПЕРЕВОДАМИ ДЛЯ RU / KZ / EN
+     ****************************************************/
     const translations = {
-      /* ... (объект переводов для ru/kz/en) ... */
+      ru: {
+        title: "Портфолио | Асылнұр Басатев",
+        logoText: "A.Basatev",
+        navHome: "Главная",
+        navAbout: "О себе",
+        navEdu: "Образование",
+        navExp: "Опыт",
+        navSkills: "Навыки",
+        navAch: "Достижения",
+        navTesti: "Отзывы",
+        navContact: "Контакты",
+        langBtn: "Язык",
+
+        heroTitle: "Добро пожаловать!",
+        heroSubtitle: "Я — Асылнұр Басатев",
+        heroSlogan1: "Преподаватель физики, SDU University",
+        heroSlogan2: "«Физика — это не просто формулы, а ключ к пониманию Вселенной»",
+        heroBtn: "Узнать больше",
+
+        aboutTitle: "О себе",
+        aboutText1: "Меня зовут Асылнұр Басатев, и я с детства увлекался...",
+        aboutText2: "В своей работе я стремлюсь вдохновлять и мотивировать...",
+
+        educationTitle: "Образование и квалификация",
+        eduPhd: "Кандидат физико-математических наук, SDU University, 2014",
+        eduMsc: "Магистр физики, Назарбаев Университет, 2011",
+        eduBsc: "Бакалавр физики, КазНУ им. аль-Фараби, 2009",
+        eduCert: "Сертификаты и курсы, связанные с преподаванием физики",
+
+        experienceTitle: "Опыт работы",
+        exp1Title: "Преподаватель физики, SDU University",
+        exp1Years: "(2015 – настоящее время)",
+        exp1Item1: "Чтение основных курсов по общей физике",
+        exp1Item2: "Разработка новых лабораторных работ",
+        exp1Item3: "Создание онлайн-курсов и видеолекций",
+        exp2Title: "Ассистент преподавателя, Назарбаев Университет",
+        exp2Years: "(2011 – 2014)",
+        exp2Item1: "Помощь в проведении лекций и семинаров",
+        exp2Item2: "Участие в исследовательских проектах",
+        exp2Item3: "Организация научных конференций и семинаров",
+
+        skillsTitle: "Навыки и компетенции",
+        skill1: "Преподавание физики разных уровней",
+        skill2: "Научные исследования (конденсированное состояние)",
+        skill3: "Современные технологии (виртуальные лаборатории, онлайн-курсы)",
+        skill4: "Владение ПО: MATLAB, Python, LaTeX",
+        skill5: "Организация и проведение научных конференций",
+
+        achTitle: "Достижения и награды",
+        ach1: "Грант Министерства образования и науки РК (2019)",
+        ach2: "Лучший преподаватель года SDU University (2020)",
+        ach3: "Публикации: более 10 статей в международных журналах",
+        ach4: "Участие в международных конференциях",
+
+        testTitle: "Отзывы",
+        test1: "«Асылнұр — преподаватель, который вдохновляет и даёт глубокое понимание предмета…»",
+        test1author: "— Айнур Каримов, студент",
+        test2: "«Работать с Асылнұр — огромное удовольствие. Его подход к физике действительно уникален!»",
+        test2author: "— Доктор Алишер Жангалиев",
+
+        contactTitle: "Контакты",
+        contactEmailLabel: "Email:",
+        contactEmail: "asylnur.basatev@sdu.edu.kz",
+        contactPhone: "Телефон: +7 (777) 123-45-67",
+
+        formName: "Имя:",
+        formEmail: "Email:",
+        formMsg: "Сообщение:",
+        formBtn: "Отправить"
+      },
+      kz: {
+        title: "Портфолио | Асылнұр Басатев",
+        logoText: "A.Basatev",
+        navHome: "Басты",
+        navAbout: "Өзі туралы",
+        navEdu: "Білімі",
+        navExp: "Тәжірибе",
+        navSkills: "ДАҒДЫЛАР",
+        navAch: "Жетістіктер",
+        navTesti: "Пікірлер",
+        navContact: "Байланыс",
+        langBtn: "Тіл",
+
+        heroTitle: "Қош келдіңіз!",
+        heroSubtitle: "Мен — Асылнұр Басатев",
+        heroSlogan1: "SDU Университетінің физика оқытушысы",
+        heroSlogan2: "«Физика — бұл тек формулалар емес, Әлемді түсінудің кілті»",
+        heroBtn: "Толығырақ",
+
+        aboutTitle: "Өзі туралы",
+        aboutText1: "Менің атым Асылнұр Басатев, бала кезімнен әлемнің қалай құрылғанына қызықтым...",
+        aboutText2: "Жұмысымда шабыттандыруға және ынталандыруға тырысамын...",
+
+        educationTitle: "Білімі және біліктілігі",
+        eduPhd: "Физика-математика ғылымдарының кандидаты, SDU University, 2014",
+        eduMsc: "Физика магистрі, Назарбаев Университет, 2011",
+        eduBsc: "Физика бакалавры, әл-Фараби атындағы ҚазҰУ, 2009",
+        eduCert: "Физиканы оқытуға қатысты сертификаттар мен курстар",
+
+        experienceTitle: "Жұмыс тәжірибесі",
+        exp1Title: "Физика оқытушысы, SDU University",
+        exp1Years: "(2015 – қазірге дейін)",
+        exp1Item1: "Жалпы физика бойынша негізгі курстарды оқу",
+        exp1Item2: "Жаңа зертханалық жұмыстарды әзірлеу",
+        exp1Item3: "Онлайн-курстар мен бейнедәрістер жасау",
+        exp2Title: "Оқытушының ассистенті, Назарбаев Университет",
+        exp2Years: "(2011 – 2014)",
+        exp2Item1: "Дәрістер мен семинарларға көмек",
+        exp2Item2: "Зерттеу жобаларына қатысу",
+        exp2Item3: "Ғылыми конференциялар мен семинарларды ұйымдастыру",
+
+        skillsTitle: "Дағдылар мен құзыреттер",
+        skill1: "Әртүрлі деңгейдегі физиканы оқыту",
+        skill2: "Ғылыми зерттеулер (конденсацияланған күй)",
+        skill3: "Заманауи технологиялар (виртуалды зертханалар, онлайн-курстар)",
+        skill4: "Бағдарламалық құралдар: MATLAB, Python, LaTeX",
+        skill5: "Ғылыми конференциялар ұйымдастыру және өткізу",
+
+        achTitle: "Жетістіктер мен марапаттар",
+        ach1: "ҚР Білім және ғылым министрлігінің гранты (2019)",
+        ach2: "SDU University-дің үздік оқытушысы (2020)",
+        ach3: "Халықаралық журналдарда 10-нан астам мақала жариялау",
+        ach4: "Халықаралық конференцияларға қатысу",
+
+        testTitle: "Пікірлер",
+        test1: "«Асылнұр — шабыттандыратын және пәнді терең түсіндіретін оқытушы…»",
+        test1author: "— Айнұр Каримов, студент",
+        test2: "«Асылнұрмен жұмыс істеу — үлкен ғанибет. Оның физикаға деген көзқарасы ерекше!»",
+        test2author: "— Доктор Алишер Жанғалиев",
+
+        contactTitle: "Байланыс",
+        contactEmailLabel: "Email:",
+        contactEmail: "asylnur.basatev@sdu.edu.kz",
+        contactPhone: "Телефон: +7 (777) 123-45-67",
+
+        formName: "Атыңыз:",
+        formEmail: "Email:",
+        formMsg: "Хабарлама:",
+        formBtn: "Жіберу"
+      },
+      en: {
+        title: "Portfolio | Asylnur Basatev",
+        logoText: "A.Basatev",
+        navHome: "Home",
+        navAbout: "About",
+        navEdu: "Education",
+        navExp: "Experience",
+        navSkills: "Skills",
+        navAch: "Achievements",
+        navTesti: "Testimonials",
+        navContact: "Contact",
+        langBtn: "Language",
+
+        heroTitle: "Welcome!",
+        heroSubtitle: "I am Asylnur Basatev",
+        heroSlogan1: "Physics Lecturer, SDU University",
+        heroSlogan2: "“Physics is not just formulas, it's the key to understanding the Universe”",
+        heroBtn: "Learn More",
+
+        aboutTitle: "About Me",
+        aboutText1: "My name is Asylnur Basatev, and I've been fascinated by how our world works...",
+        aboutText2: "In my work, I strive to inspire and motivate...",
+
+        educationTitle: "Education & Qualifications",
+        eduPhd: "PhD in Physics & Math, SDU University, 2014",
+        eduMsc: "Master of Physics, Nazarbayev University, 2011",
+        eduBsc: "Bachelor of Physics, KazNU Al-Farabi, 2009",
+        eduCert: "Certificates and courses related to teaching physics",
+
+        experienceTitle: "Work Experience",
+        exp1Title: "Physics Lecturer, SDU University",
+        exp1Years: "(2015 – Present)",
+        exp1Item1: "Teaching core courses in general physics",
+        exp1Item2: "Developing new lab assignments",
+        exp1Item3: "Creating online courses and video lectures",
+        exp2Title: "Teaching Assistant, Nazarbayev University",
+        exp2Years: "(2011 – 2014)",
+        exp2Item1: "Assisting in lectures and seminars",
+        exp2Item2: "Participating in research projects",
+        exp2Item3: "Organizing scientific conferences and seminars",
+
+        skillsTitle: "Skills & Competencies",
+        skill1: "Teaching physics at various levels",
+        skill2: "Scientific research (condensed matter)",
+        skill3: "Modern technologies (virtual labs, online courses)",
+        skill4: "Software: MATLAB, Python, LaTeX",
+        skill5: "Organizing and holding scientific conferences",
+
+        achTitle: "Achievements & Awards",
+        ach1: "Grant from Ministry of Education and Science (2019)",
+        ach2: "Best Lecturer of the Year, SDU University (2020)",
+        ach3: "Over 10 publications in international journals",
+        ach4: "Participation in international conferences",
+
+        testTitle: "Testimonials",
+        test1: "“Asylnur is a teacher who inspires and provides deep understanding…”",
+        test1author: "— Ainur Karimov, student",
+        test2: "“Working with Asylnur is a pleasure. His approach to physics is truly unique!”",
+        test2author: "— Dr. Alisher Zhangaliev",
+
+        contactTitle: "Contact",
+        contactEmailLabel: "Email:",
+        contactEmail: "asylnur.basatev@sdu.edu.kz",
+        contactPhone: "Phone: +7 (777) 123-45-67",
+
+        formName: "Name:",
+        formEmail: "Email:",
+        formMsg: "Message:",
+        formBtn: "Send"
+      }
     };
 
+    /****************************************************
+     *  ШАГ 2: ФУНКЦИЯ ДЛЯ УСТАНОВКИ ЯЗЫКА
+     ****************************************************/
     function setLanguage(lang) {
+      // 1) Получаем все элементы с data-i18n
       const elements = document.querySelectorAll("[data-i18n]");
+      // 2) Проходим по ним и меняем содержимое
       elements.forEach(el => {
         const key = el.getAttribute("data-i18n");
         if (translations[lang][key]) {
           el.textContent = translations[lang][key];
         }
       });
+      // 3) Дополнительно меняем title в document (если нужно)
       document.title = translations[lang].title;
     }
 
+    /****************************************************
+     *  ФУНКЦИОНАЛ КНОПОК / СКРИПТЫ
+     ****************************************************/
+    // Плавный скролл к секции
     function scrollToSection(sectionId) {
       document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Плавная анимация появления
+    // Анимация появления при прокрутке
     const observerOptions = { threshold: 0.2 };
     const fadeBlocks = document.querySelectorAll('.fade-block');
     const fadeObserver = new IntersectionObserver((entries) => {
@@ -960,7 +1148,7 @@
     }, observerOptions);
     fadeBlocks.forEach(el => fadeObserver.observe(el));
 
-    // Ленивая анимация списков
+    // Списки: Education, Timeline, Achievements
     const eduItems = document.querySelectorAll('.education-list li');
     const timelineItems = document.querySelectorAll('.timeline-item');
     const achievementsItems = document.querySelectorAll('.achievements-list li');
@@ -997,16 +1185,20 @@
       burger.classList.toggle("toggle");
     });
 
-    // Dropdown языка
+    /***************************************************
+     *  DROPDOWN ДЛЯ ЯЗЫКА + setLanguage()
+     ***************************************************/
     const langBtn = document.getElementById("langBtn");
     const languageMenu = document.getElementById("languageMenu");
     let dropdownOpen = false;
+
     langBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       dropdownOpen = !dropdownOpen;
       langBtn.classList.toggle("active", dropdownOpen);
       languageMenu.classList.toggle("active", dropdownOpen);
     });
+
     document.addEventListener("click", (e) => {
       if (!languageMenu.contains(e.target) && !langBtn.contains(e.target) && dropdownOpen) {
         dropdownOpen = false;
@@ -1014,6 +1206,8 @@
         languageMenu.classList.remove("active");
       }
     });
+
+    // При клике на RU / KZ / EN
     const langButtons = languageMenu.querySelectorAll("button[data-lang]");
     langButtons.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -1021,14 +1215,19 @@
         setLanguage(chosenLang);
       });
     });
-    // По умолчанию RU
+
+    // По умолчанию ставим ru
     setLanguage("ru");
 
-    // Тёмная тема
+    /***************************************************
+     *  ТЁМНАЯ ТЕМА (иконка солнце/луна)
+     ***************************************************/
     const darkModeToggle = document.getElementById("darkModeToggle");
     const themeIcon = document.getElementById("themeIcon");
+
     const moonIcon = "https://cdn-icons-png.flaticon.com/512/581/581601.png";
     const sunIcon = "https://cdn-icons-png.flaticon.com/512/169/169367.png";
+
     darkModeToggle.addEventListener("click", () => {
       document.body.classList.toggle("dark-mode");
       if (document.body.classList.contains("dark-mode")) {
