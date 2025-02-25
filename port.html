@@ -13,15 +13,12 @@
   />
 
   <style>
-    /***************************************************
-     *  ПЕРЕМЕННЫЕ ТЕМЫ (CSS Custom Properties)
-     ***************************************************/
     :root {
       --color-bg: #F7F7FB;
       --color-text: #333;
-      --color-primary: #6F00FF;   /* Фиолетовый */
+      --color-primary: #6F00FF;
       --color-primary-hover: #5500CC;
-      --color-secondary: #FF5F7E; /* Розово-красный */
+      --color-secondary: #FF5F7E;
       --color-white: #FFF;
       --color-light: rgba(255, 255, 255, 0.5);
       --color-dark-overlay: rgba(0, 0, 0, 0.4);
@@ -31,7 +28,6 @@
 
       --font-main: 'Poppins', sans-serif;
     }
-    /* Тёмная тема через .dark-mode на body */
     body.dark-mode {
       --color-bg: #1a1a1a;
       --color-text: #f0f0f0;
@@ -39,9 +35,6 @@
       --color-dark-overlay: rgba(0, 0, 0, 0.7);
     }
 
-    /***************************************************
-     *  СБРОС ОСНОВНЫХ СТИЛЕЙ
-     ***************************************************/
     * {
       margin: 0;
       padding: 0;
@@ -106,18 +99,12 @@
       transition: color 0.3s;
     }
 
-    /***************************************************
-     *  БЛОКИ МЕНЮ/ПЕРЕКЛЮЧЕНИЙ (ПРАВАЯ ЧАСТЬ ХЕДЕРА)
-     ***************************************************/
     .nav-right {
       display: flex;
       align-items: center;
       gap: 1rem;
     }
 
-    /***************************************************
-     *  БУРГЕР-МЕНЮ (мобильное)
-     ***************************************************/
     .burger {
       display: none;
       cursor: pointer;
@@ -130,7 +117,6 @@
       background-color: var(--color-text);
       transition: 0.3s;
     }
-    /* Анимация при открытии (X-икс) */
     .burger.toggle .line1 {
       transform: rotate(-45deg) translate(-6px, 6px);
     }
@@ -141,9 +127,6 @@
       transform: rotate(45deg) translate(-5px, -5px);
     }
 
-    /***************************************************
-     *  ОСНОВНОЕ МЕНЮ (desktop / mobile)
-     ***************************************************/
     .nav-links {
       display: flex;
       gap: 1.5rem;
@@ -169,7 +152,6 @@
       width: 100%;
     }
 
-    /* Адаптация под мобильный вид */
     @media (max-width: 768px) {
       .burger {
         display: flex;
@@ -186,7 +168,7 @@
         align-items: flex-start;
         padding: 2rem;
         gap: 1rem;
-        transform: translateX(100%); /* по умолчанию скрыто */
+        transform: translateX(100%);
       }
       body.dark-mode .nav-links {
         background: #2a2a2a;
@@ -196,9 +178,6 @@
       }
     }
 
-    /***************************************************
-     *  ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА (Dropdown)
-     ***************************************************/
     .language-dropdown {
       position: relative;
     }
@@ -223,11 +202,9 @@
       font-size: 0.7rem;
       transition: transform 0.3s;
     }
-    /* Если хотим показать перевёрнутую стрелку при открытом списке */
     .language-btn.active::after {
       transform: rotate(180deg);
     }
-
     .language-menu {
       position: absolute;
       top: 100%;
@@ -266,9 +243,6 @@
       background: var(--color-light);
     }
 
-    /***************************************************
-     *  ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ (иконка солнце/луна)
-     ***************************************************/
     .theme-switcher {
       background: none;
       border: none;
@@ -289,9 +263,6 @@
       transform: scale(1.1);
     }
 
-    /***************************************************
-     *  HERO (АНИМИРОВАННЫЙ ГРАДИЕНТ)
-     ***************************************************/
     section#hero {
       position: relative;
       min-height: 100vh;
@@ -351,6 +322,7 @@
       animation: gradientShift 15s ease infinite;
       z-index: 0;
     }
+
     @keyframes gradientShift {
       0% {
         background-position: 0% 50%;
@@ -363,9 +335,6 @@
       }
     }
 
-    /***************************************************
-     *  ОБЩИЕ СЕКЦИИ, АНИМАЦИЯ ПРИ ПРОКРУТКЕ
-     ***************************************************/
     .section {
       padding: 60px 20px;
       max-width: 1000px;
@@ -399,9 +368,6 @@
       transform: translateY(0);
     }
 
-    /***************************************************
-     *  ABOUT
-     ***************************************************/
     .about-section {
       display: flex;
       flex-wrap: wrap;
@@ -438,9 +404,6 @@
       transform: scale(1.1) rotate(2deg);
     }
 
-    /***************************************************
-     *  EDUCATION
-     ***************************************************/
     .education-list {
       max-width: 700px;
       margin: 0 auto;
@@ -463,9 +426,6 @@
       margin-top: 4px;
     }
 
-    /***************************************************
-     *  EXPERIENCE (ТАЙМЛАЙН)
-     ***************************************************/
     .timeline {
       position: relative;
       max-width: 700px;
@@ -506,9 +466,6 @@
       margin-bottom: 0.5rem;
     }
 
-    /***************************************************
-     *  SKILLS
-     ***************************************************/
     .skills-list {
       max-width: 700px;
       margin: 0 auto;
@@ -538,9 +495,6 @@
       margin-right: 10px;
     }
 
-    /***************************************************
-     *  ACHIEVEMENTS
-     ***************************************************/
     .achievements-list {
       max-width: 700px;
       margin: 0 auto;
@@ -556,9 +510,6 @@
       transform: translateY(0);
     }
 
-    /***************************************************
-     *  TESTIMONIALS
-     ***************************************************/
     .testimonial-block {
       border-left: 4px solid var(--color-primary);
       margin: 20px auto;
@@ -579,9 +530,6 @@
       font-style: normal;
     }
 
-    /***************************************************
-     *  CONTACT & FOOTER
-     ***************************************************/
     footer.contact {
       background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
       color: #FFF;
@@ -634,9 +582,6 @@
       color: #222;
     }
 
-    /***************************************************
-     *  КНОПКА "ВВЕРХ"
-     ***************************************************/
     .back-to-top {
       position: fixed;
       right: 20px;
@@ -647,7 +592,7 @@
       padding: 12px 20px;
       font-size: 1rem;
       cursor: pointer;
-      display: none; /* изначально скрыта */
+      display: none;
       border-radius: 30px;
       transition: background-color var(--transition-fast), transform var(--transition-fast);
       z-index: 999;
@@ -657,9 +602,6 @@
       transform: scale(1.05);
     }
 
-    /***************************************************
-     *  АНИМАЦИЯ fadeUp
-     ***************************************************/
     @keyframes fadeUp {
       from {
         opacity: 0;
@@ -670,6 +612,77 @@
         transform: translateY(0);
       }
     }
+
+    /* ТОЛЬКО изменение сайзов шрифта под мобильные устройства */
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2.2rem; /* чуть меньше */
+      }
+      .hero-content h2 {
+        font-size: 1.6rem;
+      }
+      .hero-content p.slogan {
+        font-size: 1rem;
+      }
+      .hero-btn {
+        font-size: 0.9rem;
+        padding: 12px 24px;
+      }
+      .section h2 {
+        font-size: 1.6rem; /* заголовок секции меньше */
+      }
+      .timeline-item h3 {
+        font-size: 1.1rem;
+      }
+      .timeline-item span {
+        font-size: 0.85rem;
+      }
+      .skill-item p {
+        font-size: 0.95rem;
+      }
+      .testimonial-block {
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-content h1 {
+        font-size: 1.8rem; /* ещё меньше */
+      }
+      .hero-content h2 {
+        font-size: 1.3rem;
+      }
+      .hero-content p.slogan {
+        font-size: 0.9rem;
+      }
+      .hero-btn {
+        font-size: 0.85rem;
+        padding: 10px 20px;
+      }
+      .section {
+        padding: 50px 15px; /* слегка уменьшаем отступы */
+      }
+      .section h2 {
+        font-size: 1.4rem;
+      }
+      p {
+        font-size: 0.95rem;
+      }
+      .timeline-item h3 {
+        font-size: 1rem;
+      }
+      .timeline-item span {
+        font-size: 0.8rem;
+      }
+      .testimonial-block {
+        font-size: 0.9rem; 
+      }
+      .contact-form input,
+      .contact-form textarea {
+        font-size: 0.95rem;
+      }
+    }
+
   </style>
 </head>
 <body class="dark-mode">
