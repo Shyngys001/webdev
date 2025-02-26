@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ауызашар | Рамадан</title>
   
   <!-- Шрифты -->
@@ -34,7 +34,7 @@
       --accent: #ffd54f;     /* Жёлтый */
       --text: #2d3436;       /* Текст */
       --light: #f8f9fa;      /* Очень светлый фон */
-      --danger: #e53935;     /* Красный для "не приду" */
+      --danger: #e53935;     /* Красный, если нужно */
     }
 
     * {
@@ -46,44 +46,49 @@
     body {
       font-family: 'Tajawal', sans-serif;
       color: var(--text);
-      overflow-x: hidden;
-      scroll-behavior: smooth;
       background-color: #fff;
+      overflow-x: hidden; /* Отключаем горизонтальную прокрутку */
+      scroll-behavior: smooth;
     }
 
-    /* Языковой переключатель */
+    /* ---------------------------
+       Языковой переключатель (правый верхний угол)
+       --------------------------- */
     .lang-switcher {
       position: fixed;
-      top: 20px;
-      right: 20px;
+      top: 10px;
+      right: 10px;
       z-index: 1000;
       display: flex;
-      gap: 10px;
+      gap: 8px;
     }
     .lang-btn {
       background: rgba(255,255,255,0.9);
       border: none;
-      padding: 8px 15px;
-      border-radius: 20px;
+      padding: 6px 12px;
+      border-radius: 15px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: background-color 0.3s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
       font-family: 'Tajawal', sans-serif;
+      font-size: 0.9rem;
     }
     .lang-btn.active {
       background: var(--primary);
       color: white;
     }
 
-    /* Герой-секция */
+    /* ---------------------------
+       ГЕРОЙ-СЕКЦИЯ
+       --------------------------- */
     .hero {
       position: relative;
-      min-height: 100vh;
+      min-height: 80vh; /* Уменьшили высоту */
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
+      padding: 1.5rem;
       overflow: hidden;
     }
     .hero::after {
@@ -93,34 +98,38 @@
       left: -50%;
       width: 200%;
       height: 20vw;
-      background: white;
+      background: #fff;
       border-radius: 50%;
-      box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
+      box-shadow: 0 -10px 20px rgba(0,0,0,0.1);
     }
     .hero-content {
       position: relative;
       z-index: 2;
       text-align: center;
       color: var(--light);
-      max-width: 800px;
-      padding: 2rem;
+      max-width: 600px;
+      padding: 1rem;
     }
     .hero h1 {
-      font-size: clamp(2rem, 6vw, 4rem);
-      margin-bottom: 1.5rem;
+      font-size: clamp(1.8rem, 5vw, 3rem); /* Уменьшили верхнюю границу */
+      margin-bottom: 1rem;
       line-height: 1.2;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
       animation: float 3s ease-in-out infinite;
     }
     .hero p {
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      margin-bottom: 2rem;
+      font-size: clamp(0.95rem, 1.5vw, 1.1rem); /* Чуть уменьшим */
+      margin-bottom: 1.5rem;
       opacity: 0.9;
     }
 
-    /* Исламские элементы (фон с текстом «Аллах») */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
     .islamic-pattern {
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"');
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"')
         viewBox="0 0 100 100" width="100" height="100">
         <text x="50%" y="50%" font-size="40" fill="%232e7d32" opacity="0.1" 
         text-anchor="middle" dominant-baseline="middle">ﷲ</text></svg>');
@@ -131,142 +140,128 @@
       pointer-events: none;
     }
 
-    /* Плавающая анимация заголовка */
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    /* Таймер */
+    /* ---------------------------
+       ТАЙМЕР (обратный отсчёт)
+       --------------------------- */
     .countdown {
       display: flex;
       justify-content: center;
-      gap: 1.5rem;
-      margin: 3rem 0;
+      gap: 0.8rem;
       flex-wrap: wrap;
+      margin-bottom: 1rem;
     }
     .time-box {
       background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 1.5rem;
-      min-width: 110px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
+      backdrop-filter: blur(6px);
+      border-radius: 10px;
+      padding: 1rem;
+      min-width: 80px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: background 0.3s, transform 0.3s;
     }
     .time-box:hover {
-      transform: translateY(-5px);
-      background: rgba(255,255,255,0.2);
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.25);
     }
     .time-box span {
-      font-size: 2rem;
+      font-size: 1.4rem;
       font-weight: 700;
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
       color: #fff;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      text-align: center;
     }
-
-    /* Кнопки подтверждения (Приду / Не приду) */
-    .attendance-btns {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin: 2rem 0;
-      flex-wrap: wrap;
-    }
-    .attendance-btn {
-      padding: 1rem 2rem;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      min-width: 160px;
+    .time-box small {
+      font-size: 0.8rem;
       color: #fff;
-    }
-    .attendance-btn.yes {
-      background: var(--primary);
-    }
-    .attendance-btn.yes:hover {
-      background: #3dad3e;
-    }
-    .attendance-btn.no {
-      background: var(--danger);
-    }
-    .attendance-btn.no:hover {
-      background: #d23b38;
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+      text-align: center;
+      display: block;
     }
 
-    /* Ссылка 2GIS */
+    /* ---------------------------
+       ССЫЛКА 2GIS
+       --------------------------- */
     .gis-link {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.8rem 1.5rem;
+      gap: 0.4rem;
+      padding: 0.6rem 1rem;
       background: #2F82F7;
       color: white!important;
-      border-radius: 50px;
+      border-radius: 30px;
       text-decoration: none;
       margin-top: 1rem;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, background-color 0.3s;
       font-weight: bold;
+      font-size: 0.9rem;
     }
     .gis-link:hover {
       transform: translateY(-2px);
       background: #296fd4;
     }
     .gis-link i {
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
 
-    /* Коран аят */
+    /* ---------------------------
+       КОРАН АЯТ
+       --------------------------- */
     .quran-verse {
       font-family: 'Amiri', serif;
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       text-align: center;
-      margin: 2rem 0;
+      margin: 2rem 0 1rem;
       color: var(--primary);
       padding: 0 1rem;
     }
 
-    /* Информация (детали мероприятия) */
+    /* ---------------------------
+       ИНФОРМАЦИОННЫЙ БЛОК
+       --------------------------- */
     .info-section {
-      padding: 4rem 2rem;
+      padding: 2rem 1rem; /* Уменьшили отступы */
       background: var(--light);
     }
     .section-title {
       text-align: center;
-      font-size: 2.5rem;
+      font-size: 1.8rem; /* Меньше шрифт */
       color: var(--primary);
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
     }
     .info-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
       margin: 0 auto;
     }
     .info-card {
-      background: white;
-      border-radius: 20px;
-      padding: 2rem;
+      background: #fff;
+      border-radius: 15px;
+      padding: 1.5rem;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
     }
     .info-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
     }
     .info-card i {
-      font-size: 2.5rem;
+      font-size: 1.8rem; /* Уменьшили иконку */
       color: var(--primary);
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
+    }
+    .info-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
     }
 
-    /* Разделительная волна перед формой */
+    /* ---------------------------
+       ВОЛНА
+       --------------------------- */
     .wave {
       width: 100%;
       line-height: 0;
@@ -275,79 +270,124 @@
     .wave svg {
       display: block;
       width: 100%;
-      height: 100px;
+      height: 80px; /* Меньше высота */
     }
 
-    /* Секция формы заявки (RSVP) */
+    /* ---------------------------
+       ФОРМА ЗАЯВКИ (RSVP)
+       --------------------------- */
     .form-section {
       background-color: var(--light);
-      padding: 4rem 2rem;
+      padding: 2rem 1rem; /* Сократили отступы */
       text-align: center;
     }
     .form-section h2 {
-      font-size: 2rem;
+      font-size: 1.6rem;
       color: var(--primary);
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
     .rsvp-form {
-      max-width: 500px;
+      max-width: 400px;
       margin: 0 auto;
       text-align: left;
       background: #fff;
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
     }
     .form-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
     .form-group label {
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       font-weight: bold;
       color: var(--primary);
+      font-size: 0.95rem;
     }
-    .form-group input {
+    .form-group input[type="text"],
+    .form-group input[type="email"] {
       width: 100%;
-      padding: 0.8rem;
+      padding: 0.6rem;
       border: 1px solid #ccc;
       border-radius: 6px;
-      font-size: 1rem;
+      font-size: 0.9rem;
       outline: none;
     }
+
+    /* Радиокнопки (Приду/Не приду) */
+    .radio-group {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+    .radio-item {
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+    }
+    .radio-item input[type="radio"] {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+    .radio-item label {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
     .submit-btn {
       display: inline-block;
-      padding: 0.8rem 1.5rem;
+      padding: 0.6rem 1.2rem;
       background: var(--primary);
       color: #fff;
-      font-size: 1rem;
+      font-size: 0.9rem;
       border: none;
-      border-radius: 30px;
+      border-radius: 20px;
       cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.3s ease;
+      transition: background-color 0.3s, transform 0.3s;
+      margin-top: 1rem;
+      font-weight: 600;
     }
     .submit-btn:hover {
       background-color: #388e3c;
       transform: translateY(-2px);
     }
 
-    /* Адаптивность */
+    /* ---------------------------
+       АДАПТИВНОСТЬ
+       --------------------------- */
     @media (max-width: 768px) {
       .hero {
-        padding: 4rem 1rem;
+        padding: 2rem 1rem;
+        min-height: 60vh; /* Ещё меньше для мобильных */
       }
-      .time-box {
+      .hero-content {
+        max-width: 90%;
+      }
+      .hero h1 {
+        font-size: clamp(1.6rem, 5vw, 2.5rem);
+      }
+      .hero p {
+        font-size: clamp(0.9rem, 1.5vw, 1rem);
+      }
+      .info-section {
+        padding: 1.5rem 1rem;
+      }
+      .section-title {
+        font-size: 1.4rem;
+      }
+      .info-card {
         padding: 1rem;
-        min-width: 80px;
       }
-      .quran-verse {
-        font-size: 1.2rem;
-      }
-      .info-cards {
-        grid-template-columns: 1fr;
+      .info-card i {
+        font-size: 1.5rem;
       }
       .form-section {
-        padding: 2rem 1rem;
+        padding: 1.5rem 1rem;
+      }
+      .wave svg {
+        height: 60px;
       }
     }
   </style>
@@ -363,7 +403,7 @@
   <section class="hero" data-aos="zoom-out">
     <div class="islamic-pattern"></div>
     <div class="hero-content">
-      <i class="fas fa-mosque" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+      <i class="fas fa-mosque" style="font-size: 2rem; margin-bottom: 0.8rem;"></i>
       
       <h1 data-lang="ru">Ауызашар в Честь Рамадана</h1>
       <h1 data-lang="kz" style="display: none;">Рамазан Ауызашары</h1>
@@ -375,36 +415,24 @@
       <div class="countdown" data-aos="fade-up">
         <div class="time-box" data-aos="zoom-in">
           <span id="days">00</span>
-          <span data-lang="ru">Дней</span>
-          <span data-lang="kz" style="display: none;">Күн</span>
+          <small data-lang="ru">Дней</small>
+          <small data-lang="kz" style="display: none;">Күн</small>
         </div>
         <div class="time-box" data-aos="zoom-in" data-aos-delay="100">
           <span id="hours">00</span>
-          <span data-lang="ru">Часов</span>
-          <span data-lang="kz" style="display: none;">Сағат</span>
+          <small data-lang="ru">Часов</small>
+          <small data-lang="kz" style="display: none;">Сағат</small>
         </div>
         <div class="time-box" data-aos="zoom-in" data-aos-delay="200">
           <span id="minutes">00</span>
-          <span data-lang="ru">Минут</span>
-          <span data-lang="kz" style="display: none;">Минут</span>
+          <small data-lang="ru">Минут</small>
+          <small data-lang="kz" style="display: none;">Минут</small>
         </div>
         <div class="time-box" data-aos="zoom-in" data-aos-delay="300">
           <span id="seconds">00</span>
-          <span data-lang="ru">Секунд</span>
-          <span data-lang="kz" style="display: none;">Секунд</span>
+          <small data-lang="ru">Секунд</small>
+          <small data-lang="kz" style="display: none;">Секунд</small>
         </div>
-      </div>
-
-      <!-- Кнопки подтверждения -->
-      <div class="attendance-btns" data-aos="fade-up" data-aos-delay="400">
-        <button class="attendance-btn yes" onclick="handleAttendance(true)">
-          <span data-lang="ru">Приду</span>
-          <span data-lang="kz" style="display: none;">Келемін</span>
-        </button>
-        <button class="attendance-btn no" onclick="handleAttendance(false)">
-          <span data-lang="ru">Не приду</span>
-          <span data-lang="kz" style="display: none;">Келмеймін</span>
-        </button>
       </div>
 
       <!-- Ссылка 2GIS -->
@@ -415,7 +443,7 @@
          data-aos="fade-up"
          data-aos-delay="500">
         <i class="fas fa-map-marked-alt"></i>
-        <span>Посмотреть в 2GIS</span>
+        <span>2GIS</span>
       </a>
       <a href="https://2gis.kz/almaty/firm/70000001046570893"
          target="_blank"
@@ -425,7 +453,7 @@
          data-aos="fade-up"
          data-aos-delay="500">
         <i class="fas fa-map-marked-alt"></i>
-        <span>2GIS-те көру</span>
+        <span>2GIS</span>
       </a>
     </div>
   </section>
@@ -436,7 +464,7 @@
     «О Аллах, поистине, я соблюдаю пост»
   </div>
   <div class="quran-verse" data-lang="kz" style="display: none;" data-aos="fade-up">
-    «اللهم إني صائم»<br>
+    «اللهم Иnи Сaim»<br>
     «Аллаһым, шын мәнінде мен оразадамын»
   </div>
 
@@ -487,25 +515,51 @@
     <h2 data-lang="kz" style="display: none;">Өтініш қалдырыңыз</h2>
 
     <form class="rsvp-form" onsubmit="submitForm(event)">
+      <!-- Имя -->
       <div class="form-group" data-aos="fade-right">
         <label for="rsvpName" data-lang="ru">Имя</label>
         <label for="rsvpName" data-lang="kz" style="display: none;">Есіміңіз</label>
         <input type="text" id="rsvpName" required placeholder="Ваше имя" />
       </div>
 
+      <!-- Телефон -->
       <div class="form-group" data-aos="fade-right" data-aos-delay="100">
         <label for="rsvpPhone" data-lang="ru">Телефон</label>
         <label for="rsvpPhone" data-lang="kz" style="display: none;">Телефон нөмірі</label>
         <input type="text" id="rsvpPhone" required placeholder="+7 (___) ___-__-__" />
       </div>
 
+      <!-- E-mail -->
       <div class="form-group" data-aos="fade-right" data-aos-delay="200">
         <label for="rsvpEmail" data-lang="ru">E-mail</label>
         <label for="rsvpEmail" data-lang="kz" style="display: none;">E-mail</label>
         <input type="email" id="rsvpEmail" required placeholder="example@mail.com" />
       </div>
 
-      <button class="submit-btn" type="submit" data-aos="zoom-in" data-aos-delay="300">
+      <!-- Радио: Приду / Не приду -->
+      <div class="form-group" data-aos="fade-right" data-aos-delay="300">
+        <label data-lang="ru">Будете ли вы участвовать?</label>
+        <label data-lang="kz" style="display: none;">Қатысасыз ба?</label>
+        <div class="radio-group">
+          <div class="radio-item">
+            <input type="radio" name="attendance" value="yes" id="attendYes" checked />
+            <label for="attendYes">
+              <span data-lang="ru">Приду</span>
+              <span data-lang="kz" style="display: none;">Келемін</span>
+            </label>
+          </div>
+          <div class="radio-item">
+            <input type="radio" name="attendance" value="no" id="attendNo" />
+            <label for="attendNo">
+              <span data-lang="ru">Не приду</span>
+              <span data-lang="kz" style="display: none;">Келмеймін</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Кнопка отправки -->
+      <button class="submit-btn" type="submit" data-aos="zoom-in" data-aos-delay="400">
         <span data-lang="ru">Отправить</span>
         <span data-lang="kz" style="display: none;">Жіберу</span>
       </button>
@@ -523,32 +577,19 @@
       easing: 'ease-out-back'
     });
 
-    // Локализация
+    // Смена языка
     function changeLanguage(lang) {
       document.documentElement.lang = lang;
       document.querySelectorAll('[data-lang]').forEach(el => {
         el.style.display = (el.getAttribute('data-lang') === lang) ? 'block' : 'none';
       });
-      // Переключаем активное состояние кнопок
+      // Активная кнопка
       document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle(
-          'active',
-          btn.textContent.trim() === (lang === 'ru' ? 'Рус' : 'Қаз')
-        );
+        btn.classList.toggle('active', btn.textContent.trim() === (lang === 'ru' ? 'Рус' : 'Қаз'));
       });
     }
 
-    // Подтверждение участия (Приду / Не приду)
-    function handleAttendance(confirmed) {
-      const isRu = (document.documentElement.lang === 'ru');
-      const yesMsg = isRu ? 'Спасибо за подтверждение! 🙏' : 'Рақмет! 🙏';
-      const noMsg = isRu 
-        ? 'Сожалеем, что вы не сможете присоединиться 😔' 
-        : 'Кешіріңіз, қатыса алмайсыз 😔';
-      alert(confirmed ? yesMsg : noMsg);
-    }
-
-    // Таймер обратного отсчёта
+    // Таймер обратного отсчёта (замените дату по необходимости)
     const countdownDate = new Date('2025-03-10T19:00:00').getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
@@ -559,7 +600,7 @@
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-      // Выводим
+      // Обновляем значения
       document.getElementById('days').textContent = String(days).padStart(2, '0');
       document.getElementById('hours').textContent = String(hours).padStart(2, '0');
       document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
@@ -576,13 +617,14 @@
       }
     }, 1000);
 
-    // Обработка формы (имитация отправки)
+    // Обработка отправки формы
     function submitForm(event) {
       event.preventDefault();
       const lang = document.documentElement.lang;
       const nameValue = document.getElementById('rsvpName').value.trim();
       const phoneValue = document.getElementById('rsvpPhone').value.trim();
       const emailValue = document.getElementById('rsvpEmail').value.trim();
+      const attendanceValue = document.querySelector('input[name="attendance"]:checked').value;
 
       if (!nameValue || !phoneValue || !emailValue) {
         alert(lang === 'ru' 
@@ -591,13 +633,19 @@
         return;
       }
 
-      const successMsg = lang === 'ru'
-        ? `Спасибо, ${nameValue}! Ваша заявка получена.`
-        : `Рақмет, ${nameValue}! Өтінішіңіз қабылданды.`;
-      
-      alert(successMsg);
-      // При желании здесь можно отправить данные на сервер
-      // Например: fetch(...) ...
+      let resultMsg = '';
+      if (attendanceValue === 'yes') {
+        resultMsg = (lang === 'ru') 
+          ? `Спасибо, ${nameValue}! Вы отметили, что придёте.` 
+          : `Рақмет, ${nameValue}! Сіз келемін деп белгіледіңіз.`;
+      } else {
+        resultMsg = (lang === 'ru') 
+          ? `Спасибо, ${nameValue}! Вы отметили, что не придёте.` 
+          : `Рақмет, ${nameValue}! Сіз келмеймін деп белгіледіңіз.`;
+      }
+
+      alert(resultMsg);
+      // Здесь можно отправить данные на сервер (fetch / AJAX и т.д.)
     }
   </script>
 </body>
