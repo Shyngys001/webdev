@@ -79,37 +79,40 @@
     }
 
     /* ---------------------------
-       ГЕРОЙ-СЕКЦИЯ
+       HERO-СЕКЦИЯ (Мечетеобразная форма)
        --------------------------- */
     .hero {
       position: relative;
       min-height: 80vh; 
+      /* Градиент фона */
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
+      padding: 2rem;
+      /* Основная фишка: clip-path в форме купола */
+      clip-path: polygon(
+        0% 40%,         /* слева на 40% высоты */
+        10% 30%,        /* небольшой прогиб */
+        30% 10%,        /* к куполу */
+        50% 0%,         /* вершина купола */
+        70% 10%,       
+        90% 30%,       
+        100% 40%,       /* справа на 40% высоты */
+        100% 100%,      /* дальше вниз */
+        0% 100%         /* и слева вниз */
+      );
       overflow: hidden;
     }
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: -10vw;
-      left: -50%;
-      width: 200%;
-      height: 20vw;
-      background: #fff;
-      border-radius: 50%;
-      box-shadow: 0 -10px 20px rgba(0,0,0,0.1);
-    }
+
     .hero-content {
       position: relative;
       z-index: 2;
       text-align: center;
       color: var(--light);
       max-width: 600px;
-      padding: 1rem;
     }
+
     .hero h1 {
       font-size: clamp(1.8rem, 5vw, 3rem);
       margin-bottom: 1rem;
@@ -122,18 +125,20 @@
       margin-bottom: 1.5rem;
       opacity: 0.9;
     }
+
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
 
+    /* Исламский паттерн (полупрозрачный фон «Аллах») */
     .islamic-pattern {
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text x='50%' y='50%' font-size='40' fill='%232e7d32' opacity='0.1' text-anchor='middle' dominant-baseline='middle'>ﷲ</text></svg>");
       opacity: 0.1;
       position: absolute;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0; right: 0; bottom: 0;
       pointer-events: none;
+      z-index: 1;
     }
 
     /* ---------------------------
@@ -354,6 +359,7 @@
        --------------------------- */
     @media (max-width: 768px) {
       .hero {
+        clip-path: none; /* Убрать сложную форму на очень узких экранах, если нужно */
         padding: 2rem 1rem;
         min-height: 60vh;
       }
@@ -394,9 +400,12 @@
     <button class="lang-btn" onclick="changeLanguage('kz')">Қаз</button>
   </div>
 
-  <!-- Герой -->
+  <!-- Герой (куполообразная форма за счёт clip-path) -->
   <section class="hero" data-aos="zoom-out">
+    <!-- Полупрозрачный узор -->
     <div class="islamic-pattern"></div>
+
+    <!-- Контент -->
     <div class="hero-content">
       <i class="fas fa-mosque" style="font-size: 2rem; margin-bottom: 0.8rem;"></i>
       
@@ -577,7 +586,7 @@
       });
     }
 
-    // Таймер (замените дату по необходимости)
+    // Таймер
     const countdownDate = new Date('2025-03-10T19:00:00').getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
@@ -603,7 +612,7 @@
       }
     }, 1000);
 
-    // Отправка формы
+    // Обработка отправки формы
     function submitForm(event) {
       event.preventDefault();
       const lang = document.documentElement.lang;
@@ -630,7 +639,6 @@
       }
 
       alert(resultMsg);
-      // Здесь можно отправить данные на сервер, если нужно
     }
   </script>
 </body>
