@@ -83,7 +83,7 @@
        --------------------------- */
     .hero {
       position: relative;
-      min-height: 80vh; /* Уменьшили высоту */
+      min-height: 80vh; 
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       display: flex;
       align-items: center;
@@ -111,25 +111,24 @@
       padding: 1rem;
     }
     .hero h1 {
-      font-size: clamp(1.8rem, 5vw, 3rem); /* Уменьшили верхнюю границу */
+      font-size: clamp(1.8rem, 5vw, 3rem);
       margin-bottom: 1rem;
       line-height: 1.2;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
       animation: float 3s ease-in-out infinite;
     }
     .hero p {
-      font-size: clamp(0.95rem, 1.5vw, 1.1rem); /* Чуть уменьшим */
+      font-size: clamp(0.95rem, 1.5vw, 1.1rem);
       margin-bottom: 1.5rem;
       opacity: 0.9;
     }
-
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-8px); }
     }
 
     .islamic-pattern {
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"')
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" ')
         viewBox="0 0 100 100" width="100" height="100">
         <text x="50%" y="50%" font-size="40" fill="%232e7d32" opacity="0.1" 
         text-anchor="middle" dominant-baseline="middle">ﷲ</text></svg>');
@@ -221,12 +220,12 @@
        ИНФОРМАЦИОННЫЙ БЛОК
        --------------------------- */
     .info-section {
-      padding: 2rem 1rem; /* Уменьшили отступы */
+      padding: 2rem 1rem;
       background: var(--light);
     }
     .section-title {
       text-align: center;
-      font-size: 1.8rem; /* Меньше шрифт */
+      font-size: 1.8rem;
       color: var(--primary);
       margin-bottom: 2rem;
     }
@@ -250,7 +249,7 @@
       box-shadow: 0 10px 20px rgba(0,0,0,0.15);
     }
     .info-card i {
-      font-size: 1.8rem; /* Уменьшили иконку */
+      font-size: 1.8rem;
       color: var(--primary);
       margin-bottom: 0.8rem;
     }
@@ -270,7 +269,7 @@
     .wave svg {
       display: block;
       width: 100%;
-      height: 80px; /* Меньше высота */
+      height: 80px;
     }
 
     /* ---------------------------
@@ -278,7 +277,7 @@
        --------------------------- */
     .form-section {
       background-color: var(--light);
-      padding: 2rem 1rem; /* Сократили отступы */
+      padding: 2rem 1rem;
       text-align: center;
     }
     .form-section h2 {
@@ -305,8 +304,7 @@
       color: var(--primary);
       font-size: 0.95rem;
     }
-    .form-group input[type="text"],
-    .form-group input[type="email"] {
+    .form-group input[type="text"] {
       width: 100%;
       padding: 0.6rem;
       border: 1px solid #ccc;
@@ -360,7 +358,7 @@
     @media (max-width: 768px) {
       .hero {
         padding: 2rem 1rem;
-        min-height: 60vh; /* Ещё меньше для мобильных */
+        min-height: 60vh;
       }
       .hero-content {
         max-width: 90%;
@@ -460,11 +458,11 @@
 
   <!-- Коран аят -->
   <div class="quran-verse" data-lang="ru" data-aos="fade-up">
-    «اللهم إني صائم»<br>
+    «اللهم Иني صائم»<br>
     «О Аллах, поистине, я соблюдаю пост»
   </div>
   <div class="quran-verse" data-lang="kz" style="display: none;" data-aos="fade-up">
-    «اللهم Иnи Сaim»<br>
+    «اللهم Ини Сaim»<br>
     «Аллаһым, шын мәнінде мен оразадамын»
   </div>
 
@@ -529,15 +527,8 @@
         <input type="text" id="rsvpPhone" required placeholder="+7 (___) ___-__-__" />
       </div>
 
-      <!-- E-mail -->
-      <div class="form-group" data-aos="fade-right" data-aos-delay="200">
-        <label for="rsvpEmail" data-lang="ru">E-mail</label>
-        <label for="rsvpEmail" data-lang="kz" style="display: none;">E-mail</label>
-        <input type="email" id="rsvpEmail" required placeholder="example@mail.com" />
-      </div>
-
       <!-- Радио: Приду / Не приду -->
-      <div class="form-group" data-aos="fade-right" data-aos-delay="300">
+      <div class="form-group" data-aos="fade-right" data-aos-delay="200">
         <label data-lang="ru">Будете ли вы участвовать?</label>
         <label data-lang="kz" style="display: none;">Қатысасыз ба?</label>
         <div class="radio-group">
@@ -559,7 +550,7 @@
       </div>
 
       <!-- Кнопка отправки -->
-      <button class="submit-btn" type="submit" data-aos="zoom-in" data-aos-delay="400">
+      <button class="submit-btn" type="submit" data-aos="zoom-in" data-aos-delay="300">
         <span data-lang="ru">Отправить</span>
         <span data-lang="kz" style="display: none;">Жіберу</span>
       </button>
@@ -589,7 +580,7 @@
       });
     }
 
-    // Таймер обратного отсчёта (замените дату по необходимости)
+    // Таймер (замените дату по необходимости)
     const countdownDate = new Date('2025-03-10T19:00:00').getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
@@ -600,13 +591,11 @@
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-      // Обновляем значения
       document.getElementById('days').textContent = String(days).padStart(2, '0');
       document.getElementById('hours').textContent = String(hours).padStart(2, '0');
       document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
       document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
 
-      // Если время вышло
       if (diff < 0) {
         clearInterval(timer);
         document.querySelector('.countdown').innerHTML = `
@@ -617,19 +606,18 @@
       }
     }, 1000);
 
-    // Обработка отправки формы
+    // Отправка формы
     function submitForm(event) {
       event.preventDefault();
       const lang = document.documentElement.lang;
       const nameValue = document.getElementById('rsvpName').value.trim();
       const phoneValue = document.getElementById('rsvpPhone').value.trim();
-      const emailValue = document.getElementById('rsvpEmail').value.trim();
       const attendanceValue = document.querySelector('input[name="attendance"]:checked').value;
 
-      if (!nameValue || !phoneValue || !emailValue) {
+      if (!nameValue || !phoneValue) {
         alert(lang === 'ru' 
-          ? 'Пожалуйста, заполните все поля' 
-          : 'Барлық жолдарды толтырыңыз');
+          ? 'Пожалуйста, заполните все поля (Имя и Телефон).' 
+          : 'Есіміңіз бен телефон нөміріңізді толтырыңыз.');
         return;
       }
 
@@ -645,7 +633,7 @@
       }
 
       alert(resultMsg);
-      // Здесь можно отправить данные на сервер (fetch / AJAX и т.д.)
+      // Здесь можно отправить данные на сервер, если нужно
     }
   </script>
 </body>
