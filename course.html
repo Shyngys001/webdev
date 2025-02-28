@@ -3,13 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebDev - Создание сайтов с AI</title>
+    <title>WebDev - AI сайттар жасау</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary: #6366f1;
             --secondary: #8b5cf6;
             --accent: #ec4899;
+            --bg: #ffffff;
+            --text: #1e293b;
+            --card-bg: #ffffff;
+            --shadow: rgba(0,0,0,0.1);
+        }
+
+        .dark-theme {
+            --bg: #0f172a;
+            --text: #f8fafc;
+            --card-bg: #1e293b;
+            --shadow: rgba(255,255,255,0.05);
+            --primary: #818cf8;
+            --secondary: #a78bfa;
         }
 
         * {
@@ -20,8 +33,10 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
+            transition: all 0.3s ease;
         }
 
         .container {
@@ -30,7 +45,29 @@
             padding: 2rem;
         }
 
-        /* Header */
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .theme-toggle, .lang-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px var(--shadow);
+            color: var(--text);
+        }
+
         .header {
             text-align: center;
             padding: 4rem 0;
@@ -45,7 +82,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Price Section */
         .pricing {
             text-align: center;
             margin: 3rem 0;
@@ -65,7 +101,6 @@
             font-weight: bold;
         }
 
-        /* Buttons */
         .cta-buttons {
             display: flex;
             gap: 1rem;
@@ -84,24 +119,15 @@
             display: flex;
             align-items: center;
             gap: 0.8rem;
-        }
-
-        .btn-kaspi {
-            background: linear-gradient(45deg, #e73535, #ff6060);
-            color: white;
-        }
-
-        .btn-whatsapp {
-            background: linear-gradient(45deg, #25d366, #00a884);
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: white;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px var(--shadow);
         }
 
-        /* Features */
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -110,10 +136,10 @@
         }
 
         .feature-card {
-            background: white;
+            background: var(--card-bg);
             padding: 2rem;
             border-radius: 1rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px var(--shadow);
             transition: transform 0.3s ease;
         }
 
@@ -121,14 +147,13 @@
             transform: translateY(-5px);
         }
 
-        /* Timer */
         .timer {
-            background: white;
+            background: var(--card-bg);
             padding: 2rem;
             border-radius: 1rem;
             text-align: center;
             margin: 3rem 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px var(--shadow);
         }
 
         .timer-numbers {
@@ -140,7 +165,6 @@
             font-weight: bold;
         }
 
-        /* Course Structure */
         .course-structure {
             display: grid;
             gap: 2rem;
@@ -148,13 +172,13 @@
         }
 
         .lesson-card {
-            background: white;
+            background: var(--card-bg);
             padding: 2rem;
             border-radius: 1rem;
             display: flex;
             align-items: center;
             gap: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px var(--shadow);
             transition: transform 0.3s ease;
         }
 
@@ -168,7 +192,6 @@
             min-width: 60px;
         }
 
-        /* Gallery */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -188,7 +211,6 @@
             transform: scale(1.05);
         }
 
-        /* Bonuses */
         .bonuses {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: white;
@@ -206,11 +228,10 @@
             backdrop-filter: blur(10px);
         }
 
-        /* Footer */
         .footer-note {
             text-align: center;
             padding: 2rem;
-            color: #64748b;
+            color: var(--text);
             font-style: italic;
             animation: fadeIn 1s ease-in;
         }
@@ -223,7 +244,6 @@
             margin-top: 1rem;
         }
 
-        /* Mobile Styles */
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2.5rem;
@@ -238,9 +258,13 @@
                 flex-direction: column;
                 text-align: center;
             }
+
+            .controls {
+                top: 10px;
+                right: 10px;
+            }
         }
 
-        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -252,68 +276,121 @@
         }
     </style>
 </head>
-<body>
+<body class="light-theme">
+    <div class="controls">
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="lang-toggle" onclick="toggleLanguage()">
+            <span>RU</span>
+        </button>
+    </div>
+
     <div class="container">
         <header class="header">
-            <h1>Создавай лендинги и сайты без кода за 5 минут с AI!</h1>
-            <p>Мы обучили уже 100 студентов и 200 преподавателей по AI в Университете Нархоз при поддержке Freedom Finance</p>
+            <h1 data-ru="Создавай лендинги и сайты без кода за 5 минут с AI!" 
+                data-kz="AI көмегімен 5 минутта кодсыз лендингтер мен сайттар жасаңыз!">
+                Создавай лендинги и сайты без кода за 5 минут с AI!
+            </h1>
+            <p data-ru="Мы обучили уже 100 студентов и 200 преподавателей по AI в Университете Нархоз при поддержке Freedom Finance"
+               data-kz="Біз Freedom Finance қолдауымен Нәрхоз Университетінде 100 студент пен 200 оқытушыны AI бойынша оқыттық">
+                Мы обучили уже 100 студентов и 200 преподавателей по AI в Университете Нархоз при поддержке Freedom Finance
+            </p>
         </header>
 
         <div class="pricing">
-            <div class="price-old">59 000 ₸</div>
-            <div class="price-new">19 990 ₸</div>
+            <div class="price-old" data-ru="59 000 ₸" data-kz="59 000 ₸">59 000 ₸</div>
+            <div class="price-new" data-ru="19 990 ₸" data-kz="19 990 ₸">19 990 ₸</div>
         </div>
 
         <div class="cta-buttons">
-            <button class="btn btn-kaspi">
+            <button class="btn">
                 <i class="fas fa-wallet"></i>
-                Оплатить через Kaspi
+                <span data-ru="Оплатить через Kaspi" data-kz="Kaspi арқылы төлеу">Оплатить через Kaspi</span>
             </button>
-            <button class="btn btn-whatsapp">
+            <button class="btn">
                 <i class="fab fa-whatsapp"></i>
-                Получить чек в WhatsApp
+                <span data-ru="Получить чек в WhatsApp" data-kz="WhatsApp-те төлқұжат алу">Получить чек в WhatsApp</span>
             </button>
         </div>
 
         <div class="timer">
-            <h3>До конца скидки осталось:</h3>
+            <h3 data-ru="До конца скидки осталось:" data-kz="Жеңілдіктің аяқталуына:">До конца скидки осталось:</h3>
             <div class="timer-numbers" id="timer"></div>
         </div>
 
         <section class="features">
             <div class="feature-card">
-                <h3>📚 Что внутри курса?</h3>
-                <p>5 уроков, после которых вы сможете создавать сайты с нуля и зарабатывать</p>
+                <h3>📚 <span data-ru="Что внутри курса?" data-kz="Курста нені үйренемін?">Что внутри курса?</span></h3>
+                <p data-ru="5 уроков для создания сайтов и заработка" data-kz="Сайт жасауға және табыс табуға 5 сабақ">5 уроков для создания сайтов и заработка</p>
             </div>
             <div class="feature-card">
-                <h3>🎥 Видео-уроки</h3>
-                <p>15+ практических видеоуроков с подробными инструкциями</p>
+                <h3>🎥 <span data-ru="Видео-уроки" data-kz="Бейнесабақтар">Видео-уроки</span></h3>
+                <p data-ru="15+ практических видеоуроков" data-kz="15+ тәжірибелік бейнесабақ">15+ практических видеоуроков</p>
             </div>
             <div class="feature-card">
-                <h3>💬 Поддержка 24/7</h3>
-                <p>Персональный куратор и чат с преподавателями</p>
+                <h3>💬 <span data-ru="Поддержка 24/7" data-kz="Қолдау 24/7">Поддержка 24/7</span></h3>
+                <p data-ru="Персональный куратор и чат" data-kz="Жеке куратор және чат">Персональный куратор и чат</p>
             </div>
         </section>
 
         <section class="course-structure">
-            <h2 style="text-align: center; margin-bottom: 2rem;">Программа курса: 5 ключевых уроков</h2>
+            <h2 style="text-align: center; margin-bottom: 2rem;" 
+                data-ru="Программа курса: 5 ключевых уроков" 
+                data-kz="Курс бағдарламасы: 5 негізгі сабақ">
+                Программа курса: 5 ключевых уроков
+            </h2>
             <div class="lesson-card">
                 <div class="lesson-number">1</div>
                 <div>
-                    <h3>Основы AI-конструктора</h3>
-                    <p>Знакомство с интерфейсом и базовыми функциями платформы</p>
+                    <h3 data-ru="Основы AI-конструктора" data-kz="AI-құрастырғыштың негіздері">Основы AI-конструктора</h3>
+                    <p data-ru="Знакомство с интерфейсом платформы" data-kz="Платформа интерфейсімен танысу">Знакомство с интерфейсом платформы</p>
                 </div>
             </div>
-            <!-- Остальные уроки 2-5 -->
+            <div class="lesson-card">
+                <div class="lesson-number">2</div>
+                <div>
+                    <h3 data-ru="Создание лендинга" data-kz="Лендинг жасау">Создание лендинга</h3>
+                    <p data-ru="Разработка продающей страницы за 5 минут" data-kz="5 минутта сатылым бетін жасау">Разработка продающей страницы за 5 минут</p>
+                </div>
+            </div>
+            <div class="lesson-card">
+                <div class="lesson-number">3</div>
+                <div>
+                    <h3 data-ru="Интернет-магазин" data-kz="Интернет-дүкен">Интернет-магазин</h3>
+                    <p data-ru="Настройка каталога и платежей" data-kz="Каталог және төлемдерді баптау">Настройка каталога и платежей</p>
+                </div>
+            </div>
+            <div class="lesson-card">
+                <div class="lesson-number">4</div>
+                <div>
+                    <h3 data-ru="Монетизация" data-kz="Табыс табу">Монетизация</h3>
+                    <p data-ru="Стратегии заработка на проектах" data-kz="Жобалар арқылы табыс табу стратегиялары">Стратегии заработка на проектах</p>
+                </div>
+            </div>
+            <div class="lesson-card">
+                <div class="lesson-number">5</div>
+                <div>
+                    <h3 data-ru="Продвижение" data-kz="Жарнамалау">Продвижение</h3>
+                    <p data-ru="SEO и маркетинг для сайтов" data-kz="Сайттарға арналған SEO және маркетинг">SEO и маркетинг для сайтов</p>
+                </div>
+            </div>
         </section>
 
         <div class="bonuses">
-            <h2>Дополнительные возможности</h2>
+            <h2 data-ru="Дополнительные возможности" data-kz="Қосымша мүмкіндіктер">Дополнительные возможности</h2>
             <div class="bonus-card">
-                <h3>🚀 Техподдержка 24/7</h3>
-                <p>Персональный помощник на всех этапах обучения</p>
+                <h3>🚀 <span data-ru="Техподдержка 24/7" data-kz="Қолдау 24/7">Техподдержка 24/7</span></h3>
+                <p data-ru="Персональный помощник" data-kz="Жеке көмекші">Персональный помощник</p>
             </div>
-            <!-- Остальные бонусы -->
+            <div class="bonus-card">
+                <h3>💼 <span data-ru="Трудоустройство" data-kz="Жұмысқа орналасу">Трудоустройство</span></h3>
+                <p data-ru="Лучших в команду" data-kz="Үздіктерді командаға">Лучших в команду</p>
+            </div>
+            <div class="bonus-card">
+                <h3>🏆 <span data-ru="Ценные призы" data-kz="Құнды жүлделер">Ценные призы</span></h3>
+                <p data-ru="MacBook Pro топ-3" data-kz="MacBook Pro топ-3">MacBook Pro топ-3</p>
+            </div>
         </div>
 
         <div class="gallery">
@@ -323,14 +400,35 @@
         </div>
 
         <div class="footer-note">
-            <p>P.S. Этот сайт был создан с помощью AI всего за 3 минуты! 🚀<br>
-            Хочешь так же? Жми кнопку выше и начни создавать!</p>
-            <span>#НикакихПрограммистовНеПострадало</span>
+            <p data-ru="P.S. Этот сайт был создан с помощью AI всего за 3 минуты! 🚀<br>Хочешь так же? Жми кнопку выше!"
+               data-kz="P.S. Бұл сайт AI көмегімен 3 минутта жасалды! 🚀<br>Сіз де осылай жасағыңыз келе ме? Жоғарыдағы батырманы басыңыз!">
+                P.S. Этот сайт был создан с помощью AI всего за 3 минуты! 🚀<br>
+                Хочешь так же? Жми кнопку выше!
+            </p>
+            <span data-ru="#НикакихПрограммистовНеПострадало" 
+                  data-kz="#ЕшқандайПрограммистЗардапШегенЖоқ">#НикакихПрограммистовНеПострадало</span>
         </div>
     </div>
 
     <script>
-        // Таймер
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const themeBtn = document.querySelector('.theme-toggle');
+            themeBtn.innerHTML = document.body.classList.contains('dark-theme') ? 
+                '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+        }
+
+        let currentLang = 'ru';
+        function toggleLanguage() {
+            currentLang = currentLang === 'ru' ? 'kz' : 'ru';
+            document.querySelectorAll('[data-ru], [data-kz]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${currentLang}`);
+            });
+            document.querySelector('.lang-toggle span').textContent = currentLang.toUpperCase();
+            localStorage.setItem('lang', currentLang);
+        }
+
         function updateTimer() {
             const deadline = new Date(Date.now() + 86400000);
             const timer = document.getElementById('timer');
@@ -357,10 +455,15 @@
             const timeinterval = setInterval(update, 1000);
         }
 
-        // Инициализация анимаций
         document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if(savedTheme === 'dark') toggleTheme();
+
+            const savedLang = localStorage.getItem('lang') || 'ru';
+            if(savedLang === 'kz') toggleLanguage();
+
             updateTimer();
-            
+
             const animatedElements = document.querySelectorAll(
                 '.feature-card, .timer, .lesson-card, .bonus-card, .gallery img'
             );
