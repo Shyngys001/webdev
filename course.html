@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebDev - Создание сайтов с AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 4rem 0;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Price Section */
+        .pricing {
+            text-align: center;
+            margin: 3rem 0;
+            animation: slideUp 1s ease-out;
+        }
+
+        .price-old {
+            font-size: 2rem;
+            color: #94a3b8;
+            text-decoration: line-through;
+            margin-right: 1rem;
+        }
+
+        .price-new {
+            font-size: 3rem;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        /* Buttons */
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 3rem 0;
+        }
+
+        .btn {
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .btn-kaspi {
+            background: linear-gradient(45deg, #e73535, #ff6060);
+            color: white;
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(45deg, #25d366, #00a884);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Timer */
+        .timer {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            margin: 3rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .timer-numbers {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        /* Course Structure */
+        .course-structure {
+            display: grid;
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .lesson-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .lesson-number {
+            font-size: 2.5rem;
+            color: var(--primary);
+            min-width: 60px;
+        }
+
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 4rem 0;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Bonuses */
+        .bonuses {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 1rem;
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .bonus-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Footer */
+        .footer-note {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+            font-style: italic;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .footer-note span {
+            display: inline-block;
+            background: rgba(100, 116, 139, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            margin-top: 1rem;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .lesson-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Создавай лендинги и сайты без кода за 5 минут с AI!</h1>
+            <p>Мы обучили уже 100 студентов и 200 преподавателей по AI в Университете Нархоз при поддержке Freedom Finance</p>
+        </header>
+
+        <div class="pricing">
+            <div class="price-old">59 000 ₸</div>
+            <div class="price-new">19 990 ₸</div>
+        </div>
+
+        <div class="cta-buttons">
+            <button class="btn btn-kaspi">
+                <i class="fas fa-wallet"></i>
+                Оплатить через Kaspi
+            </button>
+            <button class="btn btn-whatsapp">
+                <i class="fab fa-whatsapp"></i>
+                Получить чек в WhatsApp
+            </button>
+        </div>
+
+        <div class="timer">
+            <h3>До конца скидки осталось:</h3>
+            <div class="timer-numbers" id="timer"></div>
+        </div>
+
+        <section class="features">
+            <div class="feature-card">
+                <h3>📚 Что внутри курса?</h3>
+                <p>5 уроков, после которых вы сможете создавать сайты с нуля и зарабатывать</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎥 Видео-уроки</h3>
+                <p>15+ практических видеоуроков с подробными инструкциями</p>
+            </div>
+            <div class="feature-card">
+                <h3>💬 Поддержка 24/7</h3>
+                <p>Персональный куратор и чат с преподавателями</p>
+            </div>
+        </section>
+
+        <section class="course-structure">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Программа курса: 5 ключевых уроков</h2>
+            <div class="lesson-card">
+                <div class="lesson-number">1</div>
+                <div>
+                    <h3>Основы AI-конструктора</h3>
+                    <p>Знакомство с интерфейсом и базовыми функциями платформы</p>
+                </div>
+            </div>
+            <!-- Остальные уроки 2-5 -->
+        </section>
+
+        <div class="bonuses">
+            <h2>Дополнительные возможности</h2>
+            <div class="bonus-card">
+                <h3>🚀 Техподдержка 24/7</h3>
+                <p>Персональный помощник на всех этапах обучения</p>
+            </div>
+            <!-- Остальные бонусы -->
+        </div>
+
+        <div class="gallery">
+            <img src="https://images.unsplash.com/photo-1550439062-609e1531270e" alt="Работа за компьютером">
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c" alt="Командная работа">
+            <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6" alt="Программирование">
+        </div>
+
+        <div class="footer-note">
+            <p>P.S. Этот сайт был создан с помощью AI всего за 3 минуты! 🚀<br>
+            Хочешь так же? Жми кнопку выше и начни создавать!</p>
+            <span>#НикакихПрограммистовНеПострадало</span>
+        </div>
+    </div>
+
+    <script>
+        // Таймер
+        function updateTimer() {
+            const deadline = new Date(Date.now() + 86400000);
+            const timer = document.getElementById('timer');
+            
+            function getTimeRemaining() {
+                const total = deadline - Date.now();
+                const hours = Math.floor(total / (1000 * 60 * 60));
+                const minutes = Math.floor((total / 1000 / 60) % 60);
+                const seconds = Math.floor((total / 1000) % 60);
+                return { total, hours, minutes, seconds };
+            }
+
+            function update() {
+                const t = getTimeRemaining();
+                timer.innerHTML = `
+                    <div>${t.hours.toString().padStart(2, '0')}</div>:
+                    <div>${t.minutes.toString().padStart(2, '0')}</div>:
+                    <div>${t.seconds.toString().padStart(2, '0')}</div>
+                `;
+                if (t.total <= 0) clearInterval(timeinterval);
+            }
+
+            update();
+            const timeinterval = setInterval(update, 1000);
+        }
+
+        // Инициализация анимаций
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTimer();
+            
+            const animatedElements = document.querySelectorAll(
+                '.feature-card, .timer, .lesson-card, .bonus-card, .gallery img'
+            );
+
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        entry.target.style.transition = 'all 0.6s ease-out';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            animatedElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
