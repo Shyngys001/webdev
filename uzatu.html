@@ -5,147 +5,253 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ұлжанның ұзату тойына шақыру</title>
     <style>
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Cormorant Garamond', serif;
         }
 
         body {
-            background-color: #ffffff;
-            color: #5d5d5d;
-            line-height: 1.6;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+            color: #6d4c4c;
+            line-height: 1.8;
+            overflow-x: hidden;
+            font-size: 20px;
+        }
+
+        .decor {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.15;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .decor.circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffd4e3 0%, #ffb3d1 100%);
+            filter: blur(15px);
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 60px 30px;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1s ease-out;
         }
 
         .invitation-text {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+            position: relative;
         }
 
         h1 {
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            color: #d4a9af;
-            font-weight: 300;
+            font-size: 3.5em;
+            margin-bottom: 40px;
+            color: #c97d8b;
+            font-weight: 500;
+            text-shadow: 2px 2px 4px rgba(201,125,139,0.1);
+            animation: fadeIn 0.8s ease-out 0.2s backwards;
+            letter-spacing: 1px;
         }
 
         p {
-            font-size: 1.1em;
-            margin: 15px 0;
+            font-size: 1.4em;
+            margin: 25px 0;
+            animation: fadeIn 0.8s ease-out 0.4s backwards;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 50px 0;
+            animation: fadeIn 0.8s ease-out 0.6s backwards;
+        }
+
+        .countdown-item {
+            text-align: center;
+        }
+
+        .countdown-number {
+            font-size: 3.2em;
+            font-weight: 300;
+            color: #c97d8b;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        .countdown-label {
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #9e6a74;
         }
 
         .details {
-            margin: 30px 0;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(201,125,139,0.1);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.8s ease-out 0.8s backwards;
         }
 
         .map-link {
-            color: #d4a9af;
+            color: #c97d8b;
             text-decoration: none;
-            border-bottom: 1px dotted #d4a9af;
+            position: relative;
+            transition: all 0.3s ease;
+            display: inline-block;
+            padding: 5px 0;
+            font-size: 1.1em;
         }
 
         form {
-            margin-top: 40px;
+            margin-top: 50px;
+            animation: fadeIn 0.8s ease-out 1s backwards;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            position: relative;
         }
 
         input, select {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-top: 5px;
-            font-size: 16px;
+            padding: 18px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
         }
 
         button {
-            background-color: #d4a9af;
+            background: linear-gradient(135deg, #ffb3d1 0%, #c97d8b 100%);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
+            padding: 20px 40px;
+            border-radius: 30px;
             cursor: pointer;
-            font-size: 16px;
-            transition: opacity 0.3s;
-        }
-
-        button:hover {
-            opacity: 0.9;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(201,125,139,0.3);
         }
 
         .music-btn {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            padding: 0;
+            width: 70px;
+            height: 70px;
+            font-size: 1.5em;
+            animation: pulse 2s infinite;
         }
 
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px 15px;
+        @media (max-width: 768px) {
+            body {
+                font-size: 18px;
             }
             
             h1 {
-                font-size: 2em;
+                font-size: 2.8em;
             }
             
-            p {
-                font-size: 1em;
+            .countdown {
+                gap: 15px;
+            }
+            
+            .countdown-number {
+                font-size: 2.5em;
             }
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="decor circle"></div>
+    <div class="decor circle"></div>
+    <div class="decor circle"></div>
+
     <div class="container">
         <div class="invitation-text">
             <h1>Құрметті қонақтар!</h1>
             <p>Сіздерді аяулы қызымыз Ұлжанның ұзату тойына<br>арналған салтанатты дастарханның қадірлі қонағы болуға шақырамыз.</p>
-            
+
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">Күн</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">Сағат</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">Минут</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">Секунд</div>
+                </div>
+            </div>
+
             <div class="details">
-                <p>Мекен-жайымыз:<br>
-                Өскемен қаласы<br>
-                Мұзтау мейрамханасы</p>
+                <p>📌 Мекен-жайымыз:<br>
+                <strong>Өскемен қаласы<br>
+                Мұзтау мейрамханасы</strong></p>
                 
-                <p>Картадағы орналасуы:<br>
-                <a href="https://2gis.kz/ustkam/geo/70000001019466032" class="map-link" target="_blank" rel="noopener noreferrer">
+                <p>📍 Картадағы орналасуы:<br>
+                <a href="https://2gis.kz/ustkam/geo/70000001019466032" class="map-link" target="_blank">
                     МузТау мейрамханасы
                 </a></p>
 
-                <p>Күні мен уақыты: [Күні мен уақыты]</p>
+                <p>⏰ Күні мен уақыты:<br>
+                <strong>2023 жылдың 15 қарашасы, 18:00</strong></p>
             </div>
 
-            <p>Қуана қарсы аламыз!</p>
+            <p style="font-size: 1.6em; margin-top: 30px;">🌸 Қуана қарсы аламыз! 🌸</p>
         </div>
 
         <form id="invitationForm">
             <div class="form-group">
-                <label>Аты-жөні:</label>
+                <label>✍️ Аты-жөні:</label>
                 <input type="text" required>
             </div>
 
             <div class="form-group">
-                <label>Қонақтар саны:</label>
+                <label>👥 Қонақтар саны:</label>
                 <input type="number" min="1" required>
             </div>
 
             <div class="form-group">
-                <label>Қатысу:</label>
+                <label>🎉 Қатысу:</label>
                 <select required>
                     <option value="">Таңдаңыз</option>
                     <option value="yes">Қатысамын</option>
@@ -153,30 +259,63 @@
                 </select>
             </div>
 
-            <button type="submit">Жіберу</button>
+            <button type="submit">Жіберу →</button>
         </form>
     </div>
 
-    <button class="music-btn" id="musicBtn">♪</button>
+    <button class="music-btn" id="musicBtn">🎵</button>
 
     <script>
+        // Обратный отсчет (укажите свою дату мероприятия)
+        const eventDate = new Date('2025-03-04T18:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = eventDate - now;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerHTML = days.toString().padStart(2, '0');
+            document.getElementById('hours').innerHTML = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').innerHTML = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').innerHTML = seconds.toString().padStart(2, '0');
+
+            requestAnimationFrame(updateCountdown);
+        }
+
+        updateCountdown();
+
+        // Музыкальное сопровождение
         const musicBtn = document.getElementById('musicBtn');
-        const audio = new Audio('boz.mp3'); // Замените ссылку
+        const audio = new Audio('https://example.com/background-music.mp3');
         let isPlaying = false;
 
         musicBtn.addEventListener('click', () => {
             if(isPlaying) {
                 audio.pause();
+                musicBtn.style.animation = 'none';
             } else {
                 audio.play();
+                musicBtn.style.animation = 'pulse 2s infinite';
             }
             isPlaying = !isPlaying;
         });
 
+        // Обработка формы
         document.getElementById('invitationForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Сіздің жауабыңыз жіберілді! Рахмет!');
-            e.target.reset();
+            const submitBtn = e.target.querySelector('button');
+            submitBtn.innerHTML = '✅ Жіберілді!';
+            submitBtn.style.background = 'linear-gradient(135deg, #a8e6cf 0%, #5cdb95 100%)';
+            
+            setTimeout(() => {
+                submitBtn.innerHTML = 'Жіберу →';
+                submitBtn.style.background = 'linear-gradient(135deg, #ffb3d1 0%, #c97d8b 100%)';
+                e.target.reset();
+            }, 2000);
         });
     </script>
 </body>
